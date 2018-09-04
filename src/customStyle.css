@@ -1,0 +1,297 @@
+body {
+  background: #f6f8f9 !important;
+  font-family: Roboto !important;
+}
+.sidebar .nav-link,
+.sidebar .navbar .dropdown-toggle,
+.navbar .sidebar .dropdown-toggle {
+  font-size: 13px !important;
+  color: #e8e8e8 !important;
+}
+.btn {
+  border-radius: 3px !important;
+  font-size: 13px !important;
+}
+.table-bordered thead th {
+  background: #eef1f6 !important;
+  vertical-align: middle !important;
+}
+.table td {
+  border: 0px solid #ddd !important;
+  border-top: 1px solid #ddd !important;
+  vertical-align: middle !important;
+  font-size: 13px;
+}
+.table th {
+  font-size: 13px;
+}
+.table-bordered {
+  border: 0px solid #ddd !important;
+}
+.table-bordered td {
+  border: 0px solid #ddd !important;
+  border-bottom: 1px solid #ddd !important;
+}
+.table-bordered th {
+  border-top: 0px solid #ddd !important;
+  border: 0px solid #ddd !important;
+}
+.table thead th {
+  background: #eef1f6 !important;
+  vertical-align: middle !important;
+  border: 0;
+  border-bottom: 0 !important;
+}
+.card-body h1 {
+  font-size: 22px !important;
+}
+.breadcrumb {
+  border-bottom: 1px solid #ddd !important;
+  font-weight: 500;
+  font-size: 13px;
+}
+.app-header.navbar {
+  border-bottom: 1px solid #ddd !important;
+}
+.btn i {
+  vertical-align: middle;
+  margin-right: 3px;
+  margin-top: -2px;
+}
+.badge {
+  padding: 5px 10px !important;
+  font-size: 11px !important;
+  border-radius: 25px !important;
+}
+.table-hover tbody tr:hover {
+  background-color: rgba(226, 236, 131, 0.175) !important;
+}
+.table tr:hover {
+  background-color: rgba(226, 236, 131, 0.175) !important;
+}
+.regHeading {
+  margin-bottom: 0;
+  font-weight: 500;
+  font-size: 18px;
+}
+.form-check-inline .form-check-input {
+  margin-top: 2px !important;
+}
+.noBottomMargin {
+  margin-bottom: 0 !important;
+}
+.form-group label {
+  font-weight: 500 !important;
+  font-size: 13px;
+}
+.regLabelForm {
+  margin-bottom: 0;
+  margin-left: 5px;
+  margin-top: -6px;
+  vertical-align: middle;
+}
+.help-block {
+  position: absolute;
+  color: red;
+  font-size: 12px;
+  font-weight: 500;
+  margin-top: 37px;
+}
+.roleLabel {
+  font-size: 13px !important;
+  vertical-align: middle;
+  margin-top: -1px;
+}
+input[type="radio"],
+input[type="checkbox"] {
+  vertical-align: middle;
+  margin-top: -2px;
+}
+.rollnameHelpBlock {
+  margin-top: 0;
+}
+.app-footer,
+.app-footerQue {
+  position: fixed;
+  bottom: 0px;
+  width: 85%;
+  font-size: 13px;
+  font-weight: 500;
+  border-top: 1px solid #ddd !important;
+}
+.app-header.navbar .navbar-brand {
+  background-image: none !important;
+}
+.logoImg {
+  width: 120px;
+  margin-top: -12px;
+}
+
+/*** D.20 March 2018 ****/
+.sessionCard .help-block {
+  margin-top: 0;
+}
+.sessionErrorBlock {
+  float: right !important;
+  position: relative !important;
+  margin-top: -18px !important;
+}
+.rbc-toolbar button {
+  font-size: 13px !important;
+  font-weight: 500 !important;
+}
+.rbc-time-slot {
+  font-size: 12px !important;
+  font-weight: 500 !important;
+}
+.marginBottomZero {
+  margin-bottom: 0 !important;
+}
+.paddingTop8 {
+  padding-top: 8px;
+}
+.userResponseModalHead {
+  background: #f1f1f1;
+  border-bottom: none !important;
+}
+.rbc-toolbar > .rbc-btn-group:nth-child(3) button:nth-child(1) {
+  display: none;
+}
+.rbc-toolbar > .rbc-btn-group:nth-child(3) button:nth-child(4) {
+  display: none;
+}
+.questionModal .modal-dialog {
+  width: 87% !important;
+  max-width: 100% !important;
+}
+
+.questionModal .card-body,
+.card-block {
+  height: 350px !important;
+  overflow-y: auto !important;
+}
+
+/************* D. 22 March 2018 ************/
+.rbc-time-header > .rbc-row:nth-child(2) {
+  display: none;
+}
+.rbc-btn-group > button:first-child:not(:last-child) {
+  display: none;
+}
+.rbc-time-content {
+  border-top: 1px solid #ddd !important;
+}
+.sessionCardBody {
+  padding: 10px !important;
+}
+.sessionCardHeader {
+  padding: 8px !important;
+}
+.rbc-toolbar .rbc-toolbar-label {
+  font-size: 20px !important;
+  font-weight: 700 !important;
+  letter-spacing: 0px !important;
+  color: #0e83ad !important;
+}
+.rollNameError {
+  margin-top: 35px;
+}
+
+.tilte-session {
+  font-family: Roboto;
+  font-style: normal;
+  font-weight: normal;
+  line-height: normal;
+  font-size: 40px;
+  text-align: center;
+  color: #e7060e;
+}
+
+.tie-logo {
+  float: left;
+  margin-top: -10px !important;
+  width: 116px !important;
+}
+.eternus-logo {
+  float: right;
+}
+
+.title-header {
+  width: 100%;
+}
+
+.like {
+  position: absolute;
+  top: 28%;
+  right: 2%;
+  font-size: 16pt;
+  padding: 15px;
+  background-color: #f7f7f7;
+  border-radius: 5px;
+  text-align: center;
+}
+
+.username {
+  font-family: Roboto;
+  font-style: normal;
+  font-weight: 500;
+  line-height: normal;
+  font-size: 35px;
+  color: #e7060e;
+  margin-right: 30px;
+}
+
+.question {
+  font-family: Roboto;
+  font-style: normal;
+  font-weight: 300;
+  line-height: 45px;
+  font-size: 40px;
+  margin-bottom: 15px;
+  width: 96%;
+}
+
+.question-box {
+  position: relative;
+  padding: 20px;
+  margin: 10px 0px;
+  background-color: white;
+  width: 100%;
+  height: auto;
+  border-left: 10px #e7060e solid;
+}
+
+.time {
+  font-family: Roboto;
+  font-style: normal;
+  font-weight: 500;
+  line-height: normal;
+  font-size: 20px;
+  text-align: center;
+
+  color: #4f4f4f;
+}
+
+.refresh {
+  font-size: 15pt;
+  font-weight: bold;
+  margin-top: 3px;
+  cursor: pointer;
+  color: #e7060e;
+}
+
+/* 16 Aug,2018 */
+
+.datepicker {
+  width: 168%;
+  height: 33px;
+}
+
+.rbc-btn-group > button:not(:first-child):not(:last-child) {
+  border-radius: 0;
+  text-transform: capitalize;
+}
+.rbc-btn-group > button:last-child:not(:first-child) {
+  border-radius: 0;
+  text-transform: capitalize;
+}

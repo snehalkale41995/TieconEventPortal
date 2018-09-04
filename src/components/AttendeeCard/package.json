@@ -1,0 +1,7 @@
+{
+    "name": "AttendeeCard",
+    "version": "0.0.0",
+    "private": true,
+    "main": "./AttendeeCard.js"
+  }
+  
