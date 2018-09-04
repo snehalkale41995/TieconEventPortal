@@ -325,7 +325,7 @@ class SpeakerForm extends Component {
               placeholder="Brief info"
               name="briefInfo"
               icon="icon-info"
-              maxLength="250"
+              maxLength="45"
               value={Speaker.briefInfo}
               onchanged={event => this.onChangeInput(event)}
             />

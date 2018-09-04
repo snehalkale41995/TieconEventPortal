@@ -108,7 +108,11 @@ class EventForm extends Component {
     let endDate = new Date(event["endDate"]).setHours(0, 0, 0, 0);
     let invalidEventLogo = false;
     var validLogo = /^(http[s]?:\/\/){0,1}(www\.){0,1}[a-zA-Z0-9\.\-]+\.[a-zA-Z]{2,5}[\.]{0,1}/;
-    if (event.eventLogo !== "") {
+    if (
+      event.eventLogo !== undefined &&
+      event.eventLogo !== "" &&
+      event.eventLogo !== null
+    ) {
       if (!validLogo.test(event.eventLogo)) {
         invalidEventLogo = true;
       }
@@ -200,6 +204,7 @@ class EventForm extends Component {
       this.setState({ loading: false });
     }
   }
+
   resetField() {
     let Event = {
       eventName: "",
@@ -287,7 +292,7 @@ class EventForm extends Component {
             </InputGroup>
             {this.state.startDateRequired ? (
               <div
-                style={{ color: "red", marginTop: 0 }}
+                style={{ color: "red", marginTop: -12 }}
                 className="help-block"
               >
                 *Start date is required
@@ -295,7 +300,7 @@ class EventForm extends Component {
             ) : null}
             {this.state.inValidDates ? (
               <div
-                style={{ color: "red", marginTop: 0 }}
+                style={{ color: "red", marginTop: -12 }}
                 className="help-block"
               >
                 *Please enter valid Start Date and End Date
@@ -316,7 +321,7 @@ class EventForm extends Component {
             </InputGroup>
             {this.state.endDateRequired ? (
               <div
-                style={{ color: "red", marginTop: 0 }}
+                style={{ color: "red", marginTop: -12 }}
                 className="help-block"
               >
                 *End date is required
@@ -332,7 +337,7 @@ class EventForm extends Component {
               placeholder="Venue"
               name="venue"
               icon="icon-home"
-              maxLength="50"
+              maxLength="255"
               value={this.state.Event.venue}
               required={this.state.venueRequired}
               onchanged={event => this.onChangeHandler(event)}
