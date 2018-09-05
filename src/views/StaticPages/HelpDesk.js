@@ -20,6 +20,7 @@ class HelpDesk extends Component {
         techSupportEmail: "",
         techSupportContact: ""
       },
+      eventValue: "",
       eventEmailRequired: false,
       eventContactRequired: false,
       techEmailRequired: false,
@@ -80,6 +81,7 @@ class HelpDesk extends Component {
       helpDesk.event = value;
       this.setState({
         helpDesk: helpDesk,
+        eventValue: value,
         eventEmailRequired: false,
         eventContactRequired: false,
         techEmailRequired: false,
@@ -206,6 +208,7 @@ class HelpDesk extends Component {
         techSupportEmail: "",
         techSupportContact: ""
       },
+      eventValue: "",
       eventEmailRequired: false,
       eventContactRequired: false,
       techEmailRequired: false,
@@ -227,7 +230,7 @@ class HelpDesk extends Component {
           <Col xs="12" md="4">
             <Select
               placeholder="Select event"
-              value={helpDesk.event}
+              value={this.state.eventValue}
               options={this.props.eventList}
               simpleValue
               onChange={this.handleEventChange.bind(this)}

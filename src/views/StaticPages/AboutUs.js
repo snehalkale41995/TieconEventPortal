@@ -18,6 +18,7 @@ class AboutUs extends Component {
         url: "",
         event: ""
       },
+      eventValue: "",
       loading: true,
       infoRequired: false,
       eventRequired: false,
@@ -65,6 +66,7 @@ class AboutUs extends Component {
       aboutUs.event = value;
       this.setState({
         aboutUs: aboutUs,
+        eventValue: value,
         infoRequired: false,
         eventRequired: false,
         invalidUrl: false
@@ -132,6 +134,7 @@ class AboutUs extends Component {
         url: "",
         event: ""
       },
+      eventValue: "",
       infoRequired: false,
       eventRequired: false,
       invalidUrl: false
@@ -147,7 +150,7 @@ class AboutUs extends Component {
           <Col xs="12" md="4">
             <Select
               placeholder="Select event"
-              value={event}
+              value={this.state.eventValue}
               options={this.props.eventList}
               simpleValue
               onChange={this.handleEventChange.bind(this)}

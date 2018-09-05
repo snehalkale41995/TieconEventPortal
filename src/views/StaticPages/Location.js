@@ -23,6 +23,7 @@ class EventLocation extends Component {
         latitudeDelta: 0.0922,
         longitudeDelta: 0.0421
       },
+      eventValue: "",
       eventRequired: false,
       addressRequired: false,
       cordinateError: "",
@@ -66,7 +67,8 @@ class EventLocation extends Component {
       eventLocation.event = value;
       this.setState({
         eventLocation: eventLocation,
-        eventRequired: false
+        eventRequired: false,
+        eventValue: value
       });
       this.props.getEventAddress(value);
       let compRef = this;
@@ -79,12 +81,7 @@ class EventLocation extends Component {
         }
       }, 1000);
     } else {
-      let eventLocation = { ...this.state.eventLocation };
-      eventLocation.event = "";
-      this.setState({
-        eventLocation: eventLocation,
-        eventRequired: true
-      });
+      this.onReset();
     }
   }
   getCordinates() {
@@ -179,6 +176,7 @@ class EventLocation extends Component {
       },
       eventRequired: false,
       addressRequired: false,
+      eventValue: "",
       cordinateError: ""
     }));
   }
@@ -195,7 +193,7 @@ class EventLocation extends Component {
               placeholder="Select event"
               simpleValue
               options={this.props.eventList}
-              value={eventLocation.event}
+              value={this.state.eventValue}
               onChange={this.handleEventChange.bind(this)}
             />
             {this.state.eventRequired ? (
