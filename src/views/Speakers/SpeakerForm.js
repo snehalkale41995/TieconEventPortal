@@ -9,7 +9,7 @@ import "react-select/dist/react-select.css";
 import _ from "lodash";
 import { ToastContainer, toast } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
-
+import RegistrationModal from "../../components/Modal/RegistrationModal";
 class SpeakerForm extends Component {
   constructor(props) {
     super(props);
@@ -22,7 +22,8 @@ class SpeakerForm extends Component {
         briefInfo: "",
         profileImageURL: "",
         event: "",
-        roleName: "Speaker"
+        roleName: "Speaker",
+        password: ""
       },
       firstNameRequired: false,
       lastNameRequired: false,
@@ -32,7 +33,8 @@ class SpeakerForm extends Component {
       editSpeaker: false,
       inValidContact: false,
       inValidEmail: false,
-      invalidProfileUrl: false
+      invalidProfileUrl: false,
+      displayPasswordFlag : false
     };
   }
   componentDidMount() {
@@ -77,11 +79,20 @@ class SpeakerForm extends Component {
   Toaster(compRef, successFlag, actionName) {
     let errorMessage = compRef.props.createError;
     if (successFlag) {
+      compRef.onReset();
       toast.success("Speaker " + actionName + " Successfully.", {
         position: toast.POSITION.BOTTOM_RIGHT
       });
       setTimeout(() => {
-        compRef.redirectFunction();
+        if(actionName === "Created"){
+          compRef.setState({ displayPasswordFlag: true });
+        }
+        else
+        compRef.setState({ displayPasswordFlag: false }); 
+
+        if(actionName === "Updated"){
+          compRef.redirectFunction();
+        }
       }, 1000);
     } else {
       errorMessage
@@ -98,12 +109,20 @@ class SpeakerForm extends Component {
     this.props.history.push("/speakers");
   }
 
+  toggleFunction() {
+    this.setState({ displayPasswordFlag : false });
+  }
+
   onSubmit() {
     let speaker = { ...this.state.Speaker };
     let attendeeCount = this.props.attendeeCount;
     let validContact;
     let validEmail;
     let invalidProfileUrl = false;
+    let password = "ES" + Math.floor(1000 + Math.random() * 9000);
+    speaker.password = password;
+    this.setState({ passwordModal: password });
+    this.setState({ emailModal: speaker.email });
     var re = /^(http[s]?:\/\/){0,1}(www\.){0,1}[a-zA-Z0-9\.\-]+\.[a-zA-Z]{2,5}[\.]{0,1}/;
     if (speaker.profileImageURL !== "") {
       if (!re.test(speaker.profileImageURL)) {
@@ -371,13 +390,12 @@ class SpeakerForm extends Component {
             </Button>
             <ToastContainer autoClose={2000} />
           </Col>
-          {/* <Col md="6">
-            <ToastContainer autoClose={2000} />
-            <div style={{ color: "red" }} className="help-block">
-              {this.props.speakerError}
-            </div>
-          </Col> */}
         </FormGroup>
+        <RegistrationModal
+        openFlag={this.state.displayPasswordFlag}
+        toggleFunction={this.toggleFunction.bind(this)}
+        email={this.state.emailModal}
+        password={this.state.passwordModal}/>
       </CardLayout>
     );
   }

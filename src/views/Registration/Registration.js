@@ -10,6 +10,7 @@ import _ from "lodash";
 import { ToastContainer, toast } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
 import Loader from "../../components/Loader/Loader";
+import RegistrationModal from "../../components/Modal/RegistrationModal";
 class Registration extends Component {
   constructor(props) {
     super(props);
@@ -35,7 +36,8 @@ class Registration extends Component {
       inValidContact: false,
       profileRequired: false,
       inValidEmail: false,
-      invalidProfileUrl: false
+      invalidProfileUrl: false,
+      displayPasswordFlag : false
     };
   }
   componentDidMount() {
@@ -107,13 +109,18 @@ class Registration extends Component {
       invalidProfileUrl: false
     });
   }
+
+  toggleFunction() {
+    this.setState({ displayPasswordFlag : false });
+  }
   onSubmit() {
     let compRef = this;
     let attendeeCount = this.props.attendeeCount;
     let attendee = { ...this.state.Registration };
     let password = "ES" + Math.floor(1000 + Math.random() * 9000);
     attendee.password = password;
-    this.setState({ password: password });
+    this.setState({ passwordModal: password });
+    this.setState({ emailModal: attendee.email });
     let validContact;
     let validEmail;
     let invalidProfile = false;
@@ -229,7 +236,15 @@ class Registration extends Component {
         position: toast.POSITION.BOTTOM_RIGHT
       });
       setTimeout(() => {
-        compRef.redirectFunction();
+        if(actionName === "Created"){
+          compRef.setState({ displayPasswordFlag: true });
+        }
+        else
+        compRef.setState({ displayPasswordFlag: false }); 
+
+        if(actionName === "Updated"){
+          compRef.redirectFunction();
+        }
       }, 1000);
     } else {
       errorMessage
@@ -455,6 +470,11 @@ class Registration extends Component {
             <ToastContainer autoClose={2000} />
           </Col>
         </FormGroup>
+        <RegistrationModal
+        openFlag={this.state.displayPasswordFlag}
+        toggleFunction={this.toggleFunction.bind(this)}
+        email={this.state.emailModal}
+        password={this.state.passwordModal}/>
       </CardLayout>
     );
   }
