@@ -160,6 +160,7 @@ class SponsorForm extends Component {
       "imageURL",
       "orderNumber"
     ]);
+    this.setState({ loading: true });
     let orderNumber;
     orderNumber = this.getOrderNumber(Sponsor.category);
     Sponsor.orderNumber = orderNumber;
@@ -188,7 +189,7 @@ class SponsorForm extends Component {
         ? this.props.editSponsor(id, Sponsor)
         : this.props.createSponsor(Sponsor);
       let compRef = this;
-      this.setState({ loading: true });
+
       setTimeout(() => {
         let creatEditSponsorError = compRef.props.creatEditSponsorError;
         let status = "";
@@ -204,6 +205,7 @@ class SponsorForm extends Component {
     }
   }
   Toaster(compRef, creatEditSponsorError, actionName) {
+    this.setState({ loading: false });
     if (!creatEditSponsorError) {
       compRef.onReset();
       toast.success("Sponsor " + actionName + " Successfully.", {

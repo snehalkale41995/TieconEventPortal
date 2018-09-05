@@ -110,6 +110,10 @@ class EventList extends Component {
         {
           text: "All",
           value: this.props.events.length
+        },
+        {
+          text: "All",
+          value: this.props.events.length
         }
       ],
       sizePerPage: 50
@@ -227,7 +231,7 @@ class EventList extends Component {
                     openFlag={this.state.deleteFlag}
                     toggleFunction={this.deleteConfirm.bind(this)}
                     confirmFunction={this.deleteEvent.bind(this)}
-                    message=" Are you sure you want to permanently delete this session ?"
+                    message=" Are you sure you want to permanently delete this event ?"
                   />
                 </CardBody>
               </Card>

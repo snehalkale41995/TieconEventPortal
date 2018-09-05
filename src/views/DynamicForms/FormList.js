@@ -112,6 +112,10 @@ class FormList extends Component {
         {
           text: "All",
           value: this.props.formList.length
+        },
+        {
+          text: "All",
+          value: this.props.formList.length
         }
       ],
       sizePerPage: 50

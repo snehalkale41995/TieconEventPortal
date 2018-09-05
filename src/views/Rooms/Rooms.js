@@ -86,13 +86,13 @@ class Rooms extends Component {
   }
   onSubmit() {
     let Room = { ...this.state.Room };
+    this.setState({ loading: true });
     let id = this.props.currentRoom._id;
     if (Room.roomName && Room.capacity > 0 && Room.event) {
       this.state.editRoom
         ? this.props.editRoom(id, Room)
         : this.props.createRoom(Room);
       let compRef = this;
-      this.setState({ loading: true });
       setTimeout(() => {
         let creatEditRoomError = compRef.props.creatEditRoomError;
         let status = "";
@@ -111,6 +111,7 @@ class Rooms extends Component {
     }
   }
   Toaster(compRef, createEditError, actionName) {
+    compRef.setState({ loading: false });
     if (!createEditError) {
       compRef.onReset();
       toast.success("Room " + actionName + " Successfully.", {
@@ -120,7 +121,6 @@ class Rooms extends Component {
         compRef.redirectFunction();
       }, 1000);
     } else {
-      compRef.setState({ loading: false });
       toast.error("Something went wrong", {
         position: toast.POSITION.BOTTOM_RIGHT
       });
@@ -297,8 +297,8 @@ class Rooms extends Component {
             >
               Cancel
             </Button>
-            <ToastContainer autoClose={2000} />
           </Col>
+          <ToastContainer autoClose={2000} />
         </FormGroup>
       </CardLayout>
     );

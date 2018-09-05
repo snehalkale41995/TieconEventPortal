@@ -131,6 +131,10 @@ class RoomsList extends Component {
         {
           text: "All",
           value: this.props.roomList.length
+        },
+        {
+          text: "All",
+          value: this.props.roomList.length
         }
       ],
       sizePerPage: 50
