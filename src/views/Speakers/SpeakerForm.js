@@ -205,12 +205,11 @@ class SpeakerForm extends Component {
     if (value !== null) {
       let Speaker = { ...this.state.Speaker };
       Speaker.event = value;
-
-      this.setState({ Speaker: Speaker });
+      this.setState({ Speaker: Speaker, eventRequired: false });
     } else {
       let Speaker = { ...this.state.Speaker };
       Speaker.event = "";
-      this.setState({ Speaker: Speaker });
+      this.setState({ Speaker: Speaker, eventRequired: false });
     }
   }
 
@@ -282,6 +281,7 @@ class SpeakerForm extends Component {
               name="email"
               icon="icon-envelope"
               value={Speaker.email}
+              disabled={this.state.editSpeaker}
               inValid={this.state.inValidEmail}
               required={this.state.emailRequired}
               onchanged={event => this.onChangeInput(event)}
@@ -296,7 +296,7 @@ class SpeakerForm extends Component {
               value={Speaker.contact}
               maxLength="10"
               inValid={this.state.inValidContact}
-              required={this.state.emailRequired}
+              required={this.state.contactRequired}
               onchanged={event => this.onChangeInput(event)}
             />
           </Col>

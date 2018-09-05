@@ -143,6 +143,10 @@ class SpeakerList extends Component {
         {
           text: "All",
           value: this.props.speakerList.length
+        },
+        {
+          text: "All",
+          value: this.props.speakerList.length
         }
       ],
       sizePerPage: 50

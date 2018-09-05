@@ -23,7 +23,8 @@ class Registration extends Component {
         briefInfo: "",
         profileImageURL: "",
         event: "",
-        roleName: ""
+        roleName: "",
+        password: ""
       },
       firstNameRequired: false,
       lastNameRequired: false,
@@ -110,8 +111,12 @@ class Registration extends Component {
     let compRef = this;
     let attendeeCount = this.props.attendeeCount;
     let attendee = { ...this.state.Registration };
+    let password = "ES" + Math.floor(1000 + Math.random() * 9000);
+    attendee.password = password;
+    this.setState({ password: password });
     let validContact;
     let validEmail;
+    let invalidProfile = false;
     let invalidProfileUrl = false;
     var re = /^(http[s]?:\/\/){0,1}(www\.){0,1}[a-zA-Z0-9\.\-]+\.[a-zA-Z]{2,5}[\.]{0,1}/;
     if (attendee.profileImageURL !== "") {
@@ -125,6 +130,12 @@ class Registration extends Component {
     if (attendee.contact) {
       validContact = attendee.contact.toString().length === 10;
     }
+    if (attendee.profiles) {
+      invalidProfile =
+        attendee.profiles.length == 0 ||
+        attendee.profiles[0] == "" ||
+        attendee.profiles[0] == null;
+    }
     if (
       validContact &&
       validEmail &&
@@ -134,7 +145,8 @@ class Registration extends Component {
       attendee.contact &&
       attendee.event &&
       attendee.profiles.length > 0 &&
-      !invalidProfileUrl
+      !invalidProfileUrl &&
+      !invalidProfile
     ) {
       let editedAttendee = _.pick(attendee, [
         "firstName",
@@ -147,6 +159,7 @@ class Registration extends Component {
         "profiles",
         "roleName"
       ]);
+      console.log("attendee", attendee);
       this.state.editAttendee
         ? this.props.editAttendeeData(attendee._id, editedAttendee)
         : this.props.createAttendee(attendee, attendeeCount);
@@ -167,7 +180,9 @@ class Registration extends Component {
       !validContact && attendee.contact
         ? this.setState({ inValidContact: true })
         : null;
-      attendee.profiles.length == 0
+      attendee.profiles.length == 0 ||
+      attendee.profiles[0] == "" ||
+      attendee.profiles[0] == null
         ? this.setState({ profileRequired: true })
         : null;
       validEmail && attendee.email
@@ -207,6 +222,7 @@ class Registration extends Component {
     });
   }
   Toaster(compRef, createEditError, actionName, errorMessage) {
+    compRef.setState({ loading: false });
     if (!createEditError) {
       compRef.onReset();
       toast.success("Attendee " + actionName + " Successfully.", {
@@ -216,7 +232,6 @@ class Registration extends Component {
         compRef.redirectFunction();
       }, 1000);
     } else {
-      compRef.setState({ loading: false });
       errorMessage
         ? toast.error("User Already Exists", {
             position: toast.POSITION.BOTTOM_RIGHT
@@ -236,13 +251,14 @@ class Registration extends Component {
       let Registration = { ...this.state.Registration };
       Registration.event = value;
       this.setState({
-        Registration: Registration
+        Registration: Registration,
+        eventRequired: false
       });
     } else {
       let Registration = { ...this.state.Registration };
       Registration.event = "";
       Registration.profiles = [];
-      this.setState({ Registration: Registration });
+      this.setState({ Registration: Registration, eventRequired: false });
     }
   }
   handleProfileChange(value) {
@@ -256,7 +272,11 @@ class Registration extends Component {
         let profilesArray = lastEle.split(",");
         Registration.profiles = profilesArray;
         Registration.roleName = profilesArray[0];
-        this.setState({ Registration: Registration });
+        this.setState({
+          Registration: Registration,
+          eventRequired: false,
+          profileRequired: false
+        });
       }
     }
   }
@@ -308,6 +328,7 @@ class Registration extends Component {
               name="email"
               icon="icon-envelope"
               inValid={this.state.inValidEmail}
+              disabled={this.state.editAttendee}
               value={Registration.email}
               required={this.state.emailRequired}
               onchanged={event => this.onChangeInput(event)}
@@ -383,7 +404,7 @@ class Registration extends Component {
                 style={{ color: "red", marginTop: 0 }}
                 className="help-block"
               >
-                *Please select event
+                *Please select profile
               </div>
             ) : null}
           </Col>

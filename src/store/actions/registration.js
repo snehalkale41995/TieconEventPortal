@@ -124,6 +124,9 @@ export const getAttendeeById = id => {
 };
 
 export const editAttendeeData = (id, attendee) => {
+  attendee["attendeeLabel"] = attendee.profiles[0]
+    .substring(0, 3)
+    .toUpperCase();
   return dispatch => {
     axios
       .put(`${AppConfig.serverURL}/api/attendee/${id}`, attendee)
