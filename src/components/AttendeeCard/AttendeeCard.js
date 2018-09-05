@@ -138,7 +138,11 @@ export const generatePdfBulk = (userCollection, eventName, profileName) => {
     doc.setFontSize(10);
     doc.text(12, 117, attendeeCode || "");
   });
-  doc.save(eventName + " " + profileName + ".pdf");
+  if (eventName === "" && profileName === "") {
+    doc.save("All events" + " " + "Idcards" + ".pdf");
+  } else {
+    doc.save(eventName + " " + profileName + " " + "Idcards" + ".pdf");
+  }
 };
 
 export const generatePdfSingle = (user, generatedQR) => {
