@@ -115,6 +115,10 @@ class SponsorsList extends Component {
         {
           text: "All",
           value: this.props.sponsorsList.length
+        },
+        {
+          text: "All",
+          value: this.props.sponsorsList.length
         }
       ],
       sizePerPage: 50
