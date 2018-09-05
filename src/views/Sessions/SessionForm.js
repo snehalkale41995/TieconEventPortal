@@ -57,7 +57,8 @@ class SessionForm extends Component {
       editDeleteFlag: false,
       createFlag: true,
       slotPopupFlag: false,
-      loading: false
+      loading: false,
+      inValidSessionCapacity: false
     };
   }
 
@@ -80,13 +81,17 @@ class SessionForm extends Component {
   }
 
   ChangeCapacityHandler(session) {
-    if (session.target.value > 0 || session.target.value == "") {
-      let sessionDetails = { ...this.state.Session };
-      sessionDetails[session.target.name] = session.target.value;
-      this.setState({
-        Session: sessionDetails,
-        sessionCapacityRequired: false
-      });
+    let value = session.target.value;
+    if (value > 0 || value == "") {
+      if (!value.startsWith(".")) {
+        let sessionDetails = { ...this.state.Session };
+        sessionDetails[session.target.name] = session.target.value;
+        this.setState({
+          Session: sessionDetails,
+          sessionCapacityRequired: false,
+          inValidSessionCapacity: false
+        });
+      }
     }
   }
 
@@ -108,9 +113,19 @@ class SessionForm extends Component {
   }
 
   changeRoom(roomValue) {
+    let rooms = this.props.rooms;
     let Session = { ...this.state.Session };
     Session["room"] = roomValue;
-
+    let currentRoomCapacity;
+    if (roomValue != null) {
+      rooms.forEach(room => {
+        if (room._id === roomValue) {
+          currentRoomCapacity = room.capacity;
+          this.setState({ currentRoomCapacity });
+        }
+      });
+    }
+    console.log("currentRoomCapacity", currentRoomCapacity);
     let calendarSessionList = [];
     this.setState({
       roomValue,
@@ -149,6 +164,7 @@ class SessionForm extends Component {
       calendarSessionList: []
     });
 
+    console.log("rooms", rooms);
     rooms.forEach(room => {
       if (room.event._id === eventValue) {
         roomList.push({ label: room.roomName, value: room._id });
@@ -306,6 +322,8 @@ class SessionForm extends Component {
 
   validateForm() {
     let session = { ...this.state.Session };
+    let validRoomCapacity;
+    let currentRoomCapacity = this.state.currentRoomCapacity;
     !session.sessionName ? this.setState({ sessionNameRequired: true }) : null;
     !session.event ? this.setState({ eventRequired: true }) : null;
     !session.room ? this.setState({ roomRequired: true }) : null;
@@ -313,8 +331,15 @@ class SessionForm extends Component {
     !session.endTime ? this.setState({ endTimeRequired: true }) : null;
     !session.sessionType ? this.setState({ sessionTypeRequired: true }) : null;
     if (!this.state.isCommon) {
+      if (session.sessionCapacity && currentRoomCapacity) {
+        validRoomCapacity = session.sessionCapacity <= currentRoomCapacity;
+      }
+
       !session.sessionCapacity
         ? this.setState({ sessionCapacityRequired: true })
+        : null;
+      !validRoomCapacity && session.sessionCapacity && session.room
+        ? this.setState({ inValidSessionCapacity: true })
         : null;
       !session.speakers ||
       session.speakers.length == 0 ||
@@ -335,6 +360,11 @@ class SessionForm extends Component {
     let session = { ...this.state.Session };
     let eventId = this.state.eventValue;
     let room = this.state.roomValue;
+    if (eventId == null || eventId == "") {
+      toast.error("Please select event", {
+        position: toast.POSITION.BOTTOM_RIGHT
+      });
+    }
 
     this.validateForm();
     if (this.state.isCommon) {
@@ -356,6 +386,7 @@ class SessionForm extends Component {
           session.event &&
           !this.state.speakersRequired &&
           !this.state.volunteersRequired &&
+          !this.state.inValidSessionCapacity &&
           session.volunteers &&
           session.startTime &&
           session.endTime &&
@@ -385,6 +416,7 @@ class SessionForm extends Component {
     let session = { ...this.state.Session };
     let eventId = this.state.eventValue;
     let room = this.state.roomValue;
+
     this.validateForm();
     if (this.state.isCommon) {
       if (
@@ -404,6 +436,7 @@ class SessionForm extends Component {
           session.sessionType &&
           session.event &&
           !this.state.speakersRequired &&
+          !this.state.inValidSessionCapacity &&
           !this.state.volunteersRequired &&
           session.startTime &&
           session.endTime &&
@@ -453,7 +486,7 @@ class SessionForm extends Component {
   }
 
   slotConfirmSuccess() {
-     let compRef = this;
+    let compRef = this;
     let Session = { ...this.state.Session };
     if (this.state.editDeleteFlag === true) {
       Session.sessionName = "";
@@ -472,7 +505,7 @@ class SessionForm extends Component {
     }
     let sessionStart = this.state.sessionStart;
     let sessionEnd = this.state.sessionEnd;
-   
+
     let slotConfirmMessage =
       `Start Time : ${moment(sessionStart).format("DD/MM/YYYY,h:mm A")} ` +
       `,\r\n End Time: ${moment(sessionEnd).format("DD/MM/YYYY,h:mm A")}`;
@@ -495,6 +528,12 @@ class SessionForm extends Component {
   selectSlot(slotInfo) {
     let dateselected = new Date(slotInfo.start).setHours(0, 0, 0, 0);
     let room = this.state.roomValue;
+    let event = this.state.eventValue;
+    if (event == null || event == "") {
+      this.setState({ eventRequired: true });
+    } else {
+      this.setState({ eventRequired: false });
+    }
     if (room == null || room == "") {
       this.setState({ roomRequired: true });
     } else {
@@ -663,7 +702,8 @@ class SessionForm extends Component {
       sessionTypeValue: "",
       volunteersRequired: false,
       endTimeRequired: false,
-      slotConfirmMessage: ""
+      slotConfirmMessage: "",
+      inValidSessionCapacity: false
     });
   }
 
@@ -834,6 +874,15 @@ class SessionForm extends Component {
                   />
                 </Col>
               </FormGroup>
+              {this.state.inValidSessionCapacity ? (
+                <div
+                  style={{ color: "red", marginTop: -30 }}
+                  className="help-block"
+                >
+                  *Capacity should be less than Room capacity(
+                  {this.state.currentRoomCapacity})
+                </div>
+              ) : null}
               <FormGroup row>
                 <Col xs="12">
                   <input
