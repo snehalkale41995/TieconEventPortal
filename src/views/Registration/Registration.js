@@ -37,7 +37,7 @@ class Registration extends Component {
       profileRequired: false,
       inValidEmail: false,
       invalidProfileUrl: false,
-      displayPasswordFlag : false
+      displayPasswordFlag: false
     };
   }
   componentDidMount() {
@@ -111,7 +111,7 @@ class Registration extends Component {
   }
 
   toggleFunction() {
-    this.setState({ displayPasswordFlag : false });
+    this.setState({ displayPasswordFlag: false });
   }
   onSubmit() {
     let compRef = this;
@@ -166,7 +166,6 @@ class Registration extends Component {
         "profiles",
         "roleName"
       ]);
-      console.log("attendee", attendee);
       this.state.editAttendee
         ? this.props.editAttendeeData(attendee._id, editedAttendee)
         : this.props.createAttendee(attendee, attendeeCount);
@@ -236,13 +235,11 @@ class Registration extends Component {
         position: toast.POSITION.BOTTOM_RIGHT
       });
       setTimeout(() => {
-        if(actionName === "Created"){
+        if (actionName === "Created") {
           compRef.setState({ displayPasswordFlag: true });
-        }
-        else
-        compRef.setState({ displayPasswordFlag: false }); 
+        } else compRef.setState({ displayPasswordFlag: false });
 
-        if(actionName === "Updated"){
+        if (actionName === "Updated") {
           compRef.redirectFunction();
         }
       }, 1000);
@@ -295,6 +292,7 @@ class Registration extends Component {
       }
     }
   }
+
   getAttendeeDetails() {
     let Registration = { ...this.state.Registration };
     Registration = this.props.attendeeData;
@@ -302,6 +300,7 @@ class Registration extends Component {
       Registration: Registration
     });
   }
+
   render() {
     const { Registration } = { ...this.state };
     const eventOptions = this.props.eventList;
@@ -471,10 +470,11 @@ class Registration extends Component {
           </Col>
         </FormGroup>
         <RegistrationModal
-        openFlag={this.state.displayPasswordFlag}
-        toggleFunction={this.toggleFunction.bind(this)}
-        email={this.state.emailModal}
-        password={this.state.passwordModal}/>
+          openFlag={this.state.displayPasswordFlag}
+          toggleFunction={this.toggleFunction.bind(this)}
+          email={this.state.emailModal}
+          password={this.state.passwordModal}
+        />
       </CardLayout>
     );
   }

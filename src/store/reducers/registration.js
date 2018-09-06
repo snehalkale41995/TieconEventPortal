@@ -50,6 +50,11 @@ const registrationReducer = (state = initialState, action) => {
         createEditError: true,
         creatError: action.creatError
       };
+    case actionTypes.CREATE_EDIT_ATTENDEE_SUCCESS:
+      return {
+        ...state,
+        createEditError: false
+      };
     case actionTypes.GET_ATTENDEE_LIST_FAIL:
       return {
         ...state,

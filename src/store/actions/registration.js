@@ -17,6 +17,12 @@ export const creatEditAttendeeFail = error => {
   };
 };
 
+export const creatEditAttendeeSuccess = error => {
+  return {
+    type: actionTypes.CREATE_EDIT_ATTENDEE_SUCCESS
+  };
+};
+
 export const getAttendeeFail = () => {
   return {
     type: actionTypes.GET_ATTENDEE_LIST_FAIL
@@ -132,6 +138,7 @@ export const editAttendeeData = (id, attendee) => {
       .put(`${AppConfig.serverURL}/api/attendee/${id}`, attendee)
       .then(response => {
         dispatch(getAttendees());
+        dispatch(creatEditAttendeeSuccess());
       })
       .catch(error => {
         dispatch(creatEditAttendeeFail(error.response.data));
@@ -162,6 +169,7 @@ export const createAttendee = (attendee, attendeeCount) => {
           )
           .then(response => {
             dispatch(getAttendees());
+            dispatch(creatEditAttendeeSuccess());
           });
       })
       .catch(error => {

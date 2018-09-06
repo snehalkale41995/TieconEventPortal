@@ -125,7 +125,7 @@ class SessionForm extends Component {
         }
       });
     }
-    console.log("currentRoomCapacity", currentRoomCapacity);
+
     let calendarSessionList = [];
     this.setState({
       roomValue,
@@ -164,7 +164,6 @@ class SessionForm extends Component {
       calendarSessionList: []
     });
 
-    console.log("rooms", rooms);
     rooms.forEach(room => {
       if (room.event._id === eventValue) {
         roomList.push({ label: room.roomName, value: room._id });
