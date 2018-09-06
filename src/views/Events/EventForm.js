@@ -244,7 +244,7 @@ class EventForm extends Component {
           color="success"
           onClick={this.onSubmitHandler.bind(this)}
         >
-          Submit
+          Create
         </Button>
       );
 
