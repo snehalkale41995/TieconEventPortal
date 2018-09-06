@@ -7,7 +7,8 @@ const initialState = {
   speakerCreated: false,
   speakerUpdated: false,
   speakerDeleted: false,
-  createError: ""
+  createError: "",
+  statusCode : ""
 };
 const speakerReducer = (state = initialState, action) => {
   switch (action.type) {
@@ -33,13 +34,15 @@ const speakerReducer = (state = initialState, action) => {
       return {
         ...state,
         speakerCreated: true,
-        createError: ""
+        createError: "",
+        statusCode : ""
       };
     case actionTypes.CREATE_SPEAKER_FAIL:
       return {
         ...state,
         speakerCreated: false,
-        createError: action.createError
+        createError: action.createError,
+        statusCode : action.statusCode
       };
     case actionTypes.UPDATE_SPEAKER_SUCCESS:
       return {

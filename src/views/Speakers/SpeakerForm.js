@@ -95,13 +95,16 @@ class SpeakerForm extends Component {
         }
       }, 1000);
     } else {
-      errorMessage
-        ? toast.error("Speaker Already Exists", {
-            position: toast.POSITION.BOTTOM_RIGHT
-          })
-        : toast.error("Something Went wrong", {
-            position: toast.POSITION.BOTTOM_RIGHT
-          });
+      if(this.props.statusCode === 404){
+        toast.error("email Id Already Exists", {
+          position: toast.POSITION.BOTTOM_RIGHT
+        })
+      }
+     else{
+      toast.error("Something Went wrong", {
+        position: toast.POSITION.BOTTOM_RIGHT
+      });
+     }
     }
   }
 
@@ -225,6 +228,7 @@ class SpeakerForm extends Component {
       let Speaker = { ...this.state.Speaker };
       Speaker.event = value;
       this.setState({ Speaker: Speaker, eventRequired: false });
+      
     } else {
       let Speaker = { ...this.state.Speaker };
       Speaker.event = "";
@@ -261,7 +265,7 @@ class SpeakerForm extends Component {
           color="success"
           onClick={this.onSubmit.bind(this)}
         >
-          Submit
+        Create
         </Button>
       );
     return (
@@ -408,7 +412,8 @@ const mapStateToProps = state => {
     attendeeCount: state.attendeeCount.attendeeCount,
     speakerCreated: state.speaker.speakerCreated,
     speakerUpdated: state.speaker.speakerUpdated,
-    createError: state.speaker.createError
+    createError: state.speaker.createError,
+    statusCode : state.speaker.statusCode
   };
 };
 const mapDispatchToProps = dispatch => {

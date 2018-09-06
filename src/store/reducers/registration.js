@@ -9,7 +9,8 @@ const initialState = {
   getAttendeeError: false,
   deleteAttendeeError: false,
   creatError: "",
-  deleteError: ""
+  deleteError: "",
+  statusCode :""
 };
 const registrationReducer = (state = initialState, action) => {
   switch (action.type) {
@@ -22,7 +23,8 @@ const registrationReducer = (state = initialState, action) => {
         getAttendeeError: false,
         deleteAttendeeError: false,
         creatError: "",
-        deleteError: ""
+        deleteError: "",
+        statusCode :""
       };
     case actionTypes.GET_ATTENDEE_DATA:
       return {
@@ -33,7 +35,8 @@ const registrationReducer = (state = initialState, action) => {
         getAttendeeError: false,
         deleteAttendeeError: false,
         creatError: "",
-        deleteError: ""
+        deleteError: "",
+        statusCode :""
       };
     case actionTypes.LOG_REGISTRATION_ERROR:
       return {
@@ -42,31 +45,36 @@ const registrationReducer = (state = initialState, action) => {
         getAttendeeError: false,
         deleteAttendeeError: false,
         creatError: "",
-        deleteError: ""
+        deleteError: "",
+        statusCode :""
       };
     case actionTypes.CREATE_EDIT_ATTENDEE_FAIL:
       return {
         ...state,
         createEditError: true,
-        creatError: action.creatError
+        creatError: action.creatError,
+        statusCode : action.statusCode
       };
     case actionTypes.CREATE_EDIT_ATTENDEE_SUCCESS:
       return {
         ...state,
-        createEditError: false
+        createEditError: false,
+        statusCode :""
       };
     case actionTypes.GET_ATTENDEE_LIST_FAIL:
       return {
         ...state,
         getAttendeeError: true,
-        creatError: ""
+        creatError: "",
+        statusCode :""
       };
     case actionTypes.DELETE_ATTENDEE_FAIL:
       return {
         ...state,
         deleteAttendeeError: true,
         deleteError: action.deleteError,
-        creatError: ""
+        creatError: "",
+        statusCode :""
       };
     default:
       return state;
