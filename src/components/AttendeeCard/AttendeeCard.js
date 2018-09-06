@@ -139,8 +139,12 @@ export const generatePdfBulk = (userCollection, eventName, profileName) => {
     doc.text(12, 117, attendeeCode || "");
   });
   if (eventName === "" && profileName === "") {
-    doc.save("All events" + " " + "Idcards" + ".pdf");
-  } else {
+    doc.save("All events Idcards" + ".pdf");
+  } 
+  else if(eventName === "" && profileName === "speaker"){
+    doc.save("All events Speaker Idcards" + ".pdf");
+  }
+  else {
     doc.save(eventName + " " + profileName + " " + "Idcards" + ".pdf");
   }
 };
