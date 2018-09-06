@@ -160,7 +160,7 @@ class SponsorForm extends Component {
       "imageURL",
       "orderNumber"
     ]);
-    this.setState({ loading: true });
+   
     let orderNumber;
     orderNumber = this.getOrderNumber(Sponsor.category);
     Sponsor.orderNumber = orderNumber;
@@ -185,6 +185,7 @@ class SponsorForm extends Component {
       !invalidImageUrl &&
       !invalidWebsiteUrl
     ) {
+      this.setState({ loading: true });
       this.state.editSponsor
         ? this.props.editSponsor(id, Sponsor)
         : this.props.createSponsor(Sponsor);

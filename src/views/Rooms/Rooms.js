@@ -17,8 +17,6 @@ class Rooms extends Component {
         roomName: "",
         event: "",
         capacity: ""
-        //bufferCapacity: "",
-        //availableServices: []
       },
       events: [],
       editRoom: false,
@@ -35,8 +33,6 @@ class Rooms extends Component {
       let currentroom = _.pick(this.props.currentRoom, [
         "roomName",
         "capacity"
-        //"bufferCapacity",
-        //"availableServices"
       ]);
       let Empty = !Object.keys(currentroom).length;
       if (!Empty) {
@@ -54,8 +50,6 @@ class Rooms extends Component {
           let currentroom = _.pick(compRef.props.currentRoom, [
             "roomName",
             "capacity"
-            //"bufferCapacity",
-            //"availableServices"
           ]);
           let Empty = !Object.keys(currentroom).length;
           if (Empty) {
@@ -86,9 +80,9 @@ class Rooms extends Component {
   }
   onSubmit() {
     let Room = { ...this.state.Room };
-    this.setState({ loading: true });
     let id = this.props.currentRoom._id;
     if (Room.roomName && Room.capacity > 0 && Room.event) {
+      this.setState({ loading: true });
       this.state.editRoom
         ? this.props.editRoom(id, Room)
         : this.props.createRoom(Room);
@@ -135,9 +129,7 @@ class Rooms extends Component {
       Room: {
         roomName: "",
         event: "",
-        capacity: "",
-        bufferCapacity: "",
-        availableServices: []
+        capacity: ""
       },
       roomNameRequired: false,
       eventRequired: false,
@@ -145,20 +137,7 @@ class Rooms extends Component {
       inValidCapacity: false
     });
   }
-  handleSelectChange(value) {
-    if (value !== null) {
-      let profileServiceArray = this.state.Room.availableServices;
-      profileServiceArray.push(value);
-      let len = profileServiceArray.length;
-      let { Room } = this.state;
-      if (len) {
-        let lastEle = Room.availableServices[len - 1];
-        let profilesArray = lastEle.split(",");
-        Room.availableServices = profilesArray;
-        this.setState({ Room: Room });
-      }
-    }
-  }
+
   handleEventSelectChange(value) {
     if (value !== null) {
       let Room = { ...this.state.Room };
@@ -230,30 +209,7 @@ class Rooms extends Component {
               onchanged={event => this.onChangeInput(event)}
             />
           </Col>
-          {/* <Col md="6">
-            <InputElement
-              icon="icon-pie-chart"
-              type="number"
-              placeholder="Buffer capacity"
-              name="bufferCapacity"
-              value={Room.bufferCapacity}
-              onchanged={event => this.onChangeInput(event)}
-            />
-          </Col> */}
         </FormGroup>
-        {/* <FormGroup row>
-          <Col md="6">
-            <Select
-              multi
-              onChange={this.handleSelectChange.bind(this)}
-              placeholder="Select your services(s)"
-              simpleValue
-              value={Room.availableServices}
-              options={options}
-              clearable
-            />
-          </Col>
-        </FormGroup> */}
         <FormGroup row>
           <Col xs="12" md="3">
             {this.state.editRoom ? (

@@ -16,6 +16,7 @@ import "react-toastify/dist/ReactToastify.css";
 import ValidationError from "../../components/ValidationError/ValidationError";
 import Loader from "../../components/Loader/Loader";
 
+
 class SessionForm extends Component {
   constructor(props) {
     super(props);
@@ -58,7 +59,8 @@ class SessionForm extends Component {
       createFlag: true,
       slotPopupFlag: false,
       loading: false,
-      inValidSessionCapacity: false
+      inValidSessionCapacity: false,
+      deleteFlag: false
     };
   }
 
@@ -303,6 +305,12 @@ class SessionForm extends Component {
     this.setState({ Session: Session });
   }
 
+  deleteConfirm() {
+    let deleteFlag = this.state.deleteFlag;
+    this.setState({
+      deleteFlag: !deleteFlag
+    });
+  }
   Toaster(successFlag, actionName) {
     this.setState({ loading: false });
     let compRef = this;
@@ -467,6 +475,7 @@ class SessionForm extends Component {
     let eventId = session.event._id;
     let room = session.room;
     this.setState({ loading: true });
+    this.setState({ deleteFlag: false });
     this.props.deleteSession(session._id);
     setTimeout(() => {
       this.updateCalendar(eventId, room);
@@ -906,7 +915,7 @@ class SessionForm extends Component {
                       </Button>
                       &nbsp;&nbsp;
                       <Button
-                        onClick={this.onDeleteHandler.bind(this)}
+                        onClick={this.deleteConfirm.bind(this)}
                         color="danger"
                       >
                         Delete
@@ -941,6 +950,12 @@ class SessionForm extends Component {
                 </Row>
               )}
               <ToastContainer autoClose={2000} />
+              <Modal
+                    openFlag={this.state.deleteFlag}
+                    toggleFunction={this.deleteConfirm.bind(this)}
+                    confirmFunction={this.onDeleteHandler.bind(this)}
+                    message=" Are you sure you want to permanently delete this session?"
+                  />
             </CardLayout>
           </Col>
         </Row>
