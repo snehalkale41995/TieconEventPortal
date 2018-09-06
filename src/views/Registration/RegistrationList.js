@@ -141,19 +141,25 @@ class RegistrationList extends Component {
       this.setState({ event: "" });
       this.props.getAttendeeList();
     }
-
+  
     let eventName = "";
     this.props.eventList.forEach(event => {
       if (event.value === value) {
         eventName = event.label;
       }
     });
-    this.setState({ eventName });
+    this.setState({ eventName , });
   }
 
   handleProfileChange(value) {
     this.setState({ profile: value });
     this.props.getAttendeesForEventAndProfile(this.state.event, value);
+    if(this.state.event){
+      if(value==="" ||value ===null){
+        this.props.getAttendeesForEvent(this.state.event);
+      }
+    }
+    
   }
 
   render() {
@@ -290,16 +296,15 @@ class RegistrationList extends Component {
                         csvHeader="Email"
                         dataSort={true}
                       >
-                        Email
+                      Email
                       </TableHeaderColumn>
                       <TableHeaderColumn
-                        dataField="contact"
+                        dataField="password"
                         headerAlign="left"
                         width="80"
-                        csvHeader="Contact"
                         dataSort={true}
                       >
-                        Contact
+                      Password
                       </TableHeaderColumn>
                       <TableHeaderColumn
                         dataField="eventName"

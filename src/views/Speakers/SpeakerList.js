@@ -80,6 +80,13 @@ class SpeakerList extends Component {
     if (value !== null) {
       this.setState({ event: value });
       this.props.getSpeakersForEvent(value);
+      let eventName = "";
+      this.props.eventList.forEach(event => {
+        if (event.value === value) {
+          eventName = event.label;
+        }
+      });
+      this.setState({ eventName });
     } else {
       this.setState({ event: "" });
       this.props.getSpeakerList();
@@ -109,7 +116,7 @@ class SpeakerList extends Component {
           }
         });
       });
-      attendeeCardMethod.generateQRcodeBulk(users);
+      attendeeCardMethod.generateQRcodeBulk(users, this.state.eventName, 'speaker');
     } else {
       this.setState({ modalPopupFlag: true });
     }
@@ -250,6 +257,13 @@ class SpeakerList extends Component {
                         dataSort={true}
                       >
                         Email
+                      </TableHeaderColumn>
+                      <TableHeaderColumn
+                        dataField="password"
+                        headerAlign="left"
+                        width="100"
+                        dataSort={true}>
+                        Password
                       </TableHeaderColumn>
                       <TableHeaderColumn
                         dataField="eventName"

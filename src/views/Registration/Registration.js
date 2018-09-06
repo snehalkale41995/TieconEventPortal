@@ -244,13 +244,17 @@ class Registration extends Component {
         }
       }, 1000);
     } else {
-      errorMessage
-        ? toast.error("User Already Exists", {
-            position: toast.POSITION.BOTTOM_RIGHT
-          })
-        : toast.error("Something Went wrong", {
-            position: toast.POSITION.BOTTOM_RIGHT
-          });
+      if(this.props.statusCode === 404){
+        toast.error("email Id Already Exists", {
+          position: toast.POSITION.BOTTOM_RIGHT
+        })
+      }
+     else{
+      toast.error("Something Went wrong", {
+        position: toast.POSITION.BOTTOM_RIGHT
+      });
+     }
+         
     }
   }
   redirectFunction() {
@@ -441,7 +445,7 @@ class Registration extends Component {
                 color="success"
                 onClick={() => this.onSubmit()}
               >
-                Submit
+               Create
               </Button>
             )}
           </Col>
@@ -486,6 +490,7 @@ const mapStateToProps = state => {
     eventList: state.event.eventList,
     attendeeCount: state.attendeeCount.attendeeCount,
     createEditError: state.registration.createEditError,
+    statusCode : state.registration.statusCode,
     profileList: state.profileList.profileList,
     creatError: state.registration.creatError
   };
