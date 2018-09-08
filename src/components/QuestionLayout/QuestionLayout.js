@@ -13,8 +13,8 @@ import "react-select/dist/react-select.css";
 
 const options = [
   { label: "Text", value: "Text" },
-  { label: "Check Box", value: "Check Box" },
-  { label: "Multiple choice", value: "Multiple choice" }
+  { label: "Radio Button", value: "Radio Button" },
+  { label: "Check Box", value: "Check Box" }
 ];
 
 const QuestionLayout = props => (

@@ -223,7 +223,7 @@ class QuestionForms extends Component {
         inputValueAbsent = true;
       }
       if (
-        fItem.inputType === "Multiple choice" ||
+        fItem.inputType === "Radio Button" ||
         fItem.inputType === "Check Box"
       ) {
         for (let i = 0; i < fItem.options.length; i++) {
@@ -464,7 +464,7 @@ class QuestionForms extends Component {
                   style={{ color: "red", fontSize: 12, marginTop: 10 }}
                   className="help-block"
                 >
-                  *Multiple choice / check box values cannot be empty
+                  *Radio Button / check box values cannot be empty
                 </div>
               ) : null}
             </FormGroup>

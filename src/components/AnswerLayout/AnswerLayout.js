@@ -57,7 +57,7 @@ const AnswerLayout = props => {
         </Col>
       </FormGroup>
     );
-  } else if (props.inputType === "Multiple choice") {
+  } else if (props.inputType === "Radio Button") {
     return (
       <FormGroup row>
         <Col xs="12" md="9">

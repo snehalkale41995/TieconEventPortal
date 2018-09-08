@@ -14,6 +14,7 @@ class RenderForm extends Component {
       formType: ""
     };
   }
+
   componentDidMount() {
     if (this.props.currentFormData.length !== 0) {
       this.setState({
@@ -21,6 +22,7 @@ class RenderForm extends Component {
       });
     }
   }
+
   displayForm() {
     formLayout = this.state.formData.map((que, id) => {
       return (
@@ -40,6 +42,7 @@ class RenderForm extends Component {
     });
     return formLayout;
   }
+
   displayAnswerFields(que) {
     if (que.inputType === "Text") {
       return (
@@ -57,7 +60,7 @@ class RenderForm extends Component {
           </FormGroup>
         );
       });
-    } else if (que.inputType === "Multiple choice") {
+    } else if (que.inputType === "Radio Button") {
       return que.options.map((opt, id) => {
         return (
           <FormGroup key={id} check inline>
@@ -82,6 +85,7 @@ class RenderForm extends Component {
       return null;
     }
   }
+
   render() {
     return (
       <CardLayout name="Forms List">
