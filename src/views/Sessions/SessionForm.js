@@ -5,7 +5,7 @@ import InputElement from "../../components/Input/";
 import CardLayout from "../../components/CardLayout/";
 import SessionIndicator from "../../components/Calendar/SessionIndicator";
 import * as calendarStyle from "../../components/Calendar/CalendarStyles";
-import { Row, Col, Button, FormGroup, Label } from "reactstrap";
+import { Row, Col, Button, FormGroup, Label, InputGroup, InputGroupText, Input} from "reactstrap";
 import Modal from "../../components/Modal/ModalCart";
 import ValidModal from "../../components/Modal/sessionValidModal";
 
@@ -866,15 +866,11 @@ class SessionForm extends Component {
               </FormGroup>
               <FormGroup row>
                 <Col xs="12">
-                  <InputElement
-                    type="text"
-                    placeholder="Description"
-                    name="description"
-                    icon="icon-note"
-                    maxLength="250"
-                    value={this.state.Session.description}
-                    onchanged={session => this.onChangeHandler(session)}
-                  />
+                <InputGroup className="mb-3">
+          <InputGroupText><i className="icon-note"></i></InputGroupText>
+          <Input style={{height:'36px'}} maxLength="500" type="textarea" placeholder="Description" name="description"  value={this.state.Session.description}
+           onChange={session => this.onChangeHandler(session)}/>
+          </InputGroup>
                 </Col>
               </FormGroup>
               <FormGroup row>

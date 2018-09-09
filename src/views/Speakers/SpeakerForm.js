@@ -373,7 +373,7 @@ class SpeakerForm extends Component {
           <Col xs="12" md="6">
           <InputGroup className="mb-3">
           <InputGroupText><i className="fa fa-info"></i></InputGroupText>
-          <Input type="textarea" placeholder="Info" name="info"  value={Speaker.info}
+          <Input style={{height:'36px'}} type="textarea" placeholder="Info" name="info"  value={Speaker.info}
            onChange={event => this.onChangeInput(event)} />
           </InputGroup>
            </Col>

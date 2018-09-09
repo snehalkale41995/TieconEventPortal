@@ -6,7 +6,7 @@ import moment from "moment";
 import "react-datepicker/dist/react-datepicker.css";
 import InputElement from "../../components/Input/";
 import CardLayout from "../../components/CardLayout/";
-import { InputGroup, InputGroupText, Col, Button, FormGroup } from "reactstrap";
+import { InputGroup, InputGroupText, Input, Col, Button, FormGroup } from "reactstrap";
 import { ToastContainer, toast } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
 import Loader from "../../components/Loader/Loader";
@@ -266,15 +266,11 @@ class EventForm extends Component {
             />
           </Col>
           <Col sm={{ size: 4, order: 2, offset: 1 }}>
-            <InputElement
-              type="text"
-              placeholder="Description"
-              name="description"
-              icon="icon-note"
-              maxLength="250"
-              value={this.state.Event.description}
-              onchanged={event => this.onChangeHandler(event)}
-            />
+          <InputGroup className="mb-3">
+          <InputGroupText><i className="icon-note"></i></InputGroupText>
+          <Input style={{height:'36px'}} maxLength="500" type="textarea" placeholder="Description" name="description"  value={this.state.Event.description}
+           onChange={event => this.onChangeHandler(event)}/>
+          </InputGroup>
           </Col>
         </FormGroup>
         <FormGroup row>

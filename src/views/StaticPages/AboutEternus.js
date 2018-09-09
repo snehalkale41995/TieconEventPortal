@@ -1,7 +1,14 @@
 import React, { Component } from "react";
 import { connect } from "react-redux";
 import * as actions from "../../store/actions/index";
-import { FormGroup, Col, Button } from "reactstrap";
+import {
+  FormGroup,
+  Col,
+  Button,
+  InputGroup,
+  InputGroupText,
+  Input
+} from "reactstrap";
 import InputElement from "../../components/Input/";
 import CardLayout from "../../components/CardLayout/";
 import { ToastContainer, toast } from "react-toastify";
@@ -116,17 +123,29 @@ class AboutEternus extends Component {
       <CardLayout name="About Eternus">
         <FormGroup row>
           <Col xs="12" md="6">
-            <InputElement
-              icon="icon-info"
-              type="text"
-              placeholder="Information about eternus"
-              name="info"
-              maxLength="250"
-              value={info}
-              required={this.state.infoRequired}
-              onchanged={event => this.onChangeInput(event)}
-            />
+            <InputGroup className="mb-3">
+              <InputGroupText>
+                <i className="icon-info" />
+              </InputGroupText>
+              <Input
+                style={{ height: "36px" }}
+                maxLength="500"
+                type="textarea"
+                placeholder="Information about eternus"
+                name="info"
+                value={info}
+                onChange={event => this.onChangeInput(event)}
+              />
+            </InputGroup>
           </Col>
+          {this.state.infoRequired ? (
+            <div
+              style={{ color: "red", fontSize: "12px", marginLeft: 10 }}
+              className="help-block"
+            >
+              *Information about eternus is required
+            </div>
+          ) : null}
           <Col md="6">
             <InputElement
               icon="icon-link"
