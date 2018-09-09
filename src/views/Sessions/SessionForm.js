@@ -7,6 +7,8 @@ import SessionIndicator from "../../components/Calendar/SessionIndicator";
 import * as calendarStyle from "../../components/Calendar/CalendarStyles";
 import { Row, Col, Button, FormGroup, Label } from "reactstrap";
 import Modal from "../../components/Modal/ModalCart";
+import ValidModal from "../../components/Modal/sessionValidModal";
+
 import moment from "moment";
 import Select from "react-select";
 import "react-select/dist/react-select.css";
@@ -60,7 +62,8 @@ class SessionForm extends Component {
       slotPopupFlag: false,
       loading: false,
       inValidSessionCapacity: false,
-      deleteFlag: false
+      deleteFlag: false,
+      validModalFlag : false
     };
   }
 
@@ -368,10 +371,12 @@ class SessionForm extends Component {
     let session = { ...this.state.Session };
     let eventId = this.state.eventValue;
     let room = this.state.roomValue;
-    if (eventId == null || eventId == "") {
-      toast.error("Please select event", {
-        position: toast.POSITION.BOTTOM_RIGHT
-      });
+    let startTime = session.startTime;
+    if (eventId == null || eventId == ""||room == null || room == "" ||!startTime  ) {
+      this.setState({validModalFlag : true});
+    }
+    else{
+      this.setState({validModalFlag : false});
     }
 
     this.validateForm();
@@ -491,6 +496,11 @@ class SessionForm extends Component {
   slotConfirmPopup() {
     this.setState({
       slotPopupFlag: !this.state.slotPopupFlag
+    });
+  }
+  toggleValidModal() {
+    this.setState({
+      validModalFlag: !this.state.validModalFlag
     });
   }
 
@@ -965,6 +975,14 @@ class SessionForm extends Component {
           toggleFunction={this.slotConfirmPopup.bind(this)}
           confirmFunction={this.slotConfirmSuccess.bind(this)}
           message={this.state.SlotalertMessage}
+        />
+        <ValidModal
+          openFlag={this.state.validModalFlag}
+          toggleFunction={this.toggleValidModal.bind(this)}
+          confirmFunction={this.toggleValidModal.bind(this)}
+          event={this.state.eventValue}
+          room={this.state.roomValue}
+          startTime={this.state.Session.startTime}
         />
       </div>
     );
