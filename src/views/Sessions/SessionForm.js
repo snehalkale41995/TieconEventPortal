@@ -219,6 +219,7 @@ class SessionForm extends Component {
       }
     });
   }
+
   displaySessions(session, calendarSessionList) {
     let sessionObj = Object.assign({}, session);
     let sessionTimeDetails = {
@@ -412,7 +413,7 @@ class SessionForm extends Component {
     this.props.createSession(session);
     setTimeout(() => {
       this.updateCalendar(eventId, room);
-    }, 1500);
+    }, 2500);
     setTimeout(() => {
       let sessionCreated = this.props.sessionCreated;
       compRef.Toaster(sessionCreated, "Created");
@@ -462,7 +463,7 @@ class SessionForm extends Component {
     this.props.updateSession(session);
     setTimeout(() => {
       this.updateCalendar(eventId, room);
-    }, 1500);
+    }, 2500);
     setTimeout(() => {
       let sessionUpdated = this.props.sessionUpdated;
       compRef.Toaster(sessionUpdated, "Updated");
@@ -479,7 +480,7 @@ class SessionForm extends Component {
     this.props.deleteSession(session._id);
     setTimeout(() => {
       this.updateCalendar(eventId, room);
-    }, 1500);
+    }, 2500);
 
     setTimeout(() => {
       let sessionDeleted = this.props.sessionDeleted;
