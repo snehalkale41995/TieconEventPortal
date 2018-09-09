@@ -262,6 +262,7 @@ class RegistrationList extends Component {
                       options={options}
                       exportCSV={true}
                       csvFileName="Attendee List"
+                      version='4'
                     >
                       <TableHeaderColumn
                         dataField="_id"

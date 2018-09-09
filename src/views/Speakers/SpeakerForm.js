@@ -1,7 +1,7 @@
 import React, { Component } from "react";
 import { connect } from "react-redux";
 import * as actions from "../../store/actions/index";
-import { FormGroup, Col, Button } from "reactstrap";
+import { FormGroup, Col, Button, Input, InputGroup, InputGroupAddon, InputGroupText } from "reactstrap";
 import InputElement from "../../components/Input/";
 import CardLayout from "../../components/CardLayout/";
 import Select from "react-select";
@@ -20,6 +20,7 @@ class SpeakerForm extends Component {
         email: "",
         contact: "",
         briefInfo: "",
+        info : "",
         profileImageURL: "",
         event: "",
         roleName: "Speaker",
@@ -47,6 +48,7 @@ class SpeakerForm extends Component {
         "email",
         "contact",
         "briefInfo",
+        "info",
         "profileImageURL",
         "roleName"
       ]);
@@ -154,6 +156,7 @@ class SpeakerForm extends Component {
         "email",
         "contact",
         "briefInfo",
+        "info",
         "profileImageURL",
         "event",
         "roleName"
@@ -206,6 +209,7 @@ class SpeakerForm extends Component {
       email: "",
       contact: "",
       briefInfo: "",
+      info : "",
       profileImageURL: "",
       event: ""
     };
@@ -343,20 +347,7 @@ class SpeakerForm extends Component {
             ) : null}
           </Col>
           <Col md="6">
-            <InputElement
-              type="text"
-              placeholder="Brief info"
-              name="briefInfo"
-              icon="icon-info"
-              maxLength="45"
-              value={Speaker.briefInfo}
-              onchanged={event => this.onChangeInput(event)}
-            />
-          </Col>
-        </FormGroup>
-        <FormGroup row>
-          <Col xs="12" md="6">
-            <InputElement
+             <InputElement
               type="text"
               placeholder="Profile image URL"
               name="profileImageURL"
@@ -366,6 +357,26 @@ class SpeakerForm extends Component {
               onchanged={event => this.onChangeInput(event)}
             />
           </Col>
+        </FormGroup>
+        <FormGroup row>
+          <Col xs="12" md="6">
+          <InputElement
+              type="text"
+              placeholder="Brief info"
+              name="briefInfo"
+              icon="icon-info"
+              maxLength="45"
+              value={Speaker.briefInfo}
+              onchanged={event => this.onChangeInput(event)}
+            />
+          </Col>
+          <Col xs="12" md="6">
+          <InputGroup className="mb-3">
+          <InputGroupText><i className="fa fa-info"></i></InputGroupText>
+          <Input type="textarea" placeholder="Info" name="info"  value={Speaker.info}
+           onChange={event => this.onChangeInput(event)} />
+          </InputGroup>
+           </Col>
         </FormGroup>
         <FormGroup row>
           <Col xs="12" md="3">

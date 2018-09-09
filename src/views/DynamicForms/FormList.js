@@ -156,6 +156,7 @@ class FormList extends Component {
                       pagination={true}
                       search={true}
                       options={options}
+                      version='4'
                     >
                       <TableHeaderColumn
                         dataField="_id"

@@ -102,6 +102,7 @@ class AttendanceList extends Component {
             options={options}
             exportCSV={true}
             csvFileName="Attendance List"
+            version='4'
           >
             <TableHeaderColumn dataField="_id" headerAlign="left" isKey hidden>
               Id

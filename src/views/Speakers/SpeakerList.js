@@ -222,6 +222,7 @@ class SpeakerList extends Component {
                       options={options}
                       exportCSV={true}
                       csvFileName="Speakers List"
+                      version='4'
                     >
                       <TableHeaderColumn
                         dataField="_id"

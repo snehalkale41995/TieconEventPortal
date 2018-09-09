@@ -154,6 +154,7 @@ class EventList extends Component {
                     options={sortingOptions}
                     exportCSV={true}
                     csvFileName="Event List"
+                    version='4'
                   >
                     <TableHeaderColumn
                       dataField="_id"
