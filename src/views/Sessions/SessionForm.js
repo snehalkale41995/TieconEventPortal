@@ -5,7 +5,16 @@ import InputElement from "../../components/Input/";
 import CardLayout from "../../components/CardLayout/";
 import SessionIndicator from "../../components/Calendar/SessionIndicator";
 import * as calendarStyle from "../../components/Calendar/CalendarStyles";
-import { Row, Col, Button, FormGroup, Label, InputGroup, InputGroupText, Input} from "reactstrap";
+import {
+  Row,
+  Col,
+  Button,
+  FormGroup,
+  Label,
+  InputGroup,
+  InputGroupText,
+  Input
+} from "reactstrap";
 import Modal from "../../components/Modal/ModalCart";
 import ValidModal from "../../components/Modal/sessionValidModal";
 
@@ -17,7 +26,6 @@ import { ToastContainer, toast } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
 import ValidationError from "../../components/ValidationError/ValidationError";
 import Loader from "../../components/Loader/Loader";
-
 
 class SessionForm extends Component {
   constructor(props) {
@@ -36,6 +44,7 @@ class SessionForm extends Component {
         startTime: "",
         endTime: "",
         sessionCapacity: "",
+        isBreak: false,
         sessionType: "",
         isRegistrationRequired: false
       },
@@ -63,7 +72,7 @@ class SessionForm extends Component {
       loading: false,
       inValidSessionCapacity: false,
       deleteFlag: false,
-      validModalFlag : false
+      validModalFlag: false
     };
   }
 
@@ -372,11 +381,16 @@ class SessionForm extends Component {
     let eventId = this.state.eventValue;
     let room = this.state.roomValue;
     let startTime = session.startTime;
-    if (eventId == null || eventId == ""||room == null || room == "" ||!startTime  ) {
-      this.setState({validModalFlag : true});
-    }
-    else{
-      this.setState({validModalFlag : false});
+    if (
+      eventId == null ||
+      eventId == "" ||
+      room == null ||
+      room == "" ||
+      !startTime
+    ) {
+      this.setState({ validModalFlag: true });
+    } else {
+      this.setState({ validModalFlag: false });
     }
 
     this.validateForm();
@@ -866,11 +880,20 @@ class SessionForm extends Component {
               </FormGroup>
               <FormGroup row>
                 <Col xs="12">
-                <InputGroup className="mb-3">
-          <InputGroupText><i className="icon-note"></i></InputGroupText>
-          <Input style={{height:'36px'}} maxLength="500" type="textarea" placeholder="Description" name="description"  value={this.state.Session.description}
-           onChange={session => this.onChangeHandler(session)}/>
-          </InputGroup>
+                  <InputGroup className="mb-3">
+                    <InputGroupText>
+                      <i className="icon-note" />
+                    </InputGroupText>
+                    <Input
+                      style={{ height: "36px" }}
+                      maxLength="500"
+                      type="textarea"
+                      placeholder="Description"
+                      name="description"
+                      value={this.state.Session.description}
+                      onChange={session => this.onChangeHandler(session)}
+                    />
+                  </InputGroup>
                 </Col>
               </FormGroup>
               <FormGroup row>
@@ -958,11 +981,11 @@ class SessionForm extends Component {
               )}
               <ToastContainer autoClose={2000} />
               <Modal
-                    openFlag={this.state.deleteFlag}
-                    toggleFunction={this.deleteConfirm.bind(this)}
-                    confirmFunction={this.onDeleteHandler.bind(this)}
-                    message=" Are you sure you want to permanently delete this session?"
-                  />
+                openFlag={this.state.deleteFlag}
+                toggleFunction={this.deleteConfirm.bind(this)}
+                confirmFunction={this.onDeleteHandler.bind(this)}
+                message=" Are you sure you want to permanently delete this session?"
+              />
             </CardLayout>
           </Col>
         </Row>
