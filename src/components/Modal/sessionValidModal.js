@@ -11,10 +11,28 @@ const SessionValidModal = props => {
       >
         <ModalHeader>Note</ModalHeader>
         <ModalBody>
-          <div> 
-          {props.event==""||props.event==null?(<span style={{textAlign :"center"}}><h6>Please select Event </h6></span>) : null}         
-          {props.room=="" ||props.event==null? (<span style={{textAlign :"center"}}><h6>Please select Room </h6></span>) : null }        
-          {props.startTime==""||props.event==null? (<span style={{textAlign :"center"}}><h6>Please select Slots </h6></span>) : null}         
+          <div>
+            {props.event == "" || props.event == null ? (
+              <span
+                style={{ textAlign: "center", color: "red", fontSize: "12px" }}
+              >
+                <h6>*Please Select Event </h6>
+              </span>
+            ) : null}
+            {props.room == "" || props.event == null ? (
+              <span
+                style={{ textAlign: "center", color: "red", fontSize: "12px" }}
+              >
+                <h6>*Please Select Room </h6>
+              </span>
+            ) : null}
+            {props.startTime == "" || props.event == null ? (
+              <span
+                style={{ textAlign: "center", color: "red", fontSize: "12px" }}
+              >
+                <h6>*Please Select Time Slots </h6>
+              </span>
+            ) : null}
           </div>
         </ModalBody>
         <ModalFooter>
