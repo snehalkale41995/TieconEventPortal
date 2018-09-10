@@ -173,6 +173,7 @@ class SponsorsList extends Component {
                       options={options}
                       exportCSV={true}
                       csvFileName="Sponsors List"
+                      version='4'
                     >
                       <TableHeaderColumn
                         dataField="_id"

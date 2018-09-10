@@ -30,6 +30,7 @@ class Dashboard extends Component {
   }
   render() {
     var ColorCode = "#808587";
+    let today = new Date().setHours(0, 0, 0, 0);
     if (this.state.loading || this.props.events.length === 0) {
       return <Loader loading={this.state.loading} />;
     } else {
@@ -40,6 +41,8 @@ class Dashboard extends Component {
               index % 2 === 0
                 ? (ColorCode = "#8bc3d7")
                 : (ColorCode = "#808587");
+                
+         if(today<=new Date(event["endDate"]).setHours(0, 0, 0, 0)){
               return (
                 <Row key={index} className="justify-content-left">
                   <Col xs="6">
@@ -82,6 +85,7 @@ class Dashboard extends Component {
                   <ToastContainer autoClose={2000} />
                 </Row>
               );
+         }
             })}
           </div>
           {/* <div>

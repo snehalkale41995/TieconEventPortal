@@ -1,7 +1,7 @@
 import React, { Component } from "react";
 import { connect } from "react-redux";
 import * as actions from "../../store/actions/index";
-import { FormGroup, Col, Button } from "reactstrap";
+import { FormGroup, Col, Button, Input, InputGroup, InputGroupAddon, InputGroupText } from "reactstrap";
 import InputElement from "../../components/Input/";
 import CardLayout from "../../components/CardLayout/";
 import Select from "react-select";
@@ -20,6 +20,7 @@ class SpeakerForm extends Component {
         email: "",
         contact: "",
         briefInfo: "",
+        info : "",
         profileImageURL: "",
         event: "",
         roleName: "Speaker",
@@ -47,6 +48,7 @@ class SpeakerForm extends Component {
         "email",
         "contact",
         "briefInfo",
+        "info",
         "profileImageURL",
         "roleName"
       ]);
@@ -95,13 +97,16 @@ class SpeakerForm extends Component {
         }
       }, 1000);
     } else {
-      errorMessage
-        ? toast.error("Speaker Already Exists", {
-            position: toast.POSITION.BOTTOM_RIGHT
-          })
-        : toast.error("Something Went wrong", {
-            position: toast.POSITION.BOTTOM_RIGHT
-          });
+      if(this.props.statusCode === 404){
+        toast.error("email Id Already Exists", {
+          position: toast.POSITION.BOTTOM_RIGHT
+        })
+      }
+     else{
+      toast.error("Something Went wrong", {
+        position: toast.POSITION.BOTTOM_RIGHT
+      });
+     }
     }
   }
 
@@ -151,6 +156,7 @@ class SpeakerForm extends Component {
         "email",
         "contact",
         "briefInfo",
+        "info",
         "profileImageURL",
         "event",
         "roleName"
@@ -203,6 +209,7 @@ class SpeakerForm extends Component {
       email: "",
       contact: "",
       briefInfo: "",
+      info : "",
       profileImageURL: "",
       event: ""
     };
@@ -225,6 +232,7 @@ class SpeakerForm extends Component {
       let Speaker = { ...this.state.Speaker };
       Speaker.event = value;
       this.setState({ Speaker: Speaker, eventRequired: false });
+      
     } else {
       let Speaker = { ...this.state.Speaker };
       Speaker.event = "";
@@ -261,7 +269,7 @@ class SpeakerForm extends Component {
           color="success"
           onClick={this.onSubmit.bind(this)}
         >
-          Submit
+        Create
         </Button>
       );
     return (
@@ -339,20 +347,7 @@ class SpeakerForm extends Component {
             ) : null}
           </Col>
           <Col md="6">
-            <InputElement
-              type="text"
-              placeholder="Brief info"
-              name="briefInfo"
-              icon="icon-info"
-              maxLength="45"
-              value={Speaker.briefInfo}
-              onchanged={event => this.onChangeInput(event)}
-            />
-          </Col>
-        </FormGroup>
-        <FormGroup row>
-          <Col xs="12" md="6">
-            <InputElement
+             <InputElement
               type="text"
               placeholder="Profile image URL"
               name="profileImageURL"
@@ -362,6 +357,26 @@ class SpeakerForm extends Component {
               onchanged={event => this.onChangeInput(event)}
             />
           </Col>
+        </FormGroup>
+        <FormGroup row>
+          <Col xs="12" md="6">
+          <InputElement
+              type="text"
+              placeholder="Brief info"
+              name="briefInfo"
+              icon="icon-info"
+              maxLength="45"
+              value={Speaker.briefInfo}
+              onchanged={event => this.onChangeInput(event)}
+            />
+          </Col>
+          <Col xs="12" md="6">
+          <InputGroup className="mb-3">
+          <InputGroupText><i className="fa fa-info"></i></InputGroupText>
+          <Input style={{height:'36px'}} type="textarea" placeholder="Info" name="info"  value={Speaker.info}
+           onChange={event => this.onChangeInput(event)} />
+          </InputGroup>
+           </Col>
         </FormGroup>
         <FormGroup row>
           <Col xs="12" md="3">
@@ -408,7 +423,8 @@ const mapStateToProps = state => {
     attendeeCount: state.attendeeCount.attendeeCount,
     speakerCreated: state.speaker.speakerCreated,
     speakerUpdated: state.speaker.speakerUpdated,
-    createError: state.speaker.createError
+    createError: state.speaker.createError,
+    statusCode : state.speaker.statusCode
   };
 };
 const mapDispatchToProps = dispatch => {

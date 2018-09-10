@@ -1,7 +1,7 @@
 import React, { Component } from "react";
 import { connect } from "react-redux";
 import * as actions from "../../store/actions/index";
-import { FormGroup, Col, Button } from "reactstrap";
+import { FormGroup, Col, Button,InputGroup, InputGroupText, Input} from "reactstrap";
 import InputElement from "../../components/Input/";
 import CardLayout from "../../components/CardLayout/";
 import Select from "react-select";
@@ -160,7 +160,7 @@ class SponsorForm extends Component {
       "imageURL",
       "orderNumber"
     ]);
-    this.setState({ loading: true });
+   
     let orderNumber;
     orderNumber = this.getOrderNumber(Sponsor.category);
     Sponsor.orderNumber = orderNumber;
@@ -185,6 +185,7 @@ class SponsorForm extends Component {
       !invalidImageUrl &&
       !invalidWebsiteUrl
     ) {
+      this.setState({ loading: true });
       this.state.editSponsor
         ? this.props.editSponsor(id, Sponsor)
         : this.props.createSponsor(Sponsor);
@@ -285,15 +286,11 @@ class SponsorForm extends Component {
         </FormGroup>
         <FormGroup row>
           <Col xs="12" md="6">
-            <InputElement
-              icon="icon-info"
-              type="text"
-              placeholder="Description"
-              name="description"
-              maxLength="250"
-              value={Sponsor.description}
-              onchanged={event => this.onChangeInput(event)}
-            />
+          <InputGroup className="mb-3">
+          <InputGroupText><i className="icon-note"></i></InputGroupText>
+          <Input style={{height:'36px'}} maxLength="500" type="textarea" placeholder="Description" name="description"  value={Sponsor.description}
+           onChange={event => this.onChangeInput(event)}/>
+          </InputGroup>
           </Col>
           <Col md="6">
             <InputElement

@@ -5,8 +5,10 @@ import InputElement from "../../components/Input/";
 import CardLayout from "../../components/CardLayout/";
 import SessionIndicator from "../../components/Calendar/SessionIndicator";
 import * as calendarStyle from "../../components/Calendar/CalendarStyles";
-import { Row, Col, Button, FormGroup, Label } from "reactstrap";
+import { Row, Col, Button, FormGroup, Label, InputGroup, InputGroupText, Input} from "reactstrap";
 import Modal from "../../components/Modal/ModalCart";
+import ValidModal from "../../components/Modal/sessionValidModal";
+
 import moment from "moment";
 import Select from "react-select";
 import "react-select/dist/react-select.css";
@@ -15,6 +17,7 @@ import { ToastContainer, toast } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
 import ValidationError from "../../components/ValidationError/ValidationError";
 import Loader from "../../components/Loader/Loader";
+
 
 class SessionForm extends Component {
   constructor(props) {
@@ -58,7 +61,9 @@ class SessionForm extends Component {
       createFlag: true,
       slotPopupFlag: false,
       loading: false,
-      inValidSessionCapacity: false
+      inValidSessionCapacity: false,
+      deleteFlag: false,
+      validModalFlag : false
     };
   }
 
@@ -217,6 +222,7 @@ class SessionForm extends Component {
       }
     });
   }
+
   displaySessions(session, calendarSessionList) {
     let sessionObj = Object.assign({}, session);
     let sessionTimeDetails = {
@@ -303,6 +309,12 @@ class SessionForm extends Component {
     this.setState({ Session: Session });
   }
 
+  deleteConfirm() {
+    let deleteFlag = this.state.deleteFlag;
+    this.setState({
+      deleteFlag: !deleteFlag
+    });
+  }
   Toaster(successFlag, actionName) {
     this.setState({ loading: false });
     let compRef = this;
@@ -359,10 +371,12 @@ class SessionForm extends Component {
     let session = { ...this.state.Session };
     let eventId = this.state.eventValue;
     let room = this.state.roomValue;
-    if (eventId == null || eventId == "") {
-      toast.error("Please select event", {
-        position: toast.POSITION.BOTTOM_RIGHT
-      });
+    let startTime = session.startTime;
+    if (eventId == null || eventId == ""||room == null || room == "" ||!startTime  ) {
+      this.setState({validModalFlag : true});
+    }
+    else{
+      this.setState({validModalFlag : false});
     }
 
     this.validateForm();
@@ -404,7 +418,7 @@ class SessionForm extends Component {
     this.props.createSession(session);
     setTimeout(() => {
       this.updateCalendar(eventId, room);
-    }, 1500);
+    }, 2500);
     setTimeout(() => {
       let sessionCreated = this.props.sessionCreated;
       compRef.Toaster(sessionCreated, "Created");
@@ -454,7 +468,7 @@ class SessionForm extends Component {
     this.props.updateSession(session);
     setTimeout(() => {
       this.updateCalendar(eventId, room);
-    }, 1500);
+    }, 2500);
     setTimeout(() => {
       let sessionUpdated = this.props.sessionUpdated;
       compRef.Toaster(sessionUpdated, "Updated");
@@ -467,10 +481,11 @@ class SessionForm extends Component {
     let eventId = session.event._id;
     let room = session.room;
     this.setState({ loading: true });
+    this.setState({ deleteFlag: false });
     this.props.deleteSession(session._id);
     setTimeout(() => {
       this.updateCalendar(eventId, room);
-    }, 1500);
+    }, 2500);
 
     setTimeout(() => {
       let sessionDeleted = this.props.sessionDeleted;
@@ -481,6 +496,11 @@ class SessionForm extends Component {
   slotConfirmPopup() {
     this.setState({
       slotPopupFlag: !this.state.slotPopupFlag
+    });
+  }
+  toggleValidModal() {
+    this.setState({
+      validModalFlag: !this.state.validModalFlag
     });
   }
 
@@ -846,15 +866,11 @@ class SessionForm extends Component {
               </FormGroup>
               <FormGroup row>
                 <Col xs="12">
-                  <InputElement
-                    type="text"
-                    placeholder="Description"
-                    name="description"
-                    icon="icon-note"
-                    maxLength="250"
-                    value={this.state.Session.description}
-                    onchanged={session => this.onChangeHandler(session)}
-                  />
+                <InputGroup className="mb-3">
+          <InputGroupText><i className="icon-note"></i></InputGroupText>
+          <Input style={{height:'36px'}} maxLength="500" type="textarea" placeholder="Description" name="description"  value={this.state.Session.description}
+           onChange={session => this.onChangeHandler(session)}/>
+          </InputGroup>
                 </Col>
               </FormGroup>
               <FormGroup row>
@@ -906,7 +922,7 @@ class SessionForm extends Component {
                       </Button>
                       &nbsp;&nbsp;
                       <Button
-                        onClick={this.onDeleteHandler.bind(this)}
+                        onClick={this.deleteConfirm.bind(this)}
                         color="danger"
                       >
                         Delete
@@ -941,6 +957,12 @@ class SessionForm extends Component {
                 </Row>
               )}
               <ToastContainer autoClose={2000} />
+              <Modal
+                    openFlag={this.state.deleteFlag}
+                    toggleFunction={this.deleteConfirm.bind(this)}
+                    confirmFunction={this.onDeleteHandler.bind(this)}
+                    message=" Are you sure you want to permanently delete this session?"
+                  />
             </CardLayout>
           </Col>
         </Row>
@@ -949,6 +971,14 @@ class SessionForm extends Component {
           toggleFunction={this.slotConfirmPopup.bind(this)}
           confirmFunction={this.slotConfirmSuccess.bind(this)}
           message={this.state.SlotalertMessage}
+        />
+        <ValidModal
+          openFlag={this.state.validModalFlag}
+          toggleFunction={this.toggleValidModal.bind(this)}
+          confirmFunction={this.toggleValidModal.bind(this)}
+          event={this.state.eventValue}
+          room={this.state.roomValue}
+          startTime={this.state.Session.startTime}
         />
       </div>
     );

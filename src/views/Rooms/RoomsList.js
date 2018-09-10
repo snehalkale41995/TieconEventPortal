@@ -188,6 +188,7 @@ class RoomsList extends Component {
                       options={options}
                       exportCSV={true}
                       csvFileName="Rooms List"
+                      version='4'
                     >
                       <TableHeaderColumn
                         dataField="_id"

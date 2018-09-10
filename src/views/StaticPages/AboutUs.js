@@ -1,7 +1,7 @@
 import React, { Component } from "react";
 import { connect } from "react-redux";
 import * as actions from "../../store/actions/index";
-import { FormGroup, Col, Button } from "reactstrap";
+import { FormGroup, Col, Button, InputGroup, InputGroupText,Input} from "reactstrap";
 import InputElement from "../../components/Input/";
 import CardLayout from "../../components/CardLayout/";
 import _ from "lodash";
@@ -117,7 +117,7 @@ class AboutUs extends Component {
     this.setState({ loading: false });
     if (!createEditError) {
       this.onReset();
-      toast.success("About Us Information " + actionName + " Successfully.", {
+      toast.success("About Event Information " + actionName + " Successfully.", {
         position: toast.POSITION.BOTTOM_RIGHT
       });
     } else {
@@ -145,7 +145,7 @@ class AboutUs extends Component {
     return this.state.loading ? (
       <Loader loading={this.state.loading} />
     ) : (
-      <CardLayout name="About Us">
+      <CardLayout name="About Event">
         <FormGroup row>
           <Col xs="12" md="4">
             <Select
@@ -167,17 +167,29 @@ class AboutUs extends Component {
         </FormGroup>
         <FormGroup row>
           <Col xs="12" md="6">
-            <InputElement
-              icon="icon-info"
-              type="text"
-              placeholder="Information about us"
-              name="info"
-              maxLength="250"
-              value={info}
-              required={this.state.infoRequired}
-              onchanged={event => this.onChangeInput(event)}
-            />
+            <InputGroup className="mb-3">
+              <InputGroupText>
+                <i className="icon-info" />
+              </InputGroupText>
+              <Input
+                style={{ height: "36px" }}
+                maxLength="500"
+                type="textarea"
+                placeholder="Information about event"
+                name="info"
+                value={info}
+                onChange={event => this.onChangeInput(event)}
+              />
+            </InputGroup>
           </Col>
+          {this.state.infoRequired ? (
+            <div
+              style={{ color: "red", fontSize: "12px", marginLeft: 10 }}
+              className="help-block"
+            >
+              *Information about event is required
+            </div>
+          ) : null}
           <Col md="6">
             <InputElement
               icon="icon-link"

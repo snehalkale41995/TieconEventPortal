@@ -1,7 +1,7 @@
 import React, { Component } from "react";
 import { connect } from "react-redux";
 import * as actions from "../../store/actions/index";
-import { FormGroup, Col, Button } from "reactstrap";
+import { FormGroup, Col, Button, InputGroup, InputGroupText,Input } from "reactstrap";
 import InputElement from "../../components/Input/";
 import CardLayout from "../../components/CardLayout/";
 import Select from "react-select";
@@ -206,17 +206,30 @@ class EventLocation extends Component {
             ) : null}
           </Col>
           <Col md="6">
-            <InputElement
-              icon="icon-home"
-              type="text"
-              placeholder="Event address"
-              name="address"
-              maxLength="250"
-              required={this.state.addressRequired}
-              value={eventLocation.address}
-              onchanged={event => this.onChangeInput(event)}
-            />
+            <InputGroup className="mb-3">
+              <InputGroupText>
+                <i className="icon-home" />
+              </InputGroupText>
+              <Input
+                style={{ height: "36px" }}
+                maxLength="300"
+                type="textarea"
+                placeholder="Event address"
+                name="address"
+                value={eventLocation.address}
+                onChange={event => this.onChangeInput(event)}
+              />
+            </InputGroup>
+            {this.state.addressRequired ? (
+            <div
+              style={{ color: "red", fontSize: "12px", marginTop: -13 }}
+              className="help-block"
+            >
+              *Event address is required
+            </div>
+          ) : null}
           </Col>
+         
         </FormGroup>
         <FormGroup row>
           <Col xs="12" md="3">

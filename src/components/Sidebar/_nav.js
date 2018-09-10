@@ -74,7 +74,7 @@ export default {
       icon: "fa fa-file",
       children: [
         {
-          name: "About Us",
+          name: "About Event",
           url: "/staticPages/aboutUs",
           icon: "icon-info"
         },
