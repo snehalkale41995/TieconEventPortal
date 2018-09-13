@@ -156,7 +156,7 @@ class FormList extends Component {
                       pagination={true}
                       search={true}
                       options={options}
-                      version='4'
+                      version="4"
                     >
                       <TableHeaderColumn
                         dataField="_id"
@@ -173,14 +173,6 @@ class FormList extends Component {
                         dataSort={true}
                       >
                         Event Name
-                      </TableHeaderColumn>
-                      <TableHeaderColumn
-                        dataField="sessionName"
-                        headerAlign="left"
-                        width="80"
-                        dataSort={true}
-                      >
-                        Session Name
                       </TableHeaderColumn>
                       <TableHeaderColumn
                         dataField="formType"

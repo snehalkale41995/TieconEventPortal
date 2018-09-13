@@ -17,13 +17,11 @@ class QuestionForms extends Component {
     super(props);
     this.state = {
       event: "",
-      session: "",
       formType: "",
       formData: [],
       editForm: false,
       formTypeRequired: false,
       eventRequired: false,
-      sessionRequired: false,
       invalidForm: false,
       loading: false,
       blankAnswerField: false,
@@ -38,22 +36,12 @@ class QuestionForms extends Component {
       let empty = this.props.currentFormData.length === 0;
       if (!empty) {
         let form = this.props.currentFormData;
-        if (form.formType === "Home Questions") {
-          this.setState({
-            event: form.event._id,
-            formType: form.formType,
-            formData: form.formData,
-            editForm: true
-          });
-        } else {
-          this.setState({
-            event: form.event._id,
-            session: form.session._id,
-            formType: form.formType,
-            formData: form.formData,
-            editForm: true
-          });
-        }
+        this.setState({
+          event: form.event._id,
+          formType: form.formType,
+          formData: form.formData,
+          editForm: true
+        });
       } else {
         this.setState({ loading: true });
         this.props.getFormById(this.props.match.params.id);
@@ -64,24 +52,13 @@ class QuestionForms extends Component {
             compRef.props.history.push("/dynamicForms");
           } else {
             let form = compRef.props.currentFormData;
-            if (form.formType === "Home Questions") {
-              compRef.setState({
-                event: form.event,
-                formType: form.formType,
-                formData: form.formData,
-                editForm: true,
-                loading: false
-              });
-            } else {
-              compRef.setState({
-                event: form.event,
-                session: form.session,
-                formType: form.formType,
-                formData: form.formData,
-                editForm: true,
-                loading: false
-              });
-            }
+            compRef.setState({
+              event: form.event,
+              formType: form.formType,
+              formData: form.formData,
+              editForm: true,
+              loading: false
+            });
           }
         }, 1000);
       }
@@ -90,23 +67,15 @@ class QuestionForms extends Component {
   handleEventSelectChange(value) {
     if (value !== null) {
       this.setState({ event: value, eventRequired: false });
-      this.props.getSessions(value);
     } else {
-      this.setState({ event: "", session: "", eventRequired: true });
+      this.setState({ event: "", eventRequired: true });
     }
   }
-  handleSessionSelectChange(value) {
-    value !== null
-      ? this.setState({ session: value, sessionRequired: false })
-      : this.setState({ session: "" });
-  }
+
   handleFormSelectChange(value) {
     value !== null
       ? this.setState({ formType: value, formTypeRequired: false })
       : this.setState({ formType: "", formTypeRequired: true });
-    if (value === "Home Questions") {
-      this.setState({ sessionRequired: false });
-    }
   }
 
   onDisplayNewQuestion() {
@@ -244,12 +213,7 @@ class QuestionForms extends Component {
   }
   onSubmitForm() {
     let formData = { ...this.state };
-    let formObject = _.pick(formData, [
-      "event",
-      "session",
-      "formType",
-      "formData"
-    ]);
+    let formObject = _.pick(formData, ["event", "formType", "formData"]);
     let id = this.props.currentFormData._id;
     let {
       blankAnswer,
@@ -257,34 +221,12 @@ class QuestionForms extends Component {
       inputValueAbsent
     } = this.handleFormValidations();
     if (
-      (this.state.formType === "Polling Questions" ||
-        this.state.formType === "Feedback Questions") &&
-      (this.state.event && this.state.session) &&
-      this.state.formData.length !== 0 &&
-      !blankAnswer &&
-      !blankQuestion &&
-      !inputValueAbsent
-    ) {
-      this.state.editForm
-        ? this.props.editForm(id, formObject)
-        : this.props.createForm(formObject);
-      let compRef = this;
-      this.setState({ loading: true });
-      setTimeout(() => {
-        let creatEditFormError = compRef.props.creatEditFormError;
-        let status = "";
-        compRef.state.editForm ? (status = "Updated") : (status = "Created");
-        compRef.Toaster(compRef, creatEditFormError, status);
-      }, 1000);
-    } else if (
-      this.state.formType === "Home Questions" &&
       this.state.event &&
       this.state.formData.length !== 0 &&
       !blankAnswer &&
       !blankQuestion &&
       !inputValueAbsent
     ) {
-      formObject.session = null;
       this.state.editForm
         ? this.props.editForm(id, formObject)
         : this.props.createForm(formObject);
@@ -299,9 +241,6 @@ class QuestionForms extends Component {
     } else {
       if (!formData.event) {
         this.setState({ eventRequired: true });
-      }
-      if (!formData.session && formData.formType !== "Home Questions") {
-        this.setState({ sessionRequired: true });
       }
       if (!formData.formType) {
         this.setState({ formTypeRequired: true });
@@ -343,12 +282,10 @@ class QuestionForms extends Component {
   resetForm() {
     this.setState({
       event: "",
-      session: "",
       formType: "",
       formData: [],
       formTypeRequired: false,
       eventRequired: false,
-      sessionRequired: false,
       blankAnswerField: false,
       blankQuestionField: false,
       emptyForm: false,
@@ -356,9 +293,8 @@ class QuestionForms extends Component {
     });
   }
   render() {
-    const { event, session, formType } = this.state;
+    const { event, formType } = this.state;
     const eventOptions = this.props.events;
-    const sessionOptions = this.props.sessions;
     const formOptions = this.props.formTypes;
     return this.state.loading ? (
       <Loader loading={this.state.loading} />
@@ -397,23 +333,6 @@ class QuestionForms extends Component {
                 className="help-block"
               >
                 *Please select event
-              </div>
-            ) : null}
-          </Col>
-          <Col md="4">
-            <Select
-              placeholder="Select Session"
-              value={session}
-              options={sessionOptions}
-              simpleValue
-              onChange={this.handleSessionSelectChange.bind(this)}
-            />
-            {this.state.sessionRequired ? (
-              <div
-                style={{ color: "red", marginTop: 0 }}
-                className="help-block"
-              >
-                *Please select session
               </div>
             ) : null}
           </Col>
@@ -526,7 +445,6 @@ class QuestionForms extends Component {
 const mapStateToProps = state => {
   return {
     events: state.event.eventList,
-    sessions: state.questionForm.sessions,
     formTypes: state.questionForm.formTypes,
     currentFormData: state.questionForm.formData,
     creatEditFormError: state.questionForm.creatEditFormError
@@ -535,7 +453,6 @@ const mapStateToProps = state => {
 const mapDispatchToProps = dispatch => {
   return {
     getEvents: () => dispatch(actions.getEvents()),
-    getSessions: id => dispatch(actions.getSessionsOfEvent(id)),
     createForm: formObject => dispatch(actions.createForm(formObject)),
     editForm: (id, formObject) => dispatch(actions.editForm(id, formObject)),
     getFormById: id => dispatch(actions.getFormById(id))
