@@ -107,9 +107,6 @@ export const getForms = () => {
           if (form.event !== null) {
             form.eventName = form.event.eventName;
           }
-          if (form.session !== null) {
-            form.sessionName = form.session.sessionName;
-          }
         });
         dispatch(storeForms(formData));
       })

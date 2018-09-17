@@ -106,7 +106,7 @@ export const getSessionsByEvent = eventId => {
 
 export const createSession = session => {
   let sessionObj;
-  sessionObj= getSessionObj(session);
+  sessionObj = getSessionObj(session);
 
   return dispatch => {
     axios
@@ -123,7 +123,7 @@ export const createSession = session => {
 export const updateSession = session => {
   let id = session._id;
   let sessionObj;
-  sessionObj= getSessionObj(session);
+  sessionObj = getSessionObj(session);
 
   return dispatch => {
     axios
@@ -171,10 +171,13 @@ export const getSessionTypeList = () => {
   };
 };
 
-const getSessionObj=(session)=>{
+const getSessionObj = session => {
   let sessionObj;
-  if(session.sessionType==='common'){
-   session.speakers = []
+  if (session.sessionType === "common") {
+    session.speakers = [];
+    session.isBreak = true;
+  } else {
+    session.isBreak = false;
   }
   sessionObj = _.pick(session, [
     "sessionName",
@@ -190,5 +193,5 @@ const getSessionObj=(session)=>{
     "isBreak",
     "isRegistrationRequired"
   ]);
-  return sessionObj
-}
+  return sessionObj;
+};
