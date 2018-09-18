@@ -9,7 +9,6 @@
   <meta name="author" content="Łukasz Holeczek">
   <meta name="keyword" content="Bootstrap,Admin,Template,Open,Source,AngularJS,Angular,Angular2,Angular 2,Angular4,Angular 4,jQuery,CSS,HTML,RWD,Dashboard,React,React.js,Vue,Vue.js">
   <link rel="shortcut icon" href="img/favicon.ico">
-  <script src="http://localhost:3010/socket.io/socket.io.js"></script>
   <title>Event Management Application </title>
 </head>
 
@@ -42,17 +41,6 @@
   -->
 
 <body class="app header-fixed sidebar-fixed aside-menu-fixed aside-menu-hidden">
-  <script>
-    var socket = io.connect('http://localhost:3010');
-    socket.on('connect', function (data) {
-      console.log("Connected to socket!!!");
-      socket.emit('join', 'Hello World from client');
-
-      socket.on('messages', function (data) {
-        alert(data);
-      });
-    });
-  </script>
   <div id="root"></div>
   <!--
       This HTML file is a template.
