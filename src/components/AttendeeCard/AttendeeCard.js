@@ -75,29 +75,33 @@ export const openWin = (user, generatedQR) => {
 // Method for generate QR code
 export const onGenerateQRcode = user => {
   let generatedQR;
-  let id = user._id;
-  let userName = user.firstName + " " + user.lastName;
+  let userId = user._id;
+  let eventId = user.event._id;
   let Label = user.attendeeLabel;
   let Count = user.attendeeCount;
   let AttendeeCode = Label + "-" + Count;
-  QRCode.toDataURL("TIE" + ":" + AttendeeCode + ":" + id + ":" + userName).then(
-    url => {
-      generatedQR = url;
-      setTimeout(() => {
-        // openWin(user, generatedQR);
-        generatePdfSingle(user, generatedQR);
-      }, 250);
-    }
-  );
+
+  QRCode.toDataURL(
+    "TIE" + ":" + eventId + ":" + AttendeeCode + ":" + userId
+  ).then(url => {
+    generatedQR = url;
+    setTimeout(() => {
+      // openWin(user, generatedQR);
+      generatePdfSingle(user, generatedQR);
+    }, 250);
+  });
 };
 
 export const generateQRcodeBulk = (userCollection, eventName, profileName) => {
   userCollection.forEach(user => {
-    let id = user.userInfo._id;
+    let userId = user.userInfo._id;
+    let eventId = user.userInfo.event._id;
     let Label = user.userInfo.attendeeLabel;
     let Count = user.userInfo.attendeeCount;
     let AttendeeCode = Label + "-" + Count;
-    QRCode.toDataURL("TIE" + ":" + AttendeeCode + ":" + id).then(url => {
+    QRCode.toDataURL(
+      "TIE" + ":" + eventId + ":" + AttendeeCode + ":" + userId
+    ).then(url => {
       user.userInfo["qrCode"] = url;
     });
   });
@@ -140,11 +144,9 @@ export const generatePdfBulk = (userCollection, eventName, profileName) => {
   });
   if (eventName === "" && profileName === "") {
     doc.save("All events Idcards" + ".pdf");
-  } 
-  else if(eventName === "" && profileName === "speaker"){
+  } else if (eventName === "" && profileName === "speaker") {
     doc.save("All events Speaker Idcards" + ".pdf");
-  }
-  else {
+  } else {
     doc.save(eventName + " " + profileName + " " + "Idcards" + ".pdf");
   }
 };
