@@ -77,13 +77,12 @@ export const onGenerateQRcode = user => {
   let generatedQR;
   let userId = user._id;
   let eventId = user.event._id;
-  let fullName = user.firstName + " " + user.lastName;
   let Label = user.attendeeLabel;
   let Count = user.attendeeCount;
   let AttendeeCode = Label + "-" + Count;
 
   QRCode.toDataURL(
-    "TIE" + ":" + eventId + ":" + AttendeeCode + ":" + userId + ":" + fullName
+    "TIE" + ":" + eventId + ":" + AttendeeCode + ":" + userId
   ).then(url => {
     generatedQR = url;
     setTimeout(() => {
@@ -97,13 +96,11 @@ export const generateQRcodeBulk = (userCollection, eventName, profileName) => {
   userCollection.forEach(user => {
     let userId = user.userInfo._id;
     let eventId = user.userInfo.event._id;
-    let fullName = user.userInfo.firstName + " " + user.userInfo.lastName;
     let Label = user.userInfo.attendeeLabel;
     let Count = user.userInfo.attendeeCount;
     let AttendeeCode = Label + "-" + Count;
-
     QRCode.toDataURL(
-      "TIE" + ":" + eventId + ":" + AttendeeCode + ":" + userId+ ":" + fullName
+      "TIE" + ":" + eventId + ":" + AttendeeCode + ":" + userId
     ).then(url => {
       user.userInfo["qrCode"] = url;
     });
