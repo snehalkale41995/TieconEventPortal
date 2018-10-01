@@ -46,7 +46,11 @@ export {
   updateProfile
 } from "./userProfile";
 
-export { getAttendanceList } from "./attendance";
+export {
+  getAttendanceList,
+  getAttendanceByEvent,
+  getAttendanceBySession
+} from "./attendance";
 
 export {
   getAboutUsInfo,

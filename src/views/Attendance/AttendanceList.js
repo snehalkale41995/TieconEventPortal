@@ -8,35 +8,41 @@ import Select from "react-select";
 import "react-select/dist/react-select.css";
 import { BootstrapTable, TableHeaderColumn } from "react-bootstrap-table";
 import "react-bootstrap-table/dist/react-bootstrap-table.min.css";
-
+import _ from "lodash";
 class AttendanceList extends Component {
   constructor(props) {
     super(props);
     this.state = {
       event: "",
-      session: "",
-      attendance: []
+      session: ""
     };
   }
   componentDidMount() {
+    let thisRef = this;
     this.props.getAttendanceList();
     this.props.getEvents();
   }
-  componentDidUpdate(prevProps, prevState) {
-    if (prevProps.attendanceList !== this.props.attendanceList) {
-      this.setState({
-        attendance: this.props.attendanceList
-      });
-    }
-  }
+
   handleEventChange(value) {
     if (value !== null) {
+      this.props.getAttendanceByEvent(value);
       this.setState({ event: value });
       this.props.getSessions(value);
     } else {
       this.setState({ event: "", session: "" });
     }
   }
+
+  handleSessionChange(value) {
+    let eventId = this.state.event;
+    if (value !== null) {
+      this.props.getAttendanceBySession(eventId, value);
+      this.setState({ session: value });
+    } else {
+      this.setState({ session: "" });
+    }
+  }
+
   render() {
     const options = {
       sizePerPageList: [
@@ -54,7 +60,7 @@ class AttendanceList extends Component {
         },
         {
           text: "All",
-          value: this.state.attendance.length
+          value: this.props.attendanceList.length
         }
       ],
       sizePerPage: 50
@@ -79,36 +85,26 @@ class AttendanceList extends Component {
               options={this.props.sessions}
               value={this.state.session}
               simpleValue
-              //onChange = {this.handleEventChange.bind(this)}
+              onChange={this.handleSessionChange.bind(this)}
             />
-          </Col>
-          <Col md="4">
-            {this.props.attendanceError !== "" ? (
-              <div
-                style={{ color: "red", marginTop: -50, fontSize: 15 }}
-                className="help-block"
-              >
-                Error : {this.props.attendanceError}
-              </div>
-            ) : null}
           </Col>
         </FormGroup>
         <FormGroup row>
           <BootstrapTable
             ref="table"
-            data={this.state.attendance}
+            data={this.props.attendanceList}
             pagination={true}
             search={true}
             options={options}
             exportCSV={true}
             csvFileName="Attendance List"
-            version='4'
+            version="4"
           >
             <TableHeaderColumn dataField="_id" headerAlign="left" isKey hidden>
               Id
             </TableHeaderColumn>
             <TableHeaderColumn
-              dataField="attendeeName"
+              dataField="userName"
               headerAlign="left"
               width="100"
               csvHeader="Attendee Name"
@@ -134,23 +130,15 @@ class AttendanceList extends Component {
             >
               Session Name
             </TableHeaderColumn>
+
             <TableHeaderColumn
-              dataField="scannedBy"
+              dataField="profile"
               headerAlign="left"
               width="100"
-              csvHeader="Scanned By"
+              csvHeader="Profile"
               dataSort={true}
             >
-              Scanned By
-            </TableHeaderColumn>
-            <TableHeaderColumn
-              dataField="time"
-              headerAlign="left"
-              width="100"
-              csvHeader="Time"
-              dataSort={true}
-            >
-              Time
+              Profile
             </TableHeaderColumn>
           </BootstrapTable>
         </FormGroup>
@@ -162,15 +150,20 @@ class AttendanceList extends Component {
 const mapStateToProps = state => {
   return {
     attendanceList: state.attendance.attendance,
-    attendanceError: state.attendance.error,
     events: state.event.eventList,
-    sessions: state.questionForm.sessions
+    sessions: state.questionForm.sessions,
+    attendeeList: state.registration.attendeeList,
+    speakerList: state.speaker.speakerList
   };
 };
 
 const mapDispatchToProps = dispatch => {
   return {
     getAttendanceList: () => dispatch(actions.getAttendanceList()),
+    getAttendanceByEvent: eventId =>
+      dispatch(actions.getAttendanceByEvent(eventId)),
+    getAttendanceBySession: (eventId, sessionId) =>
+      dispatch(actions.getAttendanceBySession(eventId, sessionId)),
     getEvents: () => dispatch(actions.getEvents()),
     getSessions: id => dispatch(actions.getSessionsOfEvent(id))
   };
