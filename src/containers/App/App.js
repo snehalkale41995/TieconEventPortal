@@ -11,7 +11,6 @@ import QuestionForms from "../../views/DynamicForms/QuestionForms";
 import RegistrationModule from "../../views/Registration/RegistrationModule";
 import Speakers from "../../views/Speakers/Speakers";
 import Sessions from "../../views/Sessions/SessionForm";
-import Profiles from "../../views/UserProfiles/Profiles";
 import AboutUs from "../../views/StaticPages/AboutUs";
 import AboutEternus from "../../views/StaticPages/AboutEternus";
 import HelpDesk from "../../views/StaticPages/HelpDesk";
@@ -59,7 +58,6 @@ class App extends Component {
             <Route path="/dynamicForms" component={DynamicForms} />
             <Route path="/questionForms" component={QuestionForms} />
             <Route path="/sponsors" component={Sponsors} />
-            <Route path="/profiles" component={Profiles} />
             <Route path="/logout" component={Logout} />
             <Redirect from="/" to="/dashboard" />
             <Redirect to="/" />

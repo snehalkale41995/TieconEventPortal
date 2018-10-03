@@ -40,13 +40,6 @@ export {
 } from "./questionForms";
 
 export {
-  getProfiles,
-  createProfile,
-  deleteProfile,
-  updateProfile
-} from "./userProfile";
-
-export {
   getAttendanceList,
   getAttendanceByEvent,
   getAttendanceBySession

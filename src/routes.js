@@ -25,8 +25,6 @@ const routes = {
   "/events/EventForm": "Add Event",
   "/speakers": "Speakers List",
   "/speakers/speakerForm": "Speakers Registration",
-  "/profiles": "Profiles List",
-  "/profiles/profileForm": "Add Profile",
   "/sessions": "Sessions"
 };
 export default routes;
