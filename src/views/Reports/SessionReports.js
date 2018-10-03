@@ -30,14 +30,10 @@ class SessionReports extends React.Component {
       event: "",
       session: ""
     };
-
-    this.handleSelectChange = this.handleSelectChange.bind(this);
     this.renderTable = this.renderTable.bind(this);
-    this.refresh = this.refresh.bind(this);
   }
 
   componentDidMount() {
-    let thisRef = this;
     this.props.getAttendanceList();
     this.props.getEvents();
   }
@@ -45,10 +41,13 @@ class SessionReports extends React.Component {
   handleEventChange(value) {
     if (value !== null) {
       this.props.getAttendanceByEvent(value);
-      this.setState({ event: value });
+      this.setState({ event: value, tableVisible: false });
       this.props.getSessions(value);
+      this.renderCounts();
     } else {
       this.setState({ event: "", session: "" });
+      this.props.getAttendanceList();
+      this.renderCounts();
     }
   }
 
@@ -56,33 +55,13 @@ class SessionReports extends React.Component {
     let eventId = this.state.event;
     if (value !== null) {
       this.props.getAttendanceBySession(eventId, value);
-      this.setState({ session: value });
+      this.setState({ session: value, tableVisible: false });
+      this.renderCounts();
     } else {
       this.setState({ session: "" });
+      this.props.getAttendanceList();
+      this.renderCounts();
     }
-  }
-
-  // // Method for get attendance data
-  // componentWillMount() {
-  //   let componentRef = this;
-  //   let events = [],
-  //     eventList = [],
-  //     eventsID = [],
-  //     attendee = [];
-  //   // let sessionList = localStorage.getItem("sessionList");
-  //   // var sessions = JSON.parse(sessionList);
-
-  //   // for (var key in sessions) {
-  //   //   eventList.push({
-  //   //     label: sessions[key]["sessionInfo"]["eventName"],
-  //   //     value: sessions[key]["id"]
-  //   //   });
-  //   // }
-  //   // this.setState({ eventDropDown: eventList });
-  // }
-
-  refresh() {
-    this.handleSelectChange(this.state.value);
   }
 
   renderCounts() {
@@ -95,13 +74,12 @@ class SessionReports extends React.Component {
       "danger",
       "link"
     ];
-
-    let sessions = this.state.roles;
+    let roles = this.props.roles;
     let sessionsCount = [];
-    sessions.forEach(item => {
+    roles.forEach(item => {
       sessionsCount.push({
         label: item,
-        count: _.filter(this.state.attendanceData, { profiles: item }).length
+        count: _.filter(this.props.attendanceList, { profile: item }).length
       });
     });
     return sessionsCount.map((item, index) => (
@@ -115,61 +93,26 @@ class SessionReports extends React.Component {
       </Button>
     ));
   }
+
   renderTable(role) {
-    let attendanceData = Object.assign([], this.state.attendanceData);
+    let attendanceData = Object.assign([], this.props.attendanceList);
     this.setState({
-      attendanceDataFiltered: _.filter(attendanceData, { profiles: role }),
+      attendanceDataFiltered: _.filter(attendanceData, { profile: role }),
       tableVisible: true
     });
-  }
-  // Method For handle changed value of dropdown & fill attendance list table
-  handleSelectChange(value) {
-    let tableVisible = this.setState.tableVisible;
-    let attendanceList = [],
-      attendeeList = [],
-      attendanceData = [];
-    let roles = new Set();
-    if (value != null) {
-      // Query for get attendance data by session Id
-      // DBUtil.getDocRef("Attendance")
-      //   .where("sessionId", "==", value)
-      //   .get()
-      //   .then(snapshot => {
-      //     snapshot.forEach(function(doc) {
-      //       var data = doc.data();
-      //       attendanceData.push({
-      //         id: doc.id,
-      //         fullName: data.userName,
-      //         profiles: data.userRole,
-      //         userId: data.userId
-      //       });
-      //       roles.add(data.userRole);
-      //     });
-      //     // Set default value for current state
-      //     this.setState({
-      //       attendanceData: Object.assign(
-      //         [],
-      //         _.uniqBy(attendanceData, "userId")
-      //       ),
-      //       roles,
-      //       value,
-      //       tableVisible: false
-      //     });
-      //   });
-      this.renderCounts();
-    }
   }
 
   render() {
     // Define constant for sorting
     const sortingOptions = {
-      defaultSortName: "fullName",
+      defaultSortName: "userName",
       defaultSortOrder: "asc",
       sizePerPage: 50,
       paginationPosition: "top",
       hideSizePerPage: true
     };
     let counts = this.renderCounts();
+    let totalCounts = this.props.attendanceList.length;
     return (
       <div>
         <div className="animated fadeIn">
@@ -178,9 +121,9 @@ class SessionReports extends React.Component {
               <Card>
                 <CardHeader>
                   <FormGroup row className="marginBottomZero">
-                    <Col xs="12" md="6">
+                    <Col xs="12" md="4">
                       <h1 className="regHeading paddingTop8">
-                        Session Attendance Report
+                         Attendance Report
                       </h1>
                     </Col>
                     <Col xs="10" md="3">
@@ -203,21 +146,9 @@ class SessionReports extends React.Component {
                         onChange={this.handleSessionChange.bind(this)}
                       />
                     </Col>
-                    <Col
-                      xs="1"
-                      md="1"
-                      style={{ display: counts.length == 0 ? "none" : "block" }}
-                      className="refresh"
-                    >
-                      <i
-                        style={{ fontWeight: "bold" }}
-                        onClick={this.refresh}
-                        title="Refresh"
-                        className="icon-refresh"
-                      />
-                    </Col>
                   </FormGroup>
                 </CardHeader>
+                {/* <div>{totalCounts}</div> */}
                 <div style={{ padding: "10px 20px" }}>{counts}</div>
                 <CardBody
                   style={{
@@ -239,7 +170,7 @@ class SessionReports extends React.Component {
                       ID
                     </TableHeaderColumn>
                     <TableHeaderColumn
-                      dataField="fullName"
+                      dataField="userName"
                       headerAlign="left"
                       width="200"
                       dataSort
@@ -247,7 +178,23 @@ class SessionReports extends React.Component {
                       Name
                     </TableHeaderColumn>
                     <TableHeaderColumn
-                      dataField="profiles"
+                      dataField="eventName"
+                      headerAlign="left"
+                      width="200"
+                      dataSort
+                    >
+                      Event Name
+                    </TableHeaderColumn>
+                    <TableHeaderColumn
+                      dataField="sessionName"
+                      headerAlign="left"
+                      width="200"
+                      dataSort
+                    >
+                      Session Name
+                    </TableHeaderColumn>
+                    <TableHeaderColumn
+                      dataField="profile"
                       headerAlign="left"
                       width="250"
                     >
@@ -257,12 +204,12 @@ class SessionReports extends React.Component {
                 </CardBody>
                 <div
                   style={{
-                    display: counts.length != 0 ? "none" : "block",
+                    display: totalCounts != 0 ? "none" : "block",
                     margin: "auto",
                     paddingBottom: 15
                   }}
                 >
-                  Please select a Session
+                  No Data Found
                 </div>
               </Card>
             </Col>
@@ -276,7 +223,8 @@ const mapStateToProps = state => {
   return {
     attendanceList: state.attendance.attendance,
     events: state.event.eventList,
-    sessions: state.questionForm.sessions
+    sessions: state.questionForm.sessions,
+    roles: state.attendance.roles
   };
 };
 
