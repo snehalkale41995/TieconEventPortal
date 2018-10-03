@@ -44,6 +44,7 @@
     "chart.js": "2.7.1",
     "flag-icon-css": "2.9.0",
     "font-awesome": "4.7.0",
+    "highcharts": "^6.1.4",
     "history": "4.7.2",
     "husky": "^0.14.3",
     "jspdf": "^1.4.1",
