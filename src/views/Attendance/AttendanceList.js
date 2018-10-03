@@ -151,9 +151,7 @@ const mapStateToProps = state => {
   return {
     attendanceList: state.attendance.attendance,
     events: state.event.eventList,
-    sessions: state.questionForm.sessions,
-    attendeeList: state.registration.attendeeList,
-    speakerList: state.speaker.speakerList
+    sessions: state.questionForm.sessions
   };
 };
 

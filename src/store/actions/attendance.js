@@ -17,42 +17,46 @@ export const storeAttendance = attendance => {
 };
 
 export const setAttendance = (attendance, attendees, speakers) => {
+  let attendanceInfo = [];
   let attendanceDetails = [];
   var i, j, k;
   return dispatch => {
     for (i = 0; i < attendance.length; i++) {
-      if (attendance.userType === "SPE") {
-        for (j = 0; j <= speakers.length; j++) {
-          if (speakers[j]._id === attendance[i].userId) {
-            attendanceDetails.push({
-              userName: speakers[j].firstName + " " + speakers[j].lastName,
-              email: speakers[j].email,
-              contact: speakers[j].contact,
-              profile: speakers[j].roleName,
-              eventName: attendance[i].event.eventName,
-              eventId: attendance[i].event._id,
-              sessionName: attendance[i].session.sessionName
-            });
-          }
+      if (attendance[i].userType === "SPE") {
+        for (j = 0; j < speakers.length; j++) {
+          attendanceInfo = getUserDetails(
+            attendanceDetails,
+            attendance[i],
+            speakers[j]
+          );
         }
       } else {
         for (k = 0; k < attendees.length; k++) {
-          if (attendees[k]._id === attendance[i].userId) {
-            attendanceDetails.push({
-              userName: attendees[k].firstName + " " + attendees[k].lastName,
-              email: attendees[k].email,
-              contact: attendees[k].contact,
-              profile: attendees[k].roleName,
-              eventName: attendance[i].event.eventName,
-              eventId: attendance[i].event._id,
-              sessionName: attendance[i].session.sessionName
-            });
-          }
+          attendanceInfo = getUserDetails(
+            attendanceDetails,
+            attendance[i],
+            attendees[k]
+          );
         }
       }
     }
-    dispatch(storeAttendance(attendanceDetails));
+    dispatch(storeAttendance(attendanceInfo));
   };
+};
+
+export const getUserDetails = (attendanceDetails, attendance, user) => {
+  if (user._id === attendance.userId) {
+    attendanceDetails.push({
+      userName: user.firstName + " " + user.lastName,
+      email: user.email,
+      contact: user.contact,
+      profile: user.roleName,
+      eventName: attendance.event.eventName,
+      eventId: attendance.event._id,
+      sessionName: attendance.session.sessionName
+    });
+  }
+  return attendanceDetails;
 };
 
 export const getAllAttendee = attendance => {
