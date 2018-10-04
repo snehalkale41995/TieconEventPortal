@@ -44,7 +44,6 @@ class AttendeeReports extends Component {
       this.setState({ event: value, tableVisible: false });
       this.props.getAttendeesForEvent(value);
       this.props.getSpeakersForEvent(value);
-      this.props.getProfileArray();
       setTimeout(function() {
         thisRef.getCounts();
       }, 1000);
@@ -52,7 +51,6 @@ class AttendeeReports extends Component {
       this.setState({ event: "" });
       this.props.getAttendeeList();
       this.props.getSpeakerList();
-      this.props.getProfileArray();
       setTimeout(function() {
         thisRef.getCounts();
       }, 1000);
