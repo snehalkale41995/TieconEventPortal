@@ -13,90 +13,70 @@ import _ from "lodash";
 import Highcharts from "highcharts";
 import * as actions from "../../store/actions/index";
 import { connect } from "react-redux";
+import Select from "react-select";
+import "react-select/dist/react-select.css";
+
 class AttendeeReports extends Component {
   constructor(props) {
     super(props);
     this.state = {
       userProfiles: [],
       attendeeList: [],
-      attendeeCounter: []
+      attendeeCounter: [],
+      event: ""
     };
   }
 
-  componentWillMount() {
-    // this.getUserProfiles();
-    // this.getAttendees();
+  componentDidMount() {
     let thisRef = this;
     this.props.getAttendeeList();
     this.props.getSpeakerList();
-    this.props.getProfileList();
+    this.props.getProfileArray();
+    this.props.getEvents();
     setTimeout(function() {
       thisRef.getCounts();
     }, 1000);
   }
 
-  getUserProfiles() {
+  handleEventChange(value) {
     let thisRef = this;
-    // DBUtil.getDocRef("UserProfiles")
-    //   .get()
-    //   .then(snapshot => {
-    //     let updatedProfiles = [...thisRef.state.userProfiles];
-    //     snapshot.forEach(function(doc) {
-    //       updatedProfiles.push(doc.data().profileName);
-    //     });
-    //     thisRef.setState({
-    //       userProfiles: updatedProfiles
-    //     });
-    //   })
-    //   .catch(err => {
-    //     console.log("Error", err);
-    //   });
+    if (value !== null) {
+      this.setState({ event: value, tableVisible: false });
+      this.props.getAttendeesForEvent(value);
+      this.props.getSpeakersForEvent(value);
+      this.props.getProfileArray();
+      setTimeout(function() {
+        thisRef.getCounts();
+      }, 1000);
+    } else {
+      this.setState({ event: "" });
+      this.props.getAttendeeList();
+      this.props.getSpeakerList();
+      this.props.getProfileArray();
+      setTimeout(function() {
+        thisRef.getCounts();
+      }, 1000);
+    }
   }
-
-  getAttendees() {
-    let thisRef = this;
-    // DBUtil.getDocRef("Attendee")
-    //   .get()
-    //   .then(snapshot => {
-    //     let updatedAttendeeList = [...thisRef.state.attendeeList];
-    //     snapshot.forEach(doc => {
-    //       updatedAttendeeList.push({
-    //         profiles: doc.data().profileServices[0],
-    //         name: doc.data().fullName
-    //       });
-    //     });
-    //     thisRef.setState({
-    //       attendeeList: updatedAttendeeList
-    //     });
-    //     thisRef.getCounts();
-    //   })
-    //   .catch(err => {
-    //     console.log("Error", err);
-    //   });
-  }
-
   getCounts() {
-    console.log("profileList", this.props.profileList);
     let attendeeProfileDetails = this.props.attendeeList.concat(
       this.props.speakerList
     );
-    console.log("attendeeProfileDetails", attendeeProfileDetails);
-    let profileRoles = this.props.profileList;
-
+    let profileRoles = this.props.ProfileArray;
     let attendeeCounter = [];
 
     profileRoles.forEach((role, index) => {
       if (index == 0) {
         attendeeCounter.push({
-          name: role.label,
-          y: _.filter(attendeeProfileDetails, { roleName: role.label }).length,
+          name: role,
+          y: _.filter(attendeeProfileDetails, { roleName: role }).length,
           sliced: true,
           selected: true
         });
       } else {
         attendeeCounter.push({
-          name: role.label,
-          y: _.filter(attendeeProfileDetails, { roleName: role.label }).length
+          name: role,
+          y: _.filter(attendeeProfileDetails, { roleName: role }).length
         });
       }
     });
@@ -152,7 +132,25 @@ class AttendeeReports extends Component {
             <FormGroup>
               <Col xs="12" md="12" style={{ float: "left" }}>
                 <Card>
-                  <CardHeader>Profile Report</CardHeader>
+                  <CardHeader>
+                    <FormGroup row className="marginBottomZero">
+                      <Col xs="12" md="4">
+                        <h1 className="regHeading paddingTop8">
+                          Attendance Report
+                        </h1>
+                      </Col>
+                      <Col xs="10" md="3">
+                        <Select
+                          name="Event"
+                          placeholder="Select event"
+                          options={this.props.eventList}
+                          value={this.state.event}
+                          simpleValue
+                          onChange={this.handleEventChange.bind(this)}
+                        />
+                      </Col>
+                    </FormGroup>
+                  </CardHeader>
                   <CardBody>
                     <div
                       id="profileReport"
@@ -178,7 +176,7 @@ const mapStateToProps = state => {
   return {
     attendeeList: state.registration.attendeeList,
     eventList: state.event.eventList,
-    profileList: state.profileList.profileList,
+    ProfileArray: state.profileList.ProfileArray,
     speakerList: state.speaker.speakerList
   };
 };
@@ -190,7 +188,9 @@ const mapDispatchToProps = dispatch => {
     getEvents: () => dispatch(actions.getEvents()),
     getAttendeesForEvent: eventId =>
       dispatch(actions.getAttendeesForEvent(eventId)),
-    getProfileList: () => dispatch(actions.getProfileList())
+    getSpeakersForEvent: eventId =>
+      dispatch(actions.getSpeakersForEvent(eventId)),
+    getProfileArray: () => dispatch(actions.getProfileArray())
   };
 };
 
