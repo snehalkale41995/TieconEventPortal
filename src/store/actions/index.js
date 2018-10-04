@@ -92,4 +92,4 @@ export {
 
 export { getAttendeeCountForEvent } from "./attendeeCount";
 
-export { getProfileList } from "./profileList";
+export { getProfileList, getProfileArray } from "./profileList";
