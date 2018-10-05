@@ -40,13 +40,10 @@ export {
 } from "./questionForms";
 
 export {
-  getProfiles,
-  createProfile,
-  deleteProfile,
-  updateProfile
-} from "./userProfile";
-
-export { getAttendanceList } from "./attendance";
+  getAttendanceList,
+  getAttendanceByEvent,
+  getAttendanceBySession
+} from "./attendance";
 
 export {
   getAboutUsInfo,
@@ -95,4 +92,4 @@ export {
 
 export { getAttendeeCountForEvent } from "./attendeeCount";
 
-export { getProfileList } from "./profileList";
+export { getProfileList, getProfileArray } from "./profileList";

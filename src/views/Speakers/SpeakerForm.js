@@ -1,7 +1,15 @@
 import React, { Component } from "react";
 import { connect } from "react-redux";
 import * as actions from "../../store/actions/index";
-import { FormGroup, Col, Button, Input, InputGroup, InputGroupAddon, InputGroupText } from "reactstrap";
+import {
+  FormGroup,
+  Col,
+  Button,
+  Input,
+  InputGroup,
+  InputGroupAddon,
+  InputGroupText
+} from "reactstrap";
 import InputElement from "../../components/Input/";
 import CardLayout from "../../components/CardLayout/";
 import Select from "react-select";
@@ -20,7 +28,7 @@ class SpeakerForm extends Component {
         email: "",
         contact: "",
         briefInfo: "",
-        info : "",
+        info: "",
         profileImageURL: "",
         event: "",
         roleName: "Speaker",
@@ -35,7 +43,7 @@ class SpeakerForm extends Component {
       inValidContact: false,
       inValidEmail: false,
       invalidProfileUrl: false,
-      displayPasswordFlag : false
+      displayPasswordFlag: false
     };
   }
   componentDidMount() {
@@ -86,27 +94,24 @@ class SpeakerForm extends Component {
         position: toast.POSITION.BOTTOM_RIGHT
       });
       setTimeout(() => {
-        if(actionName === "Created"){
+        if (actionName === "Created") {
           compRef.setState({ displayPasswordFlag: true });
-        }
-        else
-        compRef.setState({ displayPasswordFlag: false }); 
+        } else compRef.setState({ displayPasswordFlag: false });
 
-        if(actionName === "Updated"){
+        if (actionName === "Updated") {
           compRef.redirectFunction();
         }
       }, 1000);
     } else {
-      if(this.props.statusCode === 404){
+      if (this.props.statusCode === 404) {
         toast.error("email Id Already Exists", {
           position: toast.POSITION.BOTTOM_RIGHT
-        })
+        });
+      } else {
+        toast.error("Something Went wrong", {
+          position: toast.POSITION.BOTTOM_RIGHT
+        });
       }
-     else{
-      toast.error("Something Went wrong", {
-        position: toast.POSITION.BOTTOM_RIGHT
-      });
-     }
     }
   }
 
@@ -115,7 +120,7 @@ class SpeakerForm extends Component {
   }
 
   toggleFunction() {
-    this.setState({ displayPasswordFlag : false });
+    this.setState({ displayPasswordFlag: false });
   }
 
   onSubmit() {
@@ -187,6 +192,7 @@ class SpeakerForm extends Component {
 
   updateSpeaker(id, editedSpeaker) {
     let compRef = this;
+    editedSpeaker.roleName = "Speaker";
     this.props.editSpeakerData(id, editedSpeaker);
     setTimeout(() => {
       let speakerUpdated = this.props.speakerUpdated;
@@ -196,6 +202,7 @@ class SpeakerForm extends Component {
 
   createSpeaker(speaker, attendeeCount) {
     let compRef = this;
+    speaker.roleName = "Speaker";
     this.props.createSpeaker(speaker, attendeeCount);
     setTimeout(() => {
       let speakerCreated = this.props.speakerCreated;
@@ -209,7 +216,7 @@ class SpeakerForm extends Component {
       email: "",
       contact: "",
       briefInfo: "",
-      info : "",
+      info: "",
       profileImageURL: "",
       event: ""
     };
@@ -232,7 +239,6 @@ class SpeakerForm extends Component {
       let Speaker = { ...this.state.Speaker };
       Speaker.event = value;
       this.setState({ Speaker: Speaker, eventRequired: false });
-      
     } else {
       let Speaker = { ...this.state.Speaker };
       Speaker.event = "";
@@ -269,7 +275,7 @@ class SpeakerForm extends Component {
           color="success"
           onClick={this.onSubmit.bind(this)}
         >
-        Create
+          Create
         </Button>
       );
     return (
@@ -316,7 +322,7 @@ class SpeakerForm extends Component {
           </Col>
           <Col md="6">
             <InputElement
-              type="number"
+              type="text"
               placeholder="Contact number"
               name="contact"
               icon="icon-phone"
@@ -347,7 +353,7 @@ class SpeakerForm extends Component {
             ) : null}
           </Col>
           <Col md="6">
-             <InputElement
+            <InputElement
               type="text"
               placeholder="Profile image URL"
               name="profileImageURL"
@@ -360,7 +366,7 @@ class SpeakerForm extends Component {
         </FormGroup>
         <FormGroup row>
           <Col xs="12" md="6">
-          <InputElement
+            <InputElement
               type="text"
               placeholder="Brief info"
               name="briefInfo"
@@ -371,12 +377,21 @@ class SpeakerForm extends Component {
             />
           </Col>
           <Col xs="12" md="6">
-          <InputGroup className="mb-3">
-          <InputGroupText><i className="fa fa-info"></i></InputGroupText>
-          <Input style={{height:'36px'}} type="textarea" placeholder="Info" name="info"  value={Speaker.info}
-           onChange={event => this.onChangeInput(event)} />
-          </InputGroup>
-           </Col>
+            <InputGroup className="mb-3">
+              <InputGroupText>
+                <i className="fa fa-info" />
+              </InputGroupText>
+              <Input
+                style={{ height: "36px" }}
+                type="textarea"
+                placeholder="Info"
+                name="info"
+                maxLength="250"
+                value={Speaker.info}
+                onChange={event => this.onChangeInput(event)}
+              />
+            </InputGroup>
+          </Col>
         </FormGroup>
         <FormGroup row>
           <Col xs="12" md="3">
@@ -407,10 +422,11 @@ class SpeakerForm extends Component {
           </Col>
         </FormGroup>
         <RegistrationModal
-        openFlag={this.state.displayPasswordFlag}
-        toggleFunction={this.toggleFunction.bind(this)}
-        email={this.state.emailModal}
-        password={this.state.passwordModal}/>
+          openFlag={this.state.displayPasswordFlag}
+          toggleFunction={this.toggleFunction.bind(this)}
+          email={this.state.emailModal}
+          password={this.state.passwordModal}
+        />
       </CardLayout>
     );
   }
@@ -424,7 +440,7 @@ const mapStateToProps = state => {
     speakerCreated: state.speaker.speakerCreated,
     speakerUpdated: state.speaker.speakerUpdated,
     createError: state.speaker.createError,
-    statusCode : state.speaker.statusCode
+    statusCode: state.speaker.statusCode
   };
 };
 const mapDispatchToProps = dispatch => {
