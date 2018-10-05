@@ -45,10 +45,12 @@ export const getSessionsOfEvent = id => {
       .then(response => {
         let sessions = response.data;
         sessions.forEach(sessionObj => {
-          sessionList.push({
-            label: sessionObj.sessionName,
-            value: sessionObj._id
-          });
+          if (sessionObj.sessionType !== "common") {
+            sessionList.push({
+              label: sessionObj.sessionName,
+              value: sessionObj._id
+            });
+          }
         });
         dispatch(storeSessionsOfEvent(sessionList));
       })

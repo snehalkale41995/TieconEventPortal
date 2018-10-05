@@ -67,6 +67,7 @@ class Rooms extends Component {
       }
     }
   }
+
   onChangeInput(event) {
     const { Room } = { ...this.state };
     Room[event.target.name] = event.target.value;
@@ -78,10 +79,11 @@ class Rooms extends Component {
       inValidCapacity: false
     });
   }
+
   onSubmit() {
     let Room = { ...this.state.Room };
     let id = this.props.currentRoom._id;
-    if (Room.roomName && Room.capacity > 0 && Room.event) {
+    if (Room.roomName && Math.floor(Room.capacity) > 0 && Room.event) {
       this.setState({ loading: true });
       this.state.editRoom
         ? this.props.editRoom(id, Room)
@@ -96,7 +98,7 @@ class Rooms extends Component {
     } else {
       !Room.roomName ? this.setState({ roomNameRequired: true }) : null;
       !Room.event ? this.setState({ eventRequired: true }) : null;
-      Room.capacity <= 0 && Room.capacity
+      Math.floor(Room.capacity) <= 0 && Room.capacity
         ? this.setState({ inValidCapacity: true })
         : null;
       !Room.capacity

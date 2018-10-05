@@ -8,6 +8,13 @@ export const getProfileListsSuccess = ProfileList => {
   };
 };
 
+export const getProfileArraysSuccess = ProfileArray => {
+  return {
+    type: actionTypes.GET_PROFILE_ARRAY_SUCCESS,
+    ProfileArray: ProfileArray
+  };
+};
+
 export const getProfileListsFail = error => {
   return {
     type: actionTypes.GET_PROFILE_LIST_FAIL,
@@ -29,6 +36,23 @@ export const getProfileList = () => {
       })
       .catch(error => {
         dispatch(getProfileListsFail(error));
+      });
+  };
+};
+
+export const getProfileArray = () => {
+  return dispatch => {
+    axios
+      .get(`${AppConfig.serverURL}/api/profileList`)
+      .then(response => {
+        let ProfileArray = [];
+        ProfileArray = response.data[0].profiles;
+        ProfileArray.push("Speaker");
+        console.log("ProfileArrayyyy", ProfileArray);
+        dispatch(getProfileArraysSuccess(ProfileArray));
+      })
+      .catch(error => {
+        //dispatch(getProfileArraysFail(error));
       });
   };
 };

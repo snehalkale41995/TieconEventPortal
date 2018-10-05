@@ -20,7 +20,7 @@ class Registration extends Component {
         lastName: "",
         email: "",
         contact: "",
-        profiles: [],
+        profileName: "",
         briefInfo: "",
         profileImageURL: "",
         event: "",
@@ -57,7 +57,7 @@ class Registration extends Component {
         this.props.attendeeData.event
           ? (Attendee.event = this.props.attendeeData.event._id)
           : null;
-        Attendee.profiles = this.props.attendeeData.profiles;
+        Attendee.profileName = this.props.attendeeData.profileName;
         Attendee._id = this.props.attendeeData._id;
         this.setState({
           Registration: Attendee,
@@ -76,7 +76,7 @@ class Registration extends Component {
             "briefInfo",
             "profileImageURL",
             "event",
-            "profiles",
+            "profileName",
             "_id"
           ]);
           let Empty = !Object.keys(Attendee).length;
@@ -123,7 +123,6 @@ class Registration extends Component {
     this.setState({ emailModal: attendee.email });
     let validContact;
     let validEmail;
-    let invalidProfile = false;
     let invalidProfileUrl = false;
     var re = /^(http[s]?:\/\/){0,1}(www\.){0,1}[a-zA-Z0-9\.\-]+\.[a-zA-Z]{2,5}[\.]{0,1}/;
     if (attendee.profileImageURL !== "") {
@@ -137,12 +136,7 @@ class Registration extends Component {
     if (attendee.contact) {
       validContact = attendee.contact.toString().length === 10;
     }
-    if (attendee.profiles) {
-      invalidProfile =
-        attendee.profiles.length == 0 ||
-        attendee.profiles[0] == "" ||
-        attendee.profiles[0] == null;
-    }
+
     if (
       validContact &&
       validEmail &&
@@ -151,9 +145,8 @@ class Registration extends Component {
       attendee.email &&
       attendee.contact &&
       attendee.event &&
-      attendee.profiles.length > 0 &&
-      !invalidProfileUrl &&
-      !invalidProfile
+      attendee.profileName &&
+      !invalidProfileUrl
     ) {
       let editedAttendee = _.pick(attendee, [
         "firstName",
@@ -163,7 +156,7 @@ class Registration extends Component {
         "briefInfo",
         "profileImageURL",
         "event",
-        "profiles",
+        "profileName",
         "roleName"
       ]);
       this.state.editAttendee
@@ -186,11 +179,7 @@ class Registration extends Component {
       !validContact && attendee.contact
         ? this.setState({ inValidContact: true })
         : null;
-      attendee.profiles.length == 0 ||
-      attendee.profiles[0] == "" ||
-      attendee.profiles[0] == null
-        ? this.setState({ profileRequired: true })
-        : null;
+      !attendee.profileName ? this.setState({ profileRequired: true }) : null;
       validEmail && attendee.email
         ? null
         : this.setState({ inValidEmail: true });
@@ -209,7 +198,7 @@ class Registration extends Component {
       lastName: "",
       email: "",
       contact: "",
-      profiles: [],
+      profileName: "",
       briefInfo: "",
       profileImageURL: "",
       event: ""
@@ -244,17 +233,15 @@ class Registration extends Component {
         }
       }, 1000);
     } else {
-      if(this.props.statusCode === 404){
+      if (this.props.statusCode === 400) {
         toast.error("email Id Already Exists", {
           position: toast.POSITION.BOTTOM_RIGHT
-        })
+        });
+      } else {
+        toast.error("Something Went wrong", {
+          position: toast.POSITION.BOTTOM_RIGHT
+        });
       }
-     else{
-      toast.error("Something Went wrong", {
-        position: toast.POSITION.BOTTOM_RIGHT
-      });
-     }
-         
     }
   }
   redirectFunction() {
@@ -273,27 +260,25 @@ class Registration extends Component {
     } else {
       let Registration = { ...this.state.Registration };
       Registration.event = "";
-      Registration.profiles = [];
+      Registration.profileName = "";
       this.setState({ Registration: Registration, eventRequired: false });
     }
   }
+
   handleProfileChange(value) {
     if (value !== null) {
-      let profileArray = this.state.Registration.profiles;
-      profileArray.push(value);
-      let len = profileArray.length;
       let { Registration } = this.state;
-      if (len) {
-        let lastEle = Registration.profiles[len - 1];
-        let profilesArray = lastEle.split(",");
-        Registration.profiles = profilesArray;
-        Registration.roleName = profilesArray[0];
-        this.setState({
-          Registration: Registration,
-          eventRequired: false,
-          profileRequired: false
-        });
-      }
+      Registration.profileName = value;
+      Registration.roleName = value;
+      this.setState({
+        Registration: Registration,
+        eventRequired: false,
+        profileRequired: false
+      });
+    } else {
+      let Registration = { ...this.state.Registration };
+      Registration.profileName = "";
+      this.setState({ Registration: Registration, profileRequired: false });
     }
   }
 
@@ -410,9 +395,8 @@ class Registration extends Component {
           </Col>
           <Col md="6">
             <Select
-              multi
-              placeholder="Select profiles"
-              value={Registration.profiles}
+              placeholder="Select profile"
+              value={Registration.profileName}
               options={this.props.profileList}
               simpleValue
               onChange={this.handleProfileChange.bind(this)}
@@ -445,7 +429,7 @@ class Registration extends Component {
                 color="success"
                 onClick={() => this.onSubmit()}
               >
-               Create
+                Create
               </Button>
             )}
           </Col>
@@ -490,7 +474,7 @@ const mapStateToProps = state => {
     eventList: state.event.eventList,
     attendeeCount: state.attendeeCount.attendeeCount,
     createEditError: state.registration.createEditError,
-    statusCode : state.registration.statusCode,
+    statusCode: state.registration.statusCode,
     profileList: state.profileList.profileList,
     creatError: state.registration.creatError
   };

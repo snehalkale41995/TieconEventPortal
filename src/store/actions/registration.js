@@ -14,7 +14,7 @@ export const creatEditAttendeeFail = (error, statusCode) => {
   return {
     type: actionTypes.CREATE_EDIT_ATTENDEE_FAIL,
     creatError: error,
-    statusCode : statusCode
+    statusCode: statusCode
   };
 };
 
@@ -100,11 +100,9 @@ export const getAttendeesForEventAndProfile = (eventId, profileName) => {
         attendees = response.data;
         let attendeeList = [];
         attendees.forEach(attendee => {
-          attendee.profiles.forEach(profile => {
-            if (profile === profileName) {
-              attendeeList.push(attendee);
-            }
-          });
+          if (attendee.profileName === profileName) {
+            attendeeList.push(attendee);
+          }
           if (attendee.event !== null) {
             attendee.eventName = attendee.event.eventName;
           }
@@ -131,7 +129,7 @@ export const getAttendeeById = id => {
 };
 
 export const editAttendeeData = (id, attendee) => {
-  attendee["attendeeLabel"] = attendee.profiles[0]
+  attendee["attendeeLabel"] = attendee.profileName
     .substring(0, 3)
     .toUpperCase();
   return dispatch => {
@@ -142,8 +140,9 @@ export const editAttendeeData = (id, attendee) => {
         dispatch(creatEditAttendeeSuccess());
       })
       .catch(error => {
-        
-        dispatch(creatEditAttendeeFail(error.response.data, error.response.status));
+        dispatch(
+          creatEditAttendeeFail(error.response.data, error.response.status)
+        );
       });
   };
 };
@@ -157,7 +156,7 @@ export const createAttendee = (attendee, attendeeCount) => {
     event: attendeeCount.event
   };
   attendee["attendeeCount"] = attendeeCount.attendeeCount + 1;
-  attendee["attendeeLabel"] = attendee.profiles[0]
+  attendee["attendeeLabel"] = attendee.profileName
     .substring(0, 3)
     .toUpperCase();
   return dispatch => {
@@ -175,8 +174,10 @@ export const createAttendee = (attendee, attendeeCount) => {
           });
       })
       .catch(error => {
-        console.log("(error)",error.response)
-        dispatch(creatEditAttendeeFail(error.response.data, error.response.status));
+        console.log("(error)", error.response);
+        dispatch(
+          creatEditAttendeeFail(error.response.data, error.response.status)
+        );
       });
   };
 };

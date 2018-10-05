@@ -206,14 +206,12 @@ class SessionForm extends Component {
     attendees.forEach(attendee => {
       if (attendee.event != null) {
         if (attendee.event._id === eventValue) {
-          attendee.profiles.forEach(profile => {
-            if (profile === "Volunteer") {
-              volunteerList.push({
-                label: attendee.firstName + " " + attendee.lastName,
-                value: attendee._id
-              });
-            }
-          });
+          if (attendee.profileName === "Volunteer") {
+            volunteerList.push({
+              label: attendee.firstName + " " + attendee.lastName,
+              value: attendee._id
+            });
+          }
         }
       }
     });

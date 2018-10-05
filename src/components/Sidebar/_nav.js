@@ -52,18 +52,13 @@ export default {
       icon: "icon-chart",
       children: [
         {
-          name: "Event Reports",
-          url: "/reports/eventReports",
-          icon: "icon-chart"
-        },
-        {
-          name: "Session Reports",
-          url: "/reports/sessionReports",
-          icon: "icon-chart"
-        },
-        {
-          name: "Attendee Reports",
+          name: "Registration Report",
           url: "/reports/attendeeReports",
+          icon: "icon-chart"
+        },
+        {
+          name: "Attendance Report",
+          url: "/reports/sessionReports",
           icon: "icon-chart"
         }
       ]

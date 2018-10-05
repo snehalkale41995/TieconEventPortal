@@ -103,6 +103,9 @@ module.exports = (env = {}) => {
       }),
       new CopyWebpackPlugin([{ from: "./public/img", to: "img" }], {
         copyUnmodified: false
+      }),
+      new webpack.ProvidePlugin({
+        Promise: "es6-promise-promise" // es6 plugin for Internet Explorer
       })
     ]
   };
