@@ -2,8 +2,17 @@ import React, { Component } from "react";
 import { connect } from "react-redux";
 import { Link, Redirect } from "react-router-dom";
 import * as actions from "../../store/actions/index";
-import { FormGroup, Col, Button, Input, InputGroup } from "reactstrap";
-import CardLayout from "../../components/CardLayout/";
+import {
+  Row,
+  Col,
+  Button,
+  Badge,
+  Card,
+  CardBody,
+  CardHeader,
+  CardFooter,
+  FormGroup
+} from "reactstrap";
 import Select from "react-select";
 import "react-select/dist/react-select.css";
 import { BootstrapTable, TableHeaderColumn } from "react-bootstrap-table";
@@ -66,83 +75,102 @@ class AttendanceList extends Component {
       sizePerPage: 50
     };
     return (
-      <CardLayout name="Attendance List">
-        <FormGroup row>
-          <Col xs="12" md="4">
-            <Select
-              name="Event"
-              placeholder="Select event"
-              options={this.props.events}
-              value={this.state.event}
-              simpleValue
-              onChange={this.handleEventChange.bind(this)}
-            />
-          </Col>
-          <Col md="4">
-            <Select
-              name="Session"
-              placeholder="Select session"
-              options={this.props.sessions}
-              value={this.state.session}
-              simpleValue
-              onChange={this.handleSessionChange.bind(this)}
-            />
-          </Col>
-        </FormGroup>
-        <FormGroup row>
-          <BootstrapTable
-            ref="table"
-            data={this.props.attendanceList}
-            pagination={true}
-            search={true}
-            options={options}
-            exportCSV={true}
-            csvFileName="Attendance List"
-            version="4"
-          >
-            <TableHeaderColumn dataField="_id" headerAlign="left" isKey hidden>
-              Id
-            </TableHeaderColumn>
-            <TableHeaderColumn
-              dataField="userName"
-              headerAlign="left"
-              width="100"
-              csvHeader="Attendee Name"
-              dataSort={true}
-            >
-              Attendee Name
-            </TableHeaderColumn>
-            <TableHeaderColumn
-              dataField="eventName"
-              headerAlign="left"
-              width="100"
-              csvHeader="Event Name"
-              dataSort={true}
-            >
-              Event Name
-            </TableHeaderColumn>
-            <TableHeaderColumn
-              dataField="sessionName"
-              headerAlign="left"
-              width="100"
-              dataSort={true}
-              csvHeader="Session Name"
-            >
-              Session Name
-            </TableHeaderColumn>
-
-            <TableHeaderColumn
-              dataField="profile"
-              headerAlign="left"
-              width="100"
-              csvHeader="Profile"
-              dataSort={true}
-            >
-              Profile
-            </TableHeaderColumn>
-          </BootstrapTable>
-        </FormGroup>
-      </CardLayout>
+      <div>
+        <div className="animated fadeIn">
+          <Row>
+            <Col xs="12" lg="12">
+              <Card>
+                <CardHeader>
+                  <FormGroup row className="marginBottomZero">
+                    <Col xs="12" md="4">
+                      <h1 className="regHeading paddingTop8">
+                        Attendance List
+                      </h1>
+                    </Col>
+                    <Col xs="10" md="3">
+                      <Select
+                        name="Event"
+                        placeholder="Select event"
+                        options={this.props.events}
+                        value={this.state.event}
+                        simpleValue
+                        onChange={this.handleEventChange.bind(this)}
+                      />
+                    </Col>
+                    <Col xs="10" md="3">
+                      <Select
+                        name="Session"
+                        placeholder="Select session"
+                        options={this.props.sessions}
+                        value={this.state.session}
+                        simpleValue
+                        onChange={this.handleSessionChange.bind(this)}
+                      />
+                    </Col>
+                  </FormGroup>
+                </CardHeader>
+                <CardBody>
+                  <BootstrapTable
+                    ref="table"
+                    data={this.props.attendanceList}
+                    pagination={true}
+                    search={true}
+                    options={options}
+                    exportCSV={true}
+                    csvFileName="Attendance List"
+                    version="4"
+                  >
+                    <TableHeaderColumn
+                      dataField="_id"
+                      headerAlign="left"
+                      isKey
+                      hidden
+                    >
+                      Id
+                    </TableHeaderColumn>
+                    <TableHeaderColumn
+                      dataField="userName"
+                      headerAlign="left"
+                      width="100"
+                      csvHeader="Attendee Name"
+                      dataSort={true}
+                    >
+                      Attendee Name
+                    </TableHeaderColumn>
+                    <TableHeaderColumn
+                      dataField="eventName"
+                      headerAlign="left"
+                      width="100"
+                      csvHeader="Event Name"
+                      dataSort={true}
+                    >
+                      Event Name
+                    </TableHeaderColumn>
+                    <TableHeaderColumn
+                      dataField="sessionName"
+                      headerAlign="left"
+                      width="100"
+                      dataSort={true}
+                      csvHeader="Session Name"
+                    >
+                      Session Name
+                    </TableHeaderColumn>
+                    <TableHeaderColumn
+                      dataField="profile"
+                      headerAlign="left"
+                      width="100"
+                      csvHeader="Profile"
+                      dataSort={true}
+                    >
+                      Profile
+                    </TableHeaderColumn>
+                  </BootstrapTable>
+                </CardBody>
+              </Card>
+            </Col>
+          </Row>
+        </div>
+      </div>
     );
   }
 }
