@@ -37,8 +37,10 @@ class AttendanceList extends Component {
       this.props.getAttendanceByEvent(value);
       this.setState({ event: value });
       this.props.getSessions(value);
+     
     } else {
       this.setState({ event: "", session: "" });
+      this.props.getAttendanceList();
     }
   }
 
@@ -49,6 +51,7 @@ class AttendanceList extends Component {
       this.setState({ session: value });
     } else {
       this.setState({ session: "" });
+      this.props.getAttendanceList();
     }
   }
 
