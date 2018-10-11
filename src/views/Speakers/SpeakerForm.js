@@ -209,6 +209,15 @@ class SpeakerForm extends Component {
       compRef.Toaster(compRef, speakerCreated, "Created");
     }, 2000);
   }
+
+  // Method for set only Numeric
+  setInputToNumeric(e) {
+    const re = /[0-9]+/g;
+    if (!re.test(e.key)) {
+      e.preventDefault();
+    }
+  }
+
   onReset() {
     let Speaker = {
       firstName: "",
@@ -329,6 +338,7 @@ class SpeakerForm extends Component {
               value={Speaker.contact}
               maxLength="10"
               inValid={this.state.inValidContact}
+              onKeyPress={e => this.setInputToNumeric(e)}
               required={this.state.contactRequired}
               onchanged={event => this.onChangeInput(event)}
             />
