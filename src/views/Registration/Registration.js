@@ -216,6 +216,17 @@ class Registration extends Component {
       invalidProfileUrl: false
     });
   }
+
+  // Method for set only Numeric
+  setInputToNumeric(e) {
+    const re = /[0-9]+/g;
+    if (!re.test(e.key)) {
+      e.preventDefault();
+    }
+  }
+
+
+
   Toaster(compRef, createEditError, actionName, errorMessage) {
     compRef.setState({ loading: false });
     if (!createEditError) {
@@ -345,6 +356,7 @@ class Registration extends Component {
               icon="icon-phone"
               maxLength="10"
               inValid={this.state.inValidContact}
+              onKeyPress={e => this.setInputToNumeric(e)}
               value={Registration.contact}
               required={this.state.contactRequired}
               onchanged={event => this.onChangeInput(event)}
