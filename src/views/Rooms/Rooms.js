@@ -262,6 +262,7 @@ class Rooms extends Component {
     );
   }
 }
+
 const mapStateToProps = state => {
   return {
     rooms: state.room.rooms,

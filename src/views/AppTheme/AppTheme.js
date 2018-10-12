@@ -71,6 +71,7 @@ class AppTheme extends React.Component {
   onSubmit() {
     let AppConfig = { ...this.state.AppConfig };
     console.log("AppConfig", AppConfig);
+    this.props.createAppTheme(AppConfig);
   }
 
   render() {
@@ -210,4 +211,19 @@ class AppTheme extends React.Component {
   }
 }
 
-export default AppTheme;
+const mapStateToProps = state => {
+  return {
+    appTheme: state.appTheme.appTheme
+  };
+};
+
+const mapDispatchToProps = dispatch => {
+  return {
+    createAppTheme: room => dispatch(actions.createAppTheme(room))
+  };
+};
+
+export default connect(
+  mapStateToProps,
+  mapDispatchToProps
+)(AppTheme);
