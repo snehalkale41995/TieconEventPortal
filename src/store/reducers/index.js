@@ -7,11 +7,11 @@ import speakerReducer from "./speaker";
 import attendeeCountReducer from "./attendeeCount";
 import authReducer from "./auth";
 import formReducer from "./questionForms";
-
 import attendanceReducer from "./attendance";
 import staticPageReducer from "./staticPages";
 import sponsorReducer from "./sponsor";
 import profileListReducer from "./profileList";
+import appThemeReducer from "./appTheme";
 
 const rootReducer = combineReducers({
   event: eventReducer,
@@ -25,7 +25,8 @@ const rootReducer = combineReducers({
   attendance: attendanceReducer,
   staticPages: staticPageReducer,
   sponsor: sponsorReducer,
-  profileList: profileListReducer
+  profileList: profileListReducer,
+  appTheme: appThemeReducer
 });
 
 export default rootReducer;
