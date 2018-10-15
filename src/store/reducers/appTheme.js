@@ -2,6 +2,7 @@ import * as actionTypes from "../actions/actionTypes";
 
 const initialState = {
   appTheme: [],
+  appThemeId: "",
   loading: false,
   appThemeCreated: false,
   appThemeUpdated: false,
@@ -17,7 +18,6 @@ const appThemeReducer = (state = initialState, action) => {
       return {
         ...state,
         appTheme: action.appTheme,
-        appThemeList: action.appThemeList,
         getAppThemeflag: true
       };
     case actionTypes.GET_APPTHEME_FAIL:
@@ -36,13 +36,10 @@ const appThemeReducer = (state = initialState, action) => {
         appThemeDeleted: false
       };
     case actionTypes.CREATE_APPTHEME_SUCCESS:
-      const newAppTheme = {
-        ...action.appTheme,
-        id: action.appThemeId
-      };
       return {
         ...state,
-        appTheme: state.appTheme.concat(newAppTheme),
+        appTheme: action.appTheme,
+        appThemeId: action.appThemeId,
         appThemeCreated: true
       };
     case actionTypes.CREATE_APPTHEME_FAIL:
@@ -54,7 +51,9 @@ const appThemeReducer = (state = initialState, action) => {
     case actionTypes.UPDATE_APPTHEME_SUCCESS:
       return {
         ...state,
-        appThemeUpdated: true
+        appThemeUpdated: true,
+        appTheme: action.appTheme,
+        appThemeId: action.appThemeId
       };
 
     case actionTypes.UPDATE_APPTHEME_FAIL:

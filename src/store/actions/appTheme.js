@@ -17,10 +17,11 @@ export const getAppThemeFail = error => {
   };
 };
 
-export const createAppThemeSuccess = appTheme => {
+export const createAppThemeSuccess = (appTheme, appThemeId) => {
   return {
     type: actionTypes.CREATE_APPTHEME_SUCCESS,
-    appTheme: appTheme
+    appTheme: appTheme,
+    appThemeId: appThemeId
   };
 };
 
@@ -31,10 +32,11 @@ export const updateAppThemeFail = error => {
   };
 };
 
-export const updateAppThemeSuccess = appTheme => {
+export const updateAppThemeSuccess = (appTheme, appThemeId) => {
   return {
     type: actionTypes.UPDATE_APPTHEME_SUCCESS,
-    appTheme: appTheme
+    appTheme: appTheme,
+    appThemeId: appThemeId
   };
 };
 
@@ -80,17 +82,7 @@ export const createAppTheme = appTheme => {
     axios
       .post(`${AppConfig.serverURL}/api/appTheme`, appThemeObj)
       .then(response => {
-        let attendeeCountObj = {
-          attendeeCount: 0,
-          speakerCount: 0,
-          totalCount: 0,
-          appTheme: response.data._id
-        };
-        axios
-          .post(`${AppConfig.serverURL}/api/attendeeCount`, attendeeCountObj)
-          .then(response => {
-            dispatch(createAppThemeSuccess(appThemeObj));
-          });
+        dispatch(createAppThemeSuccess(appThemeObj, response.data._id));
       })
       .catch(error => {
         dispatch(createAppThemeFail(error));
@@ -98,8 +90,8 @@ export const createAppTheme = appTheme => {
   };
 };
 
-export const updateAppTheme = appTheme => {
-  let id = appTheme.id;
+export const updateAppTheme = (appTheme, appThemeId) => {
+  let id = appThemeId;
   let appThemeObj = _.pick(appTheme, [
     "appTitle",
     "themeColor",
@@ -112,7 +104,7 @@ export const updateAppTheme = appTheme => {
     axios
       .put(`${AppConfig.serverURL}/api/appTheme/${id}`, appThemeObj)
       .then(response => {
-        dispatch(updateAppThemeSuccess(appTheme));
+        dispatch(updateAppThemeSuccess(appTheme, response.data._id));
       })
       .catch(error => {
         dispatch(updateAppThemeFail(error));

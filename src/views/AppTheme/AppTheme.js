@@ -14,12 +14,12 @@ import { ToastContainer, toast } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
 import Loader from "../../components/Loader/Loader";
 
-//F17013
 class AppTheme extends React.Component {
   constructor(props) {
     super(props);
     this.state = {
       AppConfig: {
+        _id: "",
         appTitle: "",
         themeColor: { r: "241", g: "112", b: "19", a: "1" },
         textColor: { r: "241", g: "112", b: "19", a: "1" },
@@ -28,13 +28,37 @@ class AppTheme extends React.Component {
         appLogo: ""
       },
       displayThemePicker: false,
-      displayTextPicker: false
+      displayTextPicker: false,
+      editAppTheme: false,
+      loading: false,
+      appTitleRequired: false,
+      appLogoRequired: false,
+      invalidAppLogo: false
     };
+  }
+
+  componentDidMount() {
+    let compRef = this;
+    this.setState({ loading: true });
+    compRef.props.getAppTheme();
+    setTimeout(function() {
+      let appThemeData = compRef.props.appTheme;
+      if (appThemeData !== undefined && appThemeData.length > 0) {
+        compRef.setState({
+          AppConfig: appThemeData[0],
+          editAppTheme: true,
+          loading: false
+        });
+      } else {
+        compRef.setState({ editAppTheme: false, loading: false });
+      }
+    }, 1000);
   }
 
   handleThemeClick() {
     this.setState({ displayThemePicker: !this.state.displayThemePicker });
   }
+
   handleThemeClose() {
     this.setState({ displayThemePicker: false });
   }
@@ -50,7 +74,10 @@ class AppTheme extends React.Component {
     const { AppConfig } = { ...this.state };
     AppConfig[event.target.name] = event.target.value;
     this.setState({
-      AppConfig: AppConfig
+      AppConfig: AppConfig,
+      appTitleRequired: false,
+      appLogoRequired: false,
+      invalidAppLogo: false
     });
   }
 
@@ -68,16 +95,116 @@ class AppTheme extends React.Component {
     this.setState({ AppConfig: AppConfig });
   }
 
-  onSubmit() {
+  Toaster(compRef, successFlag, actionName) {
+    this.setState({ loading: false });
     let AppConfig = { ...this.state.AppConfig };
-    console.log("AppConfig", AppConfig);
-    this.props.createAppTheme(AppConfig);
+    AppConfig._id = compRef.props.appThemeId;
+    if (successFlag) {
+      toast.success("App Theme" + actionName + " Successfully.", {
+        position: toast.POSITION.BOTTOM_RIGHT
+      });
+      compRef.setState({
+        editAppTheme: true,
+        AppConfig: AppConfig
+      });
+    } else {
+      compRef.setState({ loading: false });
+      compRef.setState({ editAppTheme: false });
+      toast.error("Something went wrong", {
+        position: toast.POSITION.BOTTOM_RIGHT
+      });
+    }
+  }
+
+  onReset() {
+    this.setState({
+      AppConfig: {
+        appTitle: "",
+        themeColor: { r: "241", g: "112", b: "19", a: "1" },
+        textColor: { r: "241", g: "112", b: "19", a: "1" },
+        appThemeColorHex: "#F17013",
+        appTextColorHex: "#F17013",
+        appLogo: ""
+      },
+      displayThemePicker: false,
+      displayTextPicker: false,
+      appTitleRequired: false,
+      appLogoRequired: false,
+      invalidAppLogo: false
+    });
+  }
+
+  validateForm() {
+    let AppConfig = { ...this.state.AppConfig };
+    let invalidAppLogo = false;
+    var validLogo = /^(http[s]?:\/\/){0,1}(www\.){0,1}[a-zA-Z0-9\.\-]+\.[a-zA-Z]{2,5}[\.]{0,1}/;
+    if (
+      AppConfig.appLogo !== undefined &&
+      AppConfig.appLogo !== "" &&
+      AppConfig.appLogo !== null
+    ) {
+      if (!validLogo.test(AppConfig.appLogo)) {
+        invalidAppLogo = true;
+      }
+    }
+    !AppConfig.appTitle ? this.setState({ appTitleRequired: true }) : null;
+    !AppConfig.appLogo ? this.setState({ appLogoRequired: true }) : null;
+    invalidAppLogo ? this.setState({ invalidAppLogo: true }) : null;
+  }
+
+  onSubmit() {
+    let compRef = this;
+    this.validateForm();
+    setTimeout(() => {
+      compRef.createEvent();
+    }, 1000);
+  }
+
+  createEvent() {
+    let compRef = this;
+    let AppConfig = { ...this.state.AppConfig };
+    if (AppConfig.appTitle && AppConfig.appLogo && !this.state.invalidAppLogo) {
+      this.setState({ loading: true });
+      this.props.createAppTheme(AppConfig);
+      setTimeout(() => {
+        let appThemeCreated = this.props.appThemeCreated;
+        compRef.Toaster(compRef, appThemeCreated, "Created");
+      }, 1500);
+    } else {
+      this.setState({ loading: false });
+    }
+  }
+
+  onUpdate() {
+    let compRef = this;
+    this.validateForm();
+    setTimeout(() => {
+      compRef.updateEvent();
+    }, 1000);
+  }
+
+  updateEvent() {
+    let compRef = this;
+    let AppConfig = { ...this.state.AppConfig };
+    let _id = AppConfig._id;
+    if (AppConfig.appTitle && AppConfig.appLogo && !this.state.invalidAppLogo) {
+      this.setState({ loading: true });
+      this.props.updateAppTheme(AppConfig, _id);
+      setTimeout(() => {
+        let appThemeUpdated = this.props.appThemeUpdated;
+        compRef.Toaster(compRef, appThemeUpdated, "Updated");
+      }, 1500);
+    } else {
+      this.setState({ loading: false });
+    }
   }
 
   render() {
     const appThemeStyles = appthemeConst(this.state.AppConfig.themeColor);
     const appTextStyles = appTextConst(this.state.AppConfig.textColor);
-    return (
+    return this.state.loading ? (
+      <Loader loading={this.state.loading} />
+    ) : (
       <div className="animated fadeIn">
         <Row className="justify-content-left">
           <Col md="10">
@@ -95,7 +222,7 @@ class AppTheme extends React.Component {
                       placeholder="App Title"
                       name="appTitle"
                       maxLength="20"
-                      //  required={this.state.roomNameRequired}
+                      required={this.state.appTitleRequired}
                       value={this.state.AppConfig.appTitle}
                       onchanged={event => this.onChangeInput(event)}
                     />
@@ -136,7 +263,8 @@ class AppTheme extends React.Component {
                       placeholder="App Logo"
                       name="appLogo"
                       maxLength="20"
-                      //  required={this.state.roomNameRequired}
+                      required={this.state.appLogoRequired}
+                      inValid={this.state.invalidAppLogo}
                       value={this.state.AppConfig.appLogo}
                       onchanged={event => this.onChangeInput(event)}
                     />
@@ -170,38 +298,39 @@ class AppTheme extends React.Component {
                 <br />
                 <FormGroup row>
                   <Col xs="12" md="3">
-                    {/* {this.state.editRoom ? ( */}
-                    {/* <Button
-                type="button"
-                size="md"
-                color="success"
-                onClick={() => this.onSubmit()}
-              >
-                Update
-              </Button>
-            ) : ( */}
-                    <Button
-                      type="button"
-                      size="md"
-                      color="success"
-                      onClick={() => this.onSubmit()}
-                    >
-                      Create
-                    </Button>
-                    {/* )}  */}
+                    {this.state.editAppTheme ? (
+                      <Button
+                        type="button"
+                        size="md"
+                        color="success"
+                        onClick={() => this.onUpdate()}
+                      >
+                        Update
+                      </Button>
+                    ) : (
+                      <Button
+                        type="button"
+                        size="md"
+                        color="success"
+                        onClick={() => this.onSubmit()}
+                      >
+                        Create
+                      </Button>
+                    )}
                   </Col>
                   <Col md="3">
                     <Button
                       type="button"
                       size="md"
                       color="primary"
-                      // onClick={() => this.onReset()}
+                      onClick={() => this.onReset()}
                     >
                       Reset
                     </Button>
                   </Col>
                   <ToastContainer autoClose={2000} />
                 </FormGroup>
+                <ToastContainer autoClose={2000} />
               </CardBody>
             </Card>
           </Col>
@@ -213,13 +342,19 @@ class AppTheme extends React.Component {
 
 const mapStateToProps = state => {
   return {
-    appTheme: state.appTheme.appTheme
+    appTheme: state.appTheme.appTheme,
+    appThemeCreated: state.appTheme.appThemeCreated,
+    appThemeUpdated: state.appTheme.appThemeUpdated,
+    appThemeId: state.appTheme.appThemeId
   };
 };
 
 const mapDispatchToProps = dispatch => {
   return {
-    createAppTheme: room => dispatch(actions.createAppTheme(room))
+    createAppTheme: appTheme => dispatch(actions.createAppTheme(appTheme)),
+    updateAppTheme: (appTheme, appThemeId) =>
+      dispatch(actions.updateAppTheme(appTheme, appThemeId)),
+    getAppTheme: () => dispatch(actions.getAppTheme())
   };
 };
 
