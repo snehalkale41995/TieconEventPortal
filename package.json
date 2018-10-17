@@ -74,7 +74,8 @@
     "reactstrap": "5.0.0-beta",
     "redux": "^4.0.0",
     "redux-thunk": "^2.3.0",
-    "simple-line-icons": "2.4.1"
+    "simple-line-icons": "2.4.1",
+    "socket.io": "^2.1.1"
   },
   "scripts": {
     "dev": "webpack -d --progress --watch --profile --json > compilation-stats.json --env.dev",
