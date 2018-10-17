@@ -112,10 +112,6 @@ class FormList extends Component {
         {
           text: "All",
           value: this.props.formList.length
-        },
-        {
-          text: "All",
-          value: this.props.formList.length
         }
       ],
       sizePerPage: 50
@@ -135,7 +131,6 @@ class FormList extends Component {
             </Link>
           </Col>
         </FormGroup>
-
         <br />
         <div className="animated fadeIn">
           <Row>
@@ -149,74 +144,72 @@ class FormList extends Component {
                   </FormGroup>
                 </CardHeader>
                 <CardBody>
-                  <FormGroup row>
-                    <BootstrapTable
-                      ref="table"
-                      data={this.props.formList}
-                      pagination={true}
-                      search={true}
-                      options={options}
-                      version="4"
+                  <BootstrapTable
+                    ref="table"
+                    data={this.props.formList}
+                    pagination={true}
+                    search={true}
+                    options={options}
+                    version="4"
+                  >
+                    <TableHeaderColumn
+                      dataField="_id"
+                      headerAlign="left"
+                      isKey
+                      hidden
                     >
-                      <TableHeaderColumn
-                        dataField="_id"
-                        headerAlign="left"
-                        isKey
-                        hidden
-                      >
-                        Id
-                      </TableHeaderColumn>
-                      <TableHeaderColumn
-                        dataField="eventName"
-                        headerAlign="left"
-                        width="80"
-                        dataSort={true}
-                      >
-                        Event Name
-                      </TableHeaderColumn>
-                      <TableHeaderColumn
-                        dataField="formType"
-                        headerAlign="left"
-                        width="80"
-                        dataSort={true}
-                      >
-                        Form Type
-                      </TableHeaderColumn>
-                      <TableHeaderColumn
-                        dataField="view"
-                        dataFormat={this.onViewForm.bind(this)}
-                        headerAlign="left"
-                        width="20"
-                        export={false}
-                      >
-                        Preview
-                      </TableHeaderColumn>
-                      <TableHeaderColumn
-                        dataField="edit"
-                        dataFormat={this.onEditForm.bind(this)}
-                        headerAlign="left"
-                        width="20"
-                        export={false}
-                      >
-                        Edit
-                      </TableHeaderColumn>
-                      <TableHeaderColumn
-                        dataField="delete"
-                        dataFormat={this.ondeleteForm.bind(this)}
-                        headerAlign="left"
-                        width="20"
-                        export={false}
-                      >
-                        Delete
-                      </TableHeaderColumn>
-                    </BootstrapTable>
-                    <Modal
-                      openFlag={this.state.deleteFlag}
-                      toggleFunction={this.confirmDelete.bind(this)}
-                      confirmFunction={this.deleteForm.bind(this)}
-                      message=" Are you sure you want to permanently delete this form ?"
-                    />
-                  </FormGroup>
+                      Id
+                    </TableHeaderColumn>
+                    <TableHeaderColumn
+                      dataField="eventName"
+                      headerAlign="left"
+                      width="80"
+                      dataSort={true}
+                    >
+                      Event Name
+                    </TableHeaderColumn>
+                    <TableHeaderColumn
+                      dataField="formType"
+                      headerAlign="left"
+                      width="80"
+                      dataSort={true}
+                    >
+                      Form Type
+                    </TableHeaderColumn>
+                    <TableHeaderColumn
+                      dataField="view"
+                      dataFormat={this.onViewForm.bind(this)}
+                      headerAlign="left"
+                      width="20"
+                      export={false}
+                    >
+                      Preview
+                    </TableHeaderColumn>
+                    <TableHeaderColumn
+                      dataField="edit"
+                      dataFormat={this.onEditForm.bind(this)}
+                      headerAlign="left"
+                      width="20"
+                      export={false}
+                    >
+                      Edit
+                    </TableHeaderColumn>
+                    <TableHeaderColumn
+                      dataField="delete"
+                      dataFormat={this.ondeleteForm.bind(this)}
+                      headerAlign="left"
+                      width="20"
+                      export={false}
+                    >
+                      Delete
+                    </TableHeaderColumn>
+                  </BootstrapTable>
+                  <Modal
+                    openFlag={this.state.deleteFlag}
+                    toggleFunction={this.confirmDelete.bind(this)}
+                    confirmFunction={this.deleteForm.bind(this)}
+                    message=" Are you sure you want to permanently delete this form ?"
+                  />
                 </CardBody>
               </Card>
             </Col>

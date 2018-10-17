@@ -22,6 +22,7 @@ import AttendeeReports from "../../views/Reports/AttendeeReports";
 import Layout from "../../components/Layout/";
 import Logout from "../Authentication/Logout";
 import Login from "../Authentication/Login";
+import AppTheme from "../../views/AppTheme/AppTheme";
 import { connect } from "react-redux";
 
 let routes;
@@ -59,6 +60,7 @@ class App extends Component {
             <Route path="/questionForms" component={QuestionForms} />
             <Route path="/sponsors" component={Sponsors} />
             <Route path="/logout" component={Logout} />
+            <Route path="/appTheme" component={AppTheme} />
             <Redirect from="/" to="/dashboard" />
             <Redirect to="/" />
           </Switch>

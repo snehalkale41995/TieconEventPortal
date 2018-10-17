@@ -80,6 +80,7 @@ export {
   deleteSpeaker,
   getSpeakersForEvent
 } from "./speaker";
+
 export {
   getSponsors,
   createSponsor,
@@ -93,3 +94,5 @@ export {
 export { getAttendeeCountForEvent } from "./attendeeCount";
 
 export { getProfileList, getProfileArray } from "./profileList";
+
+export { getAppTheme, createAppTheme, updateAppTheme } from "./appTheme";

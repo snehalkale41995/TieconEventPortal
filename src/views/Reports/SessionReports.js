@@ -28,7 +28,8 @@ class SessionReports extends React.Component {
       attendanceDataFiltered: [],
       roles: new Set(),
       event: "",
-      session: ""
+      session: "",
+      sessions : []
     };
     this.renderTable = this.renderTable.bind(this);
   }
@@ -39,14 +40,19 @@ class SessionReports extends React.Component {
   }
 
   handleEventChange(value) {
+    let thisRef = this;
     if (value !== null) {
       this.props.getAttendanceByEvent(value);
       this.setState({ event: value, tableVisible: false });
       this.props.getSessions(value);
+      setTimeout(function() {
+        thisRef.setState({ sessions: thisRef.props.sessions });
+      }, 1000);
       this.renderCounts();
     } else {
       this.setState({ event: "", session: "" });
       this.props.getAttendanceList();
+      thisRef.setState({ sessions: [] });
       this.renderCounts();
     }
   }
@@ -140,7 +146,7 @@ class SessionReports extends React.Component {
                       <Select
                         name="Session"
                         placeholder="Select session"
-                        options={this.props.sessions}
+                        options={this.state.sessions}
                         value={this.state.session}
                         simpleValue
                         onChange={this.handleSessionChange.bind(this)}
@@ -160,6 +166,7 @@ class SessionReports extends React.Component {
                     data={this.state.attendanceDataFiltered}
                     pagination={true}
                     options={sortingOptions}
+                    version="4"
                   >
                     <TableHeaderColumn
                       dataField="id"
