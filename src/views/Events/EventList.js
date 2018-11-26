@@ -110,10 +110,6 @@ class EventList extends Component {
         {
           text: "All",
           value: this.props.events.length
-        },
-        {
-          text: "All",
-          value: this.props.events.length
         }
       ],
       sizePerPage: 50
@@ -154,7 +150,7 @@ class EventList extends Component {
                     options={sortingOptions}
                     exportCSV={true}
                     csvFileName="Event List"
-                    version='4'
+                    version="4"
                   >
                     <TableHeaderColumn
                       dataField="_id"
