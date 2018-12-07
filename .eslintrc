@@ -1,0 +1,17 @@
+{
+    "extends": ["react-app", "plugin:prettier/recommended"],
+    "rules": {
+      "no-console": "warn",
+      "camelcase": "warn",
+      "constructor-super": "error",
+      "eol-last": "error",
+      "jsx-quotes": "error",
+      "vars-on-top": "error",
+      "no-useless-constructor": "error",
+      "no-duplicate-imports": "error",
+      "no-alert": "error",
+      "no-debugger": "error",
+      "no-empty-function": "error"
+    }
+  }
+  
