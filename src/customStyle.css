@@ -299,6 +299,15 @@ input[type="checkbox"] {
 .date-col.col {
   flex-basis: inherit;
 }
+.react-datepicker__day-names {
+    width: 11.5% !important;
+}
+.react-datepicker__month {
+    width: 11%!important;
+}
+  .react-datepicker__triangle {
+    width: 0% !important;
+}
 .btn-container .col .btn {
   margin: 5px 0;
 }
