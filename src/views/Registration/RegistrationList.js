@@ -179,10 +179,6 @@ class RegistrationList extends Component {
         {
           text: "All",
           value: this.props.attendeeList.length
-        },
-        {
-          text: "All",
-          value: this.props.attendeeList.length
         }
       ],
       sizePerPage: 50
