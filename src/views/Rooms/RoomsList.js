@@ -131,10 +131,6 @@ class RoomsList extends Component {
         {
           text: "All",
           value: this.props.roomList.length
-        },
-        {
-          text: "All",
-          value: this.props.roomList.length
         }
       ],
       sizePerPage: 50
@@ -161,14 +157,10 @@ class RoomsList extends Component {
               <Card>
                 <CardHeader>
                   <FormGroup row className="marginBottomZero">
-                    <Col xs="6" md="3">
+                    <Col xs="12" md="4">
                       <h1 className="regHeading paddingTop8">Rooms List</h1>
                     </Col>
-                  </FormGroup>
-                </CardHeader>
-                <CardBody>
-                  <FormGroup row>
-                    <Col md="4">
+                    <Col xs="10" md="3">
                       <Select
                         name="Event"
                         placeholder="Select event"
@@ -179,75 +171,76 @@ class RoomsList extends Component {
                       />
                     </Col>
                   </FormGroup>
-                  <FormGroup row>
-                    <BootstrapTable
-                      ref="table"
-                      data={this.props.roomList}
-                      pagination={true}
-                      search={true}
-                      options={options}
-                      exportCSV={true}
-                      csvFileName="Rooms List"
-                      version='4'
+                </CardHeader>
+                <CardBody>
+                  <BootstrapTable
+                    ref="table"
+                    data={this.props.roomList}
+                    pagination={true}
+                    search={true}
+                    options={options}
+                    exportCSV={true}
+                    csvFileName="Rooms List"
+                    version="4"
+                  >
+                    <TableHeaderColumn
+                      dataField="_id"
+                      headerAlign="left"
+                      isKey
+                      hidden
                     >
-                      <TableHeaderColumn
-                        dataField="_id"
-                        headerAlign="left"
-                        isKey
-                        hidden
-                      >
-                        Id
-                      </TableHeaderColumn>
-                      <TableHeaderColumn
-                        dataField="roomName"
-                        headerAlign="left"
-                        width="100"
-                        dataSort={true}
-                      >
-                        Room Name
-                      </TableHeaderColumn>
-                      <TableHeaderColumn
-                        dataField="eventName"
-                        headerAlign="left"
-                        width="100"
-                        dataSort={true}
-                      >
-                        Event Name
-                      </TableHeaderColumn>
-                      <TableHeaderColumn
-                        dataField="capacity"
-                        headerAlign="left"
-                        width="100"
-                        dataSort={true}
-                      >
-                        Capacity
-                      </TableHeaderColumn>
-                      <TableHeaderColumn
-                        dataField="edit"
-                        dataFormat={this.onEditRoom.bind(this)}
-                        headerAlign="left"
-                        width="30"
-                        export={false}
-                      >
-                        Edit
-                      </TableHeaderColumn>
-                      <TableHeaderColumn
-                        dataField="delete"
-                        dataFormat={this.onDeleteRoom.bind(this)}
-                        headerAlign="left"
-                        width="30"
-                        export={false}
-                      >
-                        Delete
-                      </TableHeaderColumn>
-                    </BootstrapTable>
-                    <Modal
-                      openFlag={this.state.deleteFlag}
-                      toggleFunction={this.confirmDelete.bind(this)}
-                      confirmFunction={this.deleteRoom.bind(this)}
-                      message=" Are you sure you want to permanently delete this room ?"
-                    />
-                  </FormGroup>
+                      Id
+                    </TableHeaderColumn>
+                    <TableHeaderColumn
+                      dataField="roomName"
+                      headerAlign="left"
+                      width="100"
+                      dataSort={true}
+                    >
+                      Room Name
+                    </TableHeaderColumn>
+                    <TableHeaderColumn
+                      dataField="eventName"
+                      headerAlign="left"
+                      width="100"
+                      dataSort={true}
+                    >
+                      Event Name
+                    </TableHeaderColumn>
+                    <TableHeaderColumn
+                      dataField="capacity"
+                      headerAlign="left"
+                      width="100"
+                      dataSort={true}
+                    >
+                      Capacity
+                    </TableHeaderColumn>
+                    <TableHeaderColumn
+                      dataField="edit"
+                      dataFormat={this.onEditRoom.bind(this)}
+                      headerAlign="left"
+                      width="30"
+                      export={false}
+                    >
+                      Edit
+                    </TableHeaderColumn>
+                    <TableHeaderColumn
+                      dataField="delete"
+                      dataFormat={this.onDeleteRoom.bind(this)}
+                      headerAlign="left"
+                      width="30"
+                      export={false}
+                    >
+                      Delete
+                    </TableHeaderColumn>
+                  </BootstrapTable>
+                  <Modal
+                    openFlag={this.state.deleteFlag}
+                    toggleFunction={this.confirmDelete.bind(this)}
+                    confirmFunction={this.deleteRoom.bind(this)}
+                    message=" Are you sure you want to permanently delete this room ?"
+                  />
+                  {/* </FormGroup> */}
                 </CardBody>
               </Card>
             </Col>

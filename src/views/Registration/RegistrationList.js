@@ -179,10 +179,6 @@ class RegistrationList extends Component {
         {
           text: "All",
           value: this.props.attendeeList.length
-        },
-        {
-          text: "All",
-          value: this.props.attendeeList.length
         }
       ],
       sizePerPage: 50
@@ -213,14 +209,10 @@ class RegistrationList extends Component {
               <Card>
                 <CardHeader>
                   <FormGroup row className="marginBottomZero">
-                    <Col xs="6" md="3">
+                    <Col xs="12" md="3">
                       <h1 className="regHeading paddingTop8">Attendee List</h1>
                     </Col>
-                  </FormGroup>
-                </CardHeader>
-                <CardBody>
-                  <FormGroup row>
-                    <Col md="4">
+                    <Col xs="12" md="3">
                       <Select
                         name="Event"
                         placeholder="Select event"
@@ -230,7 +222,7 @@ class RegistrationList extends Component {
                         onChange={this.handleEventChange.bind(this)}
                       />
                     </Col>
-                    <Col md="4">
+                    <Col xs="12" md="3">
                       <Select
                         name="Profile"
                         placeholder="Select profile"
@@ -240,7 +232,7 @@ class RegistrationList extends Component {
                         onChange={this.handleProfileChange.bind(this)}
                       />
                     </Col>
-                    <Col md="3">
+                    <Col xs="12" md="3">
                       <Button
                         type="button"
                         onClick={this.getSelectedRowKeys.bind(this)}
@@ -251,110 +243,110 @@ class RegistrationList extends Component {
                       </Button>
                     </Col>
                   </FormGroup>
-                  <FormGroup row>
-                    <BootstrapTable
-                      ref="table"
-                      data={this.props.attendeeList}
-                      pagination={true}
-                      search={true}
-                      selectRow={selectRowProp}
-                      options={options}
-                      exportCSV={true}
-                      csvFileName="Attendee List"
-                      version="4"
+                </CardHeader>
+                <CardBody>
+                  <BootstrapTable
+                    ref="table"
+                    data={this.props.attendeeList}
+                    pagination={true}
+                    search={true}
+                    selectRow={selectRowProp}
+                    options={options}
+                    exportCSV={true}
+                    csvFileName="Attendee List"
+                    version="4"
+                  >
+                    <TableHeaderColumn
+                      dataField="_id"
+                      headerAlign="left"
+                      isKey
+                      hidden
                     >
-                      <TableHeaderColumn
-                        dataField="_id"
-                        headerAlign="left"
-                        isKey
-                        hidden
-                      >
-                        Id
-                      </TableHeaderColumn>
-                      <TableHeaderColumn
-                        dataField="firstName"
-                        headerAlign="left"
-                        width="60"
-                        csvHeader="First Name"
-                        dataSort={true}
-                      >
-                        First Name
-                      </TableHeaderColumn>
-                      <TableHeaderColumn
-                        dataField="lastName"
-                        headerAlign="left"
-                        width="60"
-                        csvHeader="Last Name"
-                        dataSort={true}
-                      >
-                        Last Name
-                      </TableHeaderColumn>
-                      <TableHeaderColumn
-                        dataField="email"
-                        headerAlign="left"
-                        width="80"
-                        csvHeader="Email"
-                        dataSort={true}
-                      >
-                        Email
-                      </TableHeaderColumn>
-                      <TableHeaderColumn
-                        dataField="password"
-                        headerAlign="left"
-                        width="80"
-                        dataSort={true}
-                      >
-                        Password
-                      </TableHeaderColumn>
-                      <TableHeaderColumn
-                        dataField="eventName"
-                        headerAlign="left"
-                        width="80"
-                        csvHeader="Event Name"
-                        dataSort={true}
-                      >
-                        Event
-                      </TableHeaderColumn>
-                      <TableHeaderColumn
-                        dataField="edit"
-                        dataFormat={this.onEditAttendee.bind(this)}
-                        headerAlign="left"
-                        width="40"
-                        export={false}
-                      >
-                        Edit
-                      </TableHeaderColumn>
-                      <TableHeaderColumn
-                        dataField="delete"
-                        dataFormat={this.ondeleteAttendee.bind(this)}
-                        headerAlign="left"
-                        width="40"
-                        export={false}
-                      >
-                        Delete
-                      </TableHeaderColumn>
-                      <TableHeaderColumn
-                        dataField="print"
-                        dataFormat={this.onPrintAttendeeQRCode.bind(this)}
-                        headerAlign="left"
-                        width="30"
-                        export={false}
-                      >
-                        Print
-                      </TableHeaderColumn>
-                    </BootstrapTable>
-                    <MessageModal
-                      openFlag={this.state.modalPopupFlag}
-                      toggleFunction={this.toggleFunction.bind(this)}
-                      message="Please select attendees for printing"
-                    />
-                    <Modal
-                      openFlag={this.state.deleteFlag}
-                      toggleFunction={this.confirmDelete.bind(this)}
-                      confirmFunction={this.deleteAttendee.bind(this)}
-                      message=" Are you sure you want to permanently delete this attendee ?"
-                    />
-                  </FormGroup>
+                      Id
+                    </TableHeaderColumn>
+                    <TableHeaderColumn
+                      dataField="firstName"
+                      headerAlign="left"
+                      width="60"
+                      csvHeader="First Name"
+                      dataSort={true}
+                    >
+                      First Name
+                    </TableHeaderColumn>
+                    <TableHeaderColumn
+                      dataField="lastName"
+                      headerAlign="left"
+                      width="60"
+                      csvHeader="Last Name"
+                      dataSort={true}
+                    >
+                      Last Name
+                    </TableHeaderColumn>
+                    <TableHeaderColumn
+                      dataField="email"
+                      headerAlign="left"
+                      width="80"
+                      csvHeader="Email"
+                      dataSort={true}
+                    >
+                      Email
+                    </TableHeaderColumn>
+                    <TableHeaderColumn
+                      dataField="password"
+                      headerAlign="left"
+                      width="80"
+                      dataSort={true}
+                    >
+                      Password
+                    </TableHeaderColumn>
+                    <TableHeaderColumn
+                      dataField="eventName"
+                      headerAlign="left"
+                      width="80"
+                      csvHeader="Event Name"
+                      dataSort={true}
+                    >
+                      Event
+                    </TableHeaderColumn>
+                    <TableHeaderColumn
+                      dataField="edit"
+                      dataFormat={this.onEditAttendee.bind(this)}
+                      headerAlign="left"
+                      width="40"
+                      export={false}
+                    >
+                      Edit
+                    </TableHeaderColumn>
+                    <TableHeaderColumn
+                      dataField="delete"
+                      dataFormat={this.ondeleteAttendee.bind(this)}
+                      headerAlign="left"
+                      width="40"
+                      export={false}
+                    >
+                      Delete
+                    </TableHeaderColumn>
+                    <TableHeaderColumn
+                      dataField="print"
+                      dataFormat={this.onPrintAttendeeQRCode.bind(this)}
+                      headerAlign="left"
+                      width="30"
+                      export={false}
+                    >
+                      Print
+                    </TableHeaderColumn>
+                  </BootstrapTable>
+                  <MessageModal
+                    openFlag={this.state.modalPopupFlag}
+                    toggleFunction={this.toggleFunction.bind(this)}
+                    message="Please select attendees for printing"
+                  />
+                  <Modal
+                    openFlag={this.state.deleteFlag}
+                    toggleFunction={this.confirmDelete.bind(this)}
+                    confirmFunction={this.deleteAttendee.bind(this)}
+                    message=" Are you sure you want to permanently delete this attendee ?"
+                  />
                 </CardBody>
               </Card>
             </Col>

@@ -1,11 +1,17 @@
 import React, { Component } from "react";
 import { connect } from "react-redux";
 import * as actions from "../../store/actions/index";
-import { FormGroup, Col, Button, InputGroup, InputGroupText,Input } from "reactstrap";
+import {
+  FormGroup,
+  Col,
+  Button,
+  InputGroup,
+  InputGroupText,
+  Input
+} from "reactstrap";
 import InputElement from "../../components/Input/";
 import CardLayout from "../../components/CardLayout/";
 import Select from "react-select";
-import Geocode from "react-geocode";
 import _ from "lodash";
 import { ToastContainer, toast } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
@@ -26,10 +32,10 @@ class EventLocation extends Component {
       eventValue: "",
       eventRequired: false,
       addressRequired: false,
-      cordinateError: "",
       loading: true
     };
   }
+
   componentDidMount() {
     this.props.getEvents();
     let compRef = this;
@@ -37,6 +43,7 @@ class EventLocation extends Component {
       compRef.setState({ loading: false });
     }, 1000);
   }
+
   componentDidUpdate(prevProps, prevState) {
     if (prevProps.eventLocation !== this.props.eventLocation) {
       let isEmpty = !Object.keys(this.props.eventLocation).length;
@@ -84,39 +91,20 @@ class EventLocation extends Component {
       this.onReset();
     }
   }
+
   getCordinates() {
     let eventLocation = { ...this.state.eventLocation };
     if (eventLocation.address && eventLocation.event) {
-      Geocode.fromAddress(eventLocation.address)
-        .then(response => {
-          const { lat, lng } = response.results[0].geometry.location;
-          this.setState(prevState => ({
-            eventLocation: {
-              ...prevState.eventLocation,
-              latitude: lat,
-              longitude: lng,
-              latitudeDelta: 0.0922,
-              longitudeDelta: 0.0421
-            }
-          }));
-          this.onSubmit();
-        })
-        .catch(error => {
-          this.setState({ cordinateError: "*Please Submit Again" });
-        });
+      this.onSubmit();
     } else {
       !eventLocation.event ? this.setState({ eventRequired: true }) : null;
       !eventLocation.address ? this.setState({ addressRequired: true }) : null;
     }
   }
+
   onSubmit() {
     let eventLocation = { ...this.state.eventLocation };
-    if (
-      eventLocation.event &&
-      eventLocation.latitude &&
-      eventLocation.longitude &&
-      eventLocation.address
-    ) {
+    if (eventLocation.event && eventLocation.address) {
       this.setState({ loading: true });
       let isEmpty = !Object.keys(this.props.eventLocation).length;
       let eventLocation = _.pick(this.state.eventLocation, [
@@ -134,19 +122,17 @@ class EventLocation extends Component {
         : this.props.editEventLocation(id, eventLocation);
       let compRef = this;
       setTimeout(() => {
-        let creatEditHelpDeskError = compRef.props.creatEditHelpDeskError;
+        let creatEditLocationError = compRef.props.creatEditLocationError;
         let status = "";
         !isEmpty ? (status = "Updated") : (status = "Created");
-        compRef.Toaster(compRef, creatEditHelpDeskError, status);
+        compRef.Toaster(compRef, creatEditLocationError, status);
       }, 1000);
     } else {
       !eventLocation.event ? this.setState({ eventRequired: true }) : null;
       !eventLocation.address ? this.setState({ addressRequired: true }) : null;
-      !eventLocation.latitude || !eventLocation.longitude
-        ? this.setState({ cordinateError: "*Please Submit Again" })
-        : null;
     }
   }
+
   Toaster(compRef, createEditError, actionName) {
     this.setState({ loading: false });
     if (!createEditError) {
@@ -163,6 +149,7 @@ class EventLocation extends Component {
       });
     }
   }
+
   onReset() {
     this.setState(prevState => ({
       eventLocation: {
@@ -176,8 +163,7 @@ class EventLocation extends Component {
       },
       eventRequired: false,
       addressRequired: false,
-      eventValue: "",
-      cordinateError: ""
+      eventValue: ""
     }));
   }
   render() {
@@ -221,15 +207,14 @@ class EventLocation extends Component {
               />
             </InputGroup>
             {this.state.addressRequired ? (
-            <div
-              style={{ color: "red", fontSize: "12px", marginTop: -13 }}
-              className="help-block"
-            >
-              *Event address is required
-            </div>
-          ) : null}
+              <div
+                style={{ color: "red", fontSize: "12px", marginTop: -13 }}
+                className="help-block"
+              >
+                *Event address is required
+              </div>
+            ) : null}
           </Col>
-         
         </FormGroup>
         <FormGroup row>
           <Col xs="12" md="3">
@@ -254,11 +239,6 @@ class EventLocation extends Component {
             </Button>
           </Col>
           <Col md="6">
-            {
-              <div style={{ color: "red" }} className="help-block">
-                {this.state.cordinateError}
-              </div>
-            }
             <ToastContainer autoClose={2000} />
           </Col>
         </FormGroup>

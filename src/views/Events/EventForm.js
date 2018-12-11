@@ -6,7 +6,14 @@ import moment from "moment";
 import "react-datepicker/dist/react-datepicker.css";
 import InputElement from "../../components/Input/";
 import CardLayout from "../../components/CardLayout/";
-import { InputGroup, InputGroupText, Input, Col, Button, FormGroup } from "reactstrap";
+import {
+  InputGroup,
+  InputGroupText,
+  Input,
+  Col,
+  Button,
+  FormGroup
+} from "reactstrap";
 import { ToastContainer, toast } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
 import Loader from "../../components/Loader/Loader";
@@ -265,16 +272,25 @@ class EventForm extends Component {
               onchanged={event => this.onChangeHandler(event)}
             />
           </Col>
-          <Col sm={{ size: 4, order: 2, offset: 1 }}>
-          <InputGroup className="mb-3">
-          <InputGroupText><i className="icon-note"></i></InputGroupText>
-          <Input style={{height:'36px'}} maxLength="500" type="textarea" placeholder="Description" name="description"  value={this.state.Event.description}
-           onChange={event => this.onChangeHandler(event)}/>
-          </InputGroup>
+          <Col sm={{ size: 4, order: 2 }}>
+            <InputGroup className="mb-3">
+              <InputGroupText>
+                <i className="icon-note" />
+              </InputGroupText>
+              <Input
+                style={{ height: "36px" }}
+                maxLength="500"
+                type="textarea"
+                placeholder="Description"
+                name="description"
+                value={this.state.Event.description}
+                onChange={event => this.onChangeHandler(event)}
+              />
+            </InputGroup>
           </Col>
         </FormGroup>
         <FormGroup row>
-          <Col md="5">
+          <Col sm="6" md="4" className="date-col">
             <InputGroup className="mb-3">
               <InputGroupText>
                 <i className="icon-calendar" />
@@ -303,7 +319,7 @@ class EventForm extends Component {
               </div>
             ) : null}
           </Col>
-          <Col md="5">
+          <Col sm="6" md="4" className="date-col">
             <InputGroup className="mb-3">
               <InputGroupText>
                 <i className="icon-calendar" />
@@ -339,7 +355,7 @@ class EventForm extends Component {
               onchanged={event => this.onChangeHandler(event)}
             />
           </Col>
-          <Col sm={{ size: 4, order: 2, offset: 1 }}>
+          <Col sm={{ size: 4, order: 2 }}>
             <InputElement
               icon="icon-link"
               type="text"
@@ -351,27 +367,25 @@ class EventForm extends Component {
             />
           </Col>
         </FormGroup>
-        <FormGroup row>
-          <Col xs="12" md="3">
-            {this.buttons}
-          </Col>
-          <Col md="3">
+        <FormGroup row className="btn-container">
+          <Col md="1">{this.buttons}</Col>
+          <Col md="1">
             <Button
               type="button"
               size="md"
               color="primary"
-              style={{ marginLeft: -182 }}
+              // style={{ marginLeft: -182 }}
               onClick={() => this.resetField()}
             >
               Reset
             </Button>
           </Col>
-          <Col md="3">
+          <Col md="1">
             <Button
               type="button"
               size="md"
               color="danger"
-              style={{ marginLeft: -370 }}
+              // style={{ marginLeft: -370 }}
               onClick={() => this.redirectFunction()}
             >
               Cancel

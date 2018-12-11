@@ -115,10 +115,6 @@ class SponsorsList extends Component {
         {
           text: "All",
           value: this.props.sponsorsList.length
-        },
-        {
-          text: "All",
-          value: this.props.sponsorsList.length
         }
       ],
       sizePerPage: 50
@@ -138,7 +134,6 @@ class SponsorsList extends Component {
             </Link>
           </Col>
         </FormGroup>
-
         <br />
         <div className="animated fadeIn">
           <Row>
@@ -146,14 +141,10 @@ class SponsorsList extends Component {
               <Card>
                 <CardHeader>
                   <FormGroup row className="marginBottomZero">
-                    <Col xs="6" md="3">
+                    <Col xs="12" md="4">
                       <h1 className="regHeading paddingTop8">Sponsor List</h1>
                     </Col>
-                  </FormGroup>
-                </CardHeader>
-                <CardBody>
-                  <FormGroup row>
-                    <Col md="4">
+                    <Col xs="10" md="4">
                       <Select
                         name="Event"
                         placeholder="Select event"
@@ -164,78 +155,78 @@ class SponsorsList extends Component {
                       />
                     </Col>
                   </FormGroup>
-                  <FormGroup row>
-                    <BootstrapTable
-                      ref="table"
-                      data={this.props.sponsorsList}
-                      pagination={true}
-                      search={true}
-                      options={options}
-                      exportCSV={true}
-                      csvFileName="Sponsors List"
-                      version='4'
+                </CardHeader>
+                <CardBody>
+                  <BootstrapTable
+                    ref="table"
+                    data={this.props.sponsorsList}
+                    pagination={true}
+                    search={true}
+                    options={options}
+                    exportCSV={true}
+                    csvFileName="Sponsors List"
+                    version="4"
+                  >
+                    <TableHeaderColumn
+                      dataField="_id"
+                      headerAlign="left"
+                      isKey
+                      hidden
                     >
-                      <TableHeaderColumn
-                        dataField="_id"
-                        headerAlign="left"
-                        isKey
-                        hidden
-                      >
-                        Id
-                      </TableHeaderColumn>
-                      <TableHeaderColumn
-                        dataField="name"
-                        headerAlign="left"
-                        width="100"
-                        csvHeader="Sponsor Name"
-                        dataSort={true}
-                      >
-                        Sponsor Name
-                      </TableHeaderColumn>
-                      <TableHeaderColumn
-                        dataField="category"
-                        headerAlign="left"
-                        width="100"
-                        csvHeader="Category"
-                        dataSort={true}
-                      >
-                        Category
-                      </TableHeaderColumn>
-                      <TableHeaderColumn
-                        dataField="eventName"
-                        headerAlign="left"
-                        width="100"
-                        csvHeader="Event"
-                        dataSort={true}
-                      >
-                        Event
-                      </TableHeaderColumn>
-                      <TableHeaderColumn
-                        dataField="edit"
-                        dataFormat={this.onEditSponsor.bind(this)}
-                        headerAlign="left"
-                        width="40"
-                        export={false}
-                      >
-                        Edit
-                      </TableHeaderColumn>
-                      <TableHeaderColumn
-                        dataField="delete"
-                        dataFormat={this.onDeleteSponsor.bind(this)}
-                        headerAlign="left"
-                        width="40"
-                        export={false}
-                      >
-                        Delete
-                      </TableHeaderColumn>
-                    </BootstrapTable>
-                    <Modal
-                      openFlag={this.state.deleteFlag}
-                      toggleFunction={this.confirmDelete.bind(this)}
-                      confirmFunction={this.deleteSponsor.bind(this)}
-                      message=" Are you sure you want to permanently delete this sponsor ?"
-                    />
-                  </FormGroup>
+                      Id
+                    </TableHeaderColumn>
+                    <TableHeaderColumn
+                      dataField="name"
+                      headerAlign="left"
+                      width="100"
+                      csvHeader="Sponsor Name"
+                      dataSort={true}
+                    >
+                      Sponsor Name
+                    </TableHeaderColumn>
+                    <TableHeaderColumn
+                      dataField="category"
+                      headerAlign="left"
+                      width="100"
+                      csvHeader="Category"
+                      dataSort={true}
+                    >
+                      Category
+                    </TableHeaderColumn>
+                    <TableHeaderColumn
+                      dataField="eventName"
+                      headerAlign="left"
+                      width="100"
+                      csvHeader="Event"
+                      dataSort={true}
+                    >
+                      Event
+                    </TableHeaderColumn>
+                    <TableHeaderColumn
+                      dataField="edit"
+                      dataFormat={this.onEditSponsor.bind(this)}
+                      headerAlign="left"
+                      width="40"
+                      export={false}
+                    >
+                      Edit
+                    </TableHeaderColumn>
+                    <TableHeaderColumn
+                      dataField="delete"
+                      dataFormat={this.onDeleteSponsor.bind(this)}
+                      headerAlign="left"
+                      width="40"
+                      export={false}
+                    >
+                      Delete
+                    </TableHeaderColumn>
+                  </BootstrapTable>
+                  <Modal
+                    openFlag={this.state.deleteFlag}
+                    toggleFunction={this.confirmDelete.bind(this)}
+                    confirmFunction={this.deleteSponsor.bind(this)}
+                    message=" Are you sure you want to permanently delete this sponsor ?"
+                  />
                 </CardBody>
               </Card>
             </Col>

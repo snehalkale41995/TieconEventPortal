@@ -95,5 +95,11 @@ export default {
       url: "/logout",
       icon: "fa fa-sign-out"
     }
+    // ,
+    // {
+    //   name: "AppTheme",
+    //   url: "/appTheme",
+    //   icon: "icon-info"
+    // }
   ]
 };

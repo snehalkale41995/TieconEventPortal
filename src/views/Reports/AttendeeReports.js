@@ -134,7 +134,7 @@ class AttendeeReports extends Component {
                     <FormGroup row className="marginBottomZero">
                       <Col xs="12" md="4">
                         <h1 className="regHeading paddingTop8">
-                          Attendance Report
+                          Registration Report
                         </h1>
                       </Col>
                       <Col xs="10" md="3">

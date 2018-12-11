@@ -283,10 +283,41 @@ input[type="checkbox"] {
 /* 16 Aug,2018 */
 
 .datepicker {
-  width: 168%;
+  width: 100%;
   height: 33px;
 }
-
+.react-datepicker-wrapper,
+.react-datepicker__input-container {
+  width: 100%;
+}
+.date-col .input-group {
+  flex-wrap: nowrap;
+}
+.date-col .mb-3.input-group div {
+    width: 100%;
+}
+.date-col.col {
+  flex-basis: inherit;
+}
+.react-datepicker__day-names {
+    width: 11.5% !important;
+}
+.react-datepicker__month {
+    width: 11%!important;
+}
+  .react-datepicker__triangle {
+    width: 0% !important;
+}
+.btn-container .col .btn {
+  margin: 5px 0;
+}
+.dropdown-menu {
+  top: inherit !important;
+  bottom: 22px;
+}
+.dropdown-toggle::after {
+  transform: rotate(180deg);
+}
 .rbc-btn-group > button:not(:first-child):not(:last-child) {
   border-radius: 0;
   text-transform: capitalize;
@@ -294,4 +325,10 @@ input[type="checkbox"] {
 .rbc-btn-group > button:last-child:not(:first-child) {
   border-radius: 0;
   text-transform: capitalize;
+}
+@media only screen and (min-width: 991px) {
+  .app-header.navbar .navbar-toggler {
+    position: fixed;
+    left: 10rem;
+  }
 }

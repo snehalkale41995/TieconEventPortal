@@ -16,6 +16,7 @@ const InputElement = props => (
       maxLength={props.maxLength}
       onChange={props.onchanged}
       value={props.value}
+      onKeyPress={props.onKeyPress}
       className={props.type}
     />
     {props.required ? (
