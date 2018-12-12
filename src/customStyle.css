@@ -122,9 +122,12 @@ input[type="checkbox"] {
 .app-header.navbar .navbar-brand {
   background-image: none !important;
 }
+
 .logoImg {
-  width: 120px;
-  margin-top: -12px;
+  /* // width: 120px; */
+  margin-top: -5px;
+  align-self: center;
+  margin-left: 20px;
 }
 
 /*** D.20 March 2018 ****/

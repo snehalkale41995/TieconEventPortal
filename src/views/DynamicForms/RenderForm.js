@@ -30,7 +30,7 @@ class RenderForm extends Component {
           <FormGroup row>
             <Col xs="12">
               <h4>
-                {id} : {que.question}
+                {id + 1}) : {que.question}
               </h4>
             </Col>
           </FormGroup>
