@@ -29,11 +29,7 @@ class Header extends Component {
           <span className="navbar-toggler-icon" />
         </NavbarToggler>
         <NavbarBrand href="#">
-          <img
-            style={{ marginTop: "10px" }}
-            src="img/TieLogo.png"
-            className="logoImg"
-          />
+          <img src="img/tie7050.png" className="logoImg" />
         </NavbarBrand>
         <NavbarToggler
           className="d-md-down-none mr-auto"

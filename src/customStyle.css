@@ -122,9 +122,12 @@ input[type="checkbox"] {
 .app-header.navbar .navbar-brand {
   background-image: none !important;
 }
+
 .logoImg {
-  width: 120px;
-  margin-top: -12px;
+  /* // width: 120px; */
+  margin-top: -5px;
+  align-self: center;
+  margin-left: 20px;
 }
 
 /*** D.20 March 2018 ****/
@@ -294,19 +297,19 @@ input[type="checkbox"] {
   flex-wrap: nowrap;
 }
 .date-col .mb-3.input-group div {
-    width: 100%;
+  width: 100%;
 }
 .date-col.col {
   flex-basis: inherit;
 }
 .react-datepicker__day-names {
-    width: 11.5% !important;
+  width: 11.5% !important;
 }
 .react-datepicker__month {
-    width: 11%!important;
+  width: 11% !important;
 }
-  .react-datepicker__triangle {
-    width: 0% !important;
+.react-datepicker__triangle {
+  width: 0% !important;
 }
 .btn-container .col .btn {
   margin: 5px 0;
