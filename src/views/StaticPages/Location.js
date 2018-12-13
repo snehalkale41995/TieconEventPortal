@@ -24,14 +24,16 @@ class EventLocation extends Component {
       eventLocation: {
         event: "",
         address: "",
-        latitude: 0,
-        longitude: 0,
+        latitude: "",
+        longitude: "",
         latitudeDelta: 0.0922,
         longitudeDelta: 0.0421
       },
       eventValue: "",
       eventRequired: false,
       addressRequired: false,
+      latitudeRequired: false,
+      longitudeRequired: false,
       loading: true
     };
   }
@@ -45,19 +47,24 @@ class EventLocation extends Component {
   }
 
   componentDidUpdate(prevProps, prevState) {
+    console.log("this.props.eventLocation", this.props.eventLocation);
     if (prevProps.eventLocation !== this.props.eventLocation) {
       let isEmpty = !Object.keys(this.props.eventLocation).length;
       if (!isEmpty) {
         this.setState({
           eventLocation: this.props.eventLocation,
           eventRequired: false,
-          addressRequired: false
+          addressRequired: false,
+          latitudeRequired: false,
+          longitudeRequired: false
         });
       } else {
         this.setState(prevState => ({
           eventLocation: {
             ...prevState.eventLocation,
-            address: ""
+            address: "",
+            latitude: "",
+            longitude: ""
           }
         }));
       }
@@ -66,7 +73,12 @@ class EventLocation extends Component {
   onChangeInput(event) {
     let eventLocation = { ...this.state.eventLocation };
     eventLocation[event.target.name] = event.target.value;
-    this.setState({ eventLocation: eventLocation, addressRequired: false });
+    this.setState({
+      eventLocation: eventLocation,
+      addressRequired: false,
+      latitudeRequired: false,
+      longitudeRequired: false
+    });
   }
   handleEventChange(value) {
     if (value !== null) {
@@ -94,11 +106,22 @@ class EventLocation extends Component {
 
   getCordinates() {
     let eventLocation = { ...this.state.eventLocation };
-    if (eventLocation.address && eventLocation.event) {
+    if (
+      eventLocation.address &&
+      eventLocation.event &&
+      eventLocation.latitude &&
+      eventLocation.longitude
+    ) {
       this.onSubmit();
     } else {
       !eventLocation.event ? this.setState({ eventRequired: true }) : null;
       !eventLocation.address ? this.setState({ addressRequired: true }) : null;
+      !eventLocation.latitude
+        ? this.setState({ latitudeRequired: true })
+        : null;
+      !eventLocation.longitude
+        ? this.setState({ longitudeRequired: true })
+        : null;
     }
   }
 
@@ -154,8 +177,8 @@ class EventLocation extends Component {
     this.setState(prevState => ({
       eventLocation: {
         ...prevState.eventLocation,
-        latitude: 0,
-        longitude: 0,
+        latitude: "",
+        longitude: "",
         latitudeDelta: 0.0922,
         longitudeDelta: 0.0421,
         event: "",
@@ -214,6 +237,36 @@ class EventLocation extends Component {
                 *Event address is required
               </div>
             ) : null}
+          </Col>
+        </FormGroup>
+        <FormGroup row>
+          <Col xs="12" md="6">
+            <InputElement
+              className="inputNumber"
+              icon="fa fa-map-marker"
+              type="number"
+              placeholder="Latitude"
+              name="latitude"
+              value={eventLocation.latitude}
+              // inValid={this.state.inValidCapacity}
+              maxLength="8"
+              required={this.state.latitudeRequired}
+              onchanged={event => this.onChangeInput(event)}
+            />
+          </Col>
+          <Col xs="12" md="6">
+            <InputElement
+              className="inputNumber"
+              icon="fa fa-map-marker"
+              type="number"
+              placeholder="Longitude"
+              name="longitude"
+              value={eventLocation.longitude}
+              // inValid={this.state.inValidCapacity}
+              maxLength="8"
+              required={this.state.longitudeRequired}
+              onchanged={event => this.onChangeInput(event)}
+            />
           </Col>
         </FormGroup>
         <FormGroup row>
