@@ -22,7 +22,7 @@ class Registration extends Component {
         contact: "",
         profileName: "",
         briefInfo: "",
-        profileImageURL: "",
+        profileImageURL: null,
         event: "",
         roleName: "",
         password: ""
@@ -125,11 +125,11 @@ class Registration extends Component {
     let validEmail;
     let invalidProfileUrl = false;
     var re = /^(http[s]?:\/\/){0,1}(www\.){0,1}[a-zA-Z0-9\.\-]+\.[a-zA-Z]{2,5}[\.]{0,1}/;
-    if (attendee.profileImageURL !== "") {
-      if (!re.test(attendee.profileImageURL)) {
-        invalidProfileUrl = true;
-      }
-    }
+    // if (attendee.profileImageURL !== "") {
+    //   if (!re.test(attendee.profileImageURL)) {
+    //     invalidProfileUrl = true;
+    //   }
+    // }
     if (attendee.email) {
       validEmail = attendee.email.match(/^([\w.%+-]+)@([\w-]+\.)+([\w]{2,})$/i);
     }
@@ -396,7 +396,7 @@ class Registration extends Component {
         <FormGroup row>
           <Col xs="12" md="6">
             <InputElement
-              type="text"
+              type="file"
               placeholder="Profile image URL"
               name="profileImageURL"
               icon="icon-link"

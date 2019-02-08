@@ -146,7 +146,6 @@ export const editAttendeeData = (id, attendee) => {
       });
   };
 };
-
 export const createAttendee = (attendee, attendeeCount) => {
   let id = attendeeCount._id;
   let attendeeCountObj = {
@@ -159,12 +158,31 @@ export const createAttendee = (attendee, attendeeCount) => {
   attendee["attendeeLabel"] = attendee.profileName
     .substring(0, 3)
     .toUpperCase();
+
+  let data=new FormData();
+    for ( var key in attendee ) {
+      if(key!='profileImageURL')
+        data.append(key, attendee[key]);
+    }
+
+     data.append("profileImageURL",{
+      uri: attendee.profileImageURL,
+      type: 'image/jpeg', // or photo.type
+      name: 'testPhotoName'
+    });
   return dispatch => {
-    axios
-      .post(`${AppConfig.serverURL}/api/attendee`, attendee)
-      .then(response => {
-        axios
-          .put(
+    axios({
+      method: 'post',
+      url: 'http://localhost:3011/api/attendee/new',
+      data: data,
+      config: { headers: {'Content-Type': 'multipart/form-data' }}
+      })
+      .then(function (response) {
+          //handle success
+          console.log(response);
+
+          axios
+          .put( 
             `${AppConfig.serverURL}/api/attendeeCount/${id}`,
             attendeeCountObj
           )
@@ -172,15 +190,48 @@ export const createAttendee = (attendee, attendeeCount) => {
             dispatch(getAttendees());
             dispatch(creatEditAttendeeSuccess());
           });
+          console.log(response);
       })
-      .catch(error => {
-        console.log("(error)", error.response);
-        dispatch(
-          creatEditAttendeeFail(error.response.data, error.response.status)
-        );
+      .catch(function (response) {
+          //handle error
+          console.log(response);
       });
   };
 };
+// export const createAttendee = (attendee, attendeeCount) => {
+//   let id = attendeeCount._id;
+//   let attendeeCountObj = {
+//     attendeeCount: attendeeCount.attendeeCount + 1,
+//     totalCount: attendeeCount.totalCount + 1,
+//     speakerCount: attendeeCount.speakerCount,
+//     event: attendeeCount.event
+//   };
+//   attendee["attendeeCount"] = attendeeCount.attendeeCount + 1;
+//   attendee["attendeeLabel"] = attendee.profileName
+//     .substring(0, 3)
+//     .toUpperCase();
+//   return dispatch => {
+//     axios
+//       .post(`${AppConfig.serverURL}/api/attendee/new`, attendee)
+//       .then(response => {
+//         axios
+//           .put( 
+//             `${AppConfig.serverURL}/api/attendeeCount/${id}`,
+//             attendeeCountObj
+//           )
+//           .then(response => {
+//             dispatch(getAttendees());
+//             dispatch(creatEditAttendeeSuccess());
+//           });
+//       })
+//       .catch(error => {
+//         console.log("(error)", error.response);
+//         dispatch(
+//           creatEditAttendeeFail(error.response.data, error.response.status)
+//         );
+//       });
+//   };
+// };
 
 export const deleteAttendee = id => {
   return dispatch => {
@@ -194,3 +245,6 @@ export const deleteAttendee = id => {
       });
   };
 };
+
+
+

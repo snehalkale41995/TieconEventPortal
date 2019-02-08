@@ -2,6 +2,8 @@ import React, { Component } from "react";
 import { connect } from "react-redux";
 import { Link } from "react-router-dom";
 import * as actions from "../../store/actions/index";
+import axios from "axios";
+
 import {
   FormGroup,
   Col,
@@ -130,6 +132,44 @@ class RegistrationList extends Component {
       this.setState({ modalPopupFlag: true });
     }
   }
+  sendemail(attendee) {
+    console.log('Here 3',attendee);
+
+    
+      axios
+        .post(`http://localhost:3011/api/attendee/inform`, attendee)
+        .then(response => {  
+          console.log("response",response);
+       
+        })
+        .catch(error => {
+          console.log("(error)", error.response);
+          // dispatch(
+          //   creatEditAttendeeFail(error.response.data, error.response.status)
+          // );
+        });
+   
+  };
+  sendEmailToSelectedRowKeys() {
+    console.log('Here',this.refs.table.state.selectedRowKeys);
+    let selectedUsersId = this.refs.table.state.selectedRowKeys;
+    if (selectedUsersId.length > 0) {
+      let users = [];
+      this.props.attendeeList.forEach(attendee => {
+        selectedUsersId.forEach(userId => {
+          if (attendee._id === userId) {
+            users.push({ userInfo: attendee });
+          }
+        });
+      });
+      users.forEach(user => {
+        console.log('Here 2',user.userInfo);
+        this.sendemail(user.userInfo)
+      });
+    } else { 
+      this.setState({ modalPopupFlag: true });
+    }
+  }
   toggleFunction() {
     this.setState({ modalPopupFlag: false });
   }
@@ -240,6 +280,16 @@ class RegistrationList extends Component {
                       >
                         <i className="fa fa-print" />
                         Print QR Code For All
+                      </Button>
+                    </Col>
+                    <Col xs="12" md="3">
+                      <Button
+                        type="button"
+                        onClick={this.sendEmailToSelectedRowKeys.bind(this)}
+                        color="success"
+                      >
+                        <i className="fa fa-print" />
+                        Send E-mails
                       </Button>
                     </Col>
                   </FormGroup>
