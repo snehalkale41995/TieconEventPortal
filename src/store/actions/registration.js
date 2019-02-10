@@ -146,7 +146,7 @@ export const editAttendeeData = (id, attendee) => {
       });
   };
 };
-export const createAttendee = (attendee, attendeeCount) => {
+export const createAttendee = (attendee,image, attendeeCount) => {
   let id = attendeeCount._id;
   let attendeeCountObj = {
     attendeeCount: attendeeCount.attendeeCount + 1,
@@ -164,12 +164,9 @@ export const createAttendee = (attendee, attendeeCount) => {
       if(key!='profileImageURL')
         data.append(key, attendee[key]);
     }
-
-     data.append("profileImageURL",{
-      uri: attendee.profileImageURL,
-      type: 'image/jpeg', // or photo.type
-      name: 'testPhotoName'
-    });
+    console.log('Rgistration',attendee)
+     data.append("profileImageURL",image);
+     console.log('Data:',data)
   return dispatch => {
     axios({
       method: 'post',

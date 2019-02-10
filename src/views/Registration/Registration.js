@@ -22,11 +22,12 @@ class Registration extends Component {
         contact: "",
         profileName: "",
         briefInfo: "",
-        profileImageURL: null,
+        profileImageURL: "",
         event: "",
         roleName: "",
         password: ""
       },
+      profileFile:{},
       firstNameRequired: false,
       lastNameRequired: false,
       emailRequired: false,
@@ -94,26 +95,43 @@ class Registration extends Component {
     }
   }
   onChangeInput(event) {
+    
+    if(event.target.name==='profileImageURL'){
+      console.log(event.target.files);
+      ///let newState={...this.state};
+      //let imageFile={...this.newState.profileFile};
+      let imageFile=event.target.files[0];
+      //newState.profileFile=imageFile;
+      console.log('ImageFile',imageFile);
+      this.setState({profileFile:imageFile})
+      console.log('State',this.state);
+
+    }
+
     const { Registration } = { ...this.state };
     Registration[event.target.name] = event.target.value;
-    this.setState({
-      Registration: Registration,
-      firstNameRequired: false,
-      lastNameRequired: false,
-      emailRequired: false,
-      contactRequired: false,
-      eventRequired: false,
-      inValidContact: false,
-      profileRequired: false,
-      inValidEmail: false,
-      invalidProfileUrl: false
-    });
+  
+  this.setState({
+    Registration: Registration,
+    firstNameRequired: false,
+    lastNameRequired: false,
+    emailRequired: false,
+    contactRequired: false,
+    eventRequired: false,
+    inValidContact: false,
+    profileRequired: false,
+    inValidEmail: false,
+    invalidProfileUrl: false
+  });
+  console.log(this.state.Registration)
   }
 
   toggleFunction() {
     this.setState({ displayPasswordFlag: false });
   }
   onSubmit() {
+    console.log('State',this.state);
+
     let compRef = this;
     let attendeeCount = this.props.attendeeCount;
     let attendee = { ...this.state.Registration };
@@ -161,7 +179,7 @@ class Registration extends Component {
       ]);
       this.state.editAttendee
         ? this.props.editAttendeeData(attendee._id, editedAttendee)
-        : this.props.createAttendee(attendee, attendeeCount);
+        : this.props.createAttendee(attendee,this.state.profileFile, attendeeCount);
       this.setState({ loading: true });
       setTimeout(() => {
         let createEditError = compRef.props.createEditError;
@@ -493,8 +511,8 @@ const mapStateToProps = state => {
 };
 const mapDispatchToProps = dispatch => {
   return {
-    createAttendee: (attendee, attendeeCount) =>
-      dispatch(actions.createAttendee(attendee, attendeeCount)),
+    createAttendee: (attendee, image,attendeeCount) =>
+      dispatch(actions.createAttendee(attendee,image, attendeeCount)),
     getAttendeeData: id => dispatch(actions.getAttendeeData(id)),
     getAttendeeCountForEvent: id =>
       dispatch(actions.getAttendeeCountForEvent(id)),
