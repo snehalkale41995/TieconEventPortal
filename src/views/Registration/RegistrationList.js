@@ -272,24 +272,24 @@ class RegistrationList extends Component {
                         onChange={this.handleProfileChange.bind(this)}
                       />
                     </Col>
-                    <Col xs="12" md="3">
+                    <Col xs="12" md="1">
                       <Button
                         type="button"
                         onClick={this.getSelectedRowKeys.bind(this)}
                         color="success"
                       >
                         <i className="fa fa-print" />
-                        Print QR Code For All
+                      
                       </Button>
                     </Col>
-                    <Col xs="12" md="3">
+                    <Col xs="12" md="1">
                       <Button
                         type="button"
                         onClick={this.sendEmailToSelectedRowKeys.bind(this)}
                         color="success"
                       >
-                        <i className="fa fa-print" />
-                        Send E-mails
+                        <i className="fa fa-envelope" />
+                      
                       </Button>
                     </Col>
                   </FormGroup>

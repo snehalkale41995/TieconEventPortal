@@ -164,9 +164,8 @@ export const createAttendee = (attendee,image, attendeeCount) => {
       if(key!='profileImageURL')
         data.append(key, attendee[key]);
     }
-    console.log('Rgistration',attendee)
      data.append("profileImageURL",image);
-     console.log('Data:',data)
+    
   return dispatch => {
     axios({
       method: 'post',
@@ -176,8 +175,6 @@ export const createAttendee = (attendee,image, attendeeCount) => {
       })
       .then(function (response) {
           //handle success
-          console.log(response);
-
           axios
           .put( 
             `${AppConfig.serverURL}/api/attendeeCount/${id}`,
@@ -187,11 +184,9 @@ export const createAttendee = (attendee,image, attendeeCount) => {
             dispatch(getAttendees());
             dispatch(creatEditAttendeeSuccess());
           });
-          console.log(response);
       })
       .catch(function (response) {
           //handle error
-          console.log(response);
       });
   };
 };
