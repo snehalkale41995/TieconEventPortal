@@ -52,12 +52,14 @@ export const storeAttendeeData = attendeeData => {
 };
 
 export const getAttendees = () => {
+
   let attendees = [];
   return dispatch => {
     axios
       .get(`${AppConfig.serverURL}/api/attendee`)
       .then(response => {
         attendees = response.data;
+
         attendees.forEach(attendee => {
           if (attendee.event !== null) {
             attendee.eventName = attendee.event.eventName;
@@ -66,6 +68,7 @@ export const getAttendees = () => {
         dispatch(storeAttendees(attendees));
       })
       .catch(error => {
+
         dispatch(getAttendeeFail());
       });
   };
@@ -146,6 +149,28 @@ export const editAttendeeData = (id, attendee) => {
       });
   };
 };
+
+export const sendEmail=attendee=> {
+  if(!attendee.isEmail){
+    attendee={...attendee,isEmail:true}; 
+    return dispatch => {
+      axios
+        .post(`${AppConfig.serverURL}/api/attendee/inform`, attendee)
+        .then(response => {  
+          dispatch(getAttendees());
+        })
+        .catch(error => {
+          // dispatch(
+          //   creatEditAttendeeFail(error.response.data, error.response.status)
+          // );
+        });
+      };
+      }else{
+        return dispatch => {
+        }
+      }
+
+};
 export const createAttendee = (attendee,image, attendeeCount) => {
   let id = attendeeCount._id;
   let attendeeCountObj = {
@@ -164,12 +189,13 @@ export const createAttendee = (attendee,image, attendeeCount) => {
       if(key!='profileImageURL')
         data.append(key, attendee[key]);
     }
+    data.append('isEmail',true);
      data.append("profileImageURL",image);
     
   return dispatch => {
     axios({
       method: 'post',
-      url: 'http://localhost:3011/api/attendee/new',
+      url: AppConfig.serverURL+'/api/attendee/new',
       data: data,
       config: { headers: {'Content-Type': 'multipart/form-data' }}
       })
