@@ -24,6 +24,7 @@ export {
   getAttendeeById,
   editAttendeeData,
   storeAttendeeData,
+  sendEmail,
   deleteAttendee,
   getAttendeesForEvent,
   getAttendeesForEventAndProfile
