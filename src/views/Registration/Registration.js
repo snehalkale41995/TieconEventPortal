@@ -73,7 +73,7 @@ class Registration extends Component {
         Attendee._id = this.props.attendeeData._id;
         this.setState({
           Registration: Attendee,
-          editAttendee: true
+          editAttendee: true 
         });
       } else {
         this.setState({
@@ -401,15 +401,10 @@ class Registration extends Component {
         this.state.loading
       }
       />
-    ) : ( <
-      CardLayout name = "Registration" >
-      <
-      FormGroup row >
-      <
-      Col xs = "12"
-      md = "6" >
-      <
-      InputElement type = "text"
+    ) : ( <CardLayout name = "Registration" >
+      <FormGroup row >
+      <Col xs = "12"     md = "6" >
+      <InputElement type = "text"
       placeholder = "First name"
       name = "firstName"
       icon = "icon-user"
@@ -423,11 +418,8 @@ class Registration extends Component {
       onchanged = {
         event => this.onChangeInput(event)
       }
-      /> <
-      /Col> <
-      Col md = "6" >
-      <
-      InputElement type = "text"
+      /> </Col> <Col md = "6" >
+      <InputElement type = "text"
       placeholder = "Last name"
       name = "lastName"
       icon = "icon-user"
@@ -441,15 +433,9 @@ class Registration extends Component {
       onchanged = {
         event => this.onChangeInput(event)
       }
-      /> <
-      /Col> <
-      /FormGroup> <
-      FormGroup row >
-      <
-      Col xs = "12"
-      md = "6" >
-      <
-      InputElement type = "email"
+      /> </Col> </FormGroup> <FormGroup row >
+      <Col xs = "12"   md = "6" >
+      <InputElement type = "email"
       placeholder = "Email"
       name = "email"
       icon = "icon-envelope"
@@ -468,11 +454,8 @@ class Registration extends Component {
       onchanged = {
         event => this.onChangeInput(event)
       }
-      /> <
-      /Col> <
-      Col md = "6" >
-      <
-      InputElement type = "text"
+      /> </Col> <Col md = "6" >
+      <InputElement type = "text"
       placeholder = "Contact number"
       name = "contact"
       icon = "icon-phone"
@@ -492,15 +475,9 @@ class Registration extends Component {
       onchanged = {
         event => this.onChangeInput(event)
       }
-      /> <
-      /Col> <
-      /FormGroup> <
-      FormGroup row >
-      <
-      Col xs = "12"
-      md = "6" >
-      <
-      Select placeholder = "Select event"
+      /> </Col> </FormGroup> <FormGroup row >
+      <Col xs = "12"  md = "6" >
+      <Select placeholder = "Select event"
       value = {
         Registration.event
       }
@@ -511,23 +488,17 @@ class Registration extends Component {
         this.handleEventChange.bind(this)
       }
       /> {
-        this.state.eventRequired ? ( <
-          div style = {
+        this.state.eventRequired ? ( <div style = {
             {
               color: "red",
               marginTop: 0
             }
           }
           className = "help-block" >
-          *
-          Please select event <
-          /div>
+          *Please select event </div>
         ) : null
-      } <
-      /Col> <
-      Col md = "6" >
-      <
-      InputElement type = "text"
+      } </Col> <Col md = "6" >
+      <InputElement type = "text"
       placeholder = "Brief info"
       name = "briefInfo"
       icon = "icon-info"

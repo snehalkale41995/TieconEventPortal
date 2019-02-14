@@ -132,26 +132,8 @@ class RegistrationList extends Component {
       this.setState({ modalPopupFlag: true });
     }
   }
-  sendemail(attendee) {
-    console.log('Here 3',attendee);
-
-    
-      axios
-        .post(`http://localhost:3011/api/attendee/inform`, attendee)
-        .then(response => {  
-          console.log("response",response);
-       
-        })
-        .catch(error => {
-          console.log("(error)", error.response);
-          // dispatch(
-          //   creatEditAttendeeFail(error.response.data, error.response.status)
-          // );
-        });
-   
-  };
+ 
   sendEmailToSelectedRowKeys() {
-    console.log('Here',this.refs.table.state.selectedRowKeys);
     let selectedUsersId = this.refs.table.state.selectedRowKeys;
     if (selectedUsersId.length > 0) {
       let users = [];
@@ -163,9 +145,10 @@ class RegistrationList extends Component {
         });
       });
       users.forEach(user => {
-        console.log('Here 2',user.userInfo);
-        this.sendemail(user.userInfo)
+        this.props.sendEmail(user.userInfo)
       });
+     // this.props.getAttendeeList();
+
     } else { 
       this.setState({ modalPopupFlag: true });
     }
@@ -421,6 +404,8 @@ const mapStateToProps = state => {
 
 const mapDispatchToProps = dispatch => {
   return {
+    sendEmail: attendee =>
+    dispatch(actions.sendEmail(attendee)),
     getAttendeeList: () => dispatch(actions.getAttendees()),
     storeAttendeeData: attendee =>
       dispatch(actions.storeAttendeeData(attendee)),
