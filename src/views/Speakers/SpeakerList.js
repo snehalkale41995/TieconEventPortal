@@ -125,6 +125,30 @@ class SpeakerList extends Component {
       this.setState({ modalPopupFlag: true });
     }
   }
+
+  sendEmailToSelectedRowKeys() {
+    console.log('Here');
+    let selectedUsersId = this.refs.table.state.selectedRowKeys;
+    if (selectedUsersId.length > 0) {
+      let users = [];
+      this.props.speakerList.forEach(speaker => {
+        selectedUsersId.forEach(userId => {
+          if (speaker._id === userId) {
+            users.push({ userInfo: speaker });
+          }
+        });
+      });
+      users.forEach(user => {
+        console.log('Here 2');
+
+        this.props.sendEmailToSpeaker(user.userInfo)
+      });
+     // this.props.getAttendeeList();
+
+    } else { 
+      this.setState({ modalPopupFlag: true });
+    }
+  }
   toggleFunction() {
     this.setState({ modalPopupFlag: false });
   }
@@ -197,14 +221,23 @@ class SpeakerList extends Component {
                         onChange={this.handleEventChange.bind(this)}
                       />
                     </Col>
-                    <Col xs="10" md="4">
+                    <Col xs="10" md="2">
                       <Button
                         type="button"
                         onClick={this.getSelectedRowKeys.bind(this)}
                         color="success"
                       >
                         <i className="fa fa-print" />
-                        Print QR Code For All
+                      </Button>
+                    </Col>
+                    <Col xs="12" md="2">
+                      <Button
+                        type="button"
+                        onClick={this.sendEmailToSelectedRowKeys.bind(this)}
+                        color="success"
+                      >
+                        <i className="fa fa-envelope" />
+                      
                       </Button>
                     </Col>
                   </FormGroup>
@@ -333,6 +366,7 @@ const mapStateToProps = state => {
 
 const mapDispatchToProps = dispatch => {
   return {
+    sendEmailToSpeaker:speaker=>dispatch(actions.sendEmailToSpeaker(speaker)),
     getSpeakerList: () => dispatch(actions.getSpeakers()),
     storeSpeakerData: attendee => dispatch(actions.storeSpeakerData(attendee)),
     deleteSpeaker: id => dispatch(actions.deleteSpeaker(id)),

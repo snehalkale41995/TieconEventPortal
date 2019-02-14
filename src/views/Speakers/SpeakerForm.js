@@ -34,6 +34,7 @@ class SpeakerForm extends Component {
         roleName: "Speaker",
         password: ""
       },
+      profileFile: {},
       firstNameRequired: false,
       lastNameRequired: false,
       emailRequired: false,
@@ -71,6 +72,15 @@ class SpeakerForm extends Component {
   }
 
   onChangeInput(event) {
+    if (event.target.name === 'profileImageURL') {
+      ///let newState={...this.state};
+      //let imageFile={...this.newState.profileFile};
+      let imageFile = event.target.files[0];
+      //newState.profileFile=imageFile;
+      this.setState({
+        profileFile: imageFile
+      })
+    }
     const { Speaker } = { ...this.state };
     Speaker[event.target.name] = event.target.value;
     this.setState({
@@ -134,11 +144,11 @@ class SpeakerForm extends Component {
     this.setState({ passwordModal: password });
     this.setState({ emailModal: speaker.email });
     var re = /^(http[s]?:\/\/){0,1}(www\.){0,1}[a-zA-Z0-9\.\-]+\.[a-zA-Z]{2,5}[\.]{0,1}/;
-    if (speaker.profileImageURL !== "") {
-      if (!re.test(speaker.profileImageURL)) {
-        invalidProfileUrl = true;
-      }
-    }
+    // if (speaker.profileImageURL !== "") {
+    //   if (!re.test(speaker.profileImageURL)) {
+    //     invalidProfileUrl = true;
+    //   }
+    // }
     if (speaker.email) {
       validEmail = speaker.email.match(/^([\w.%+-]+)@([\w-]+\.)+([\w]{2,})$/i);
     }
@@ -169,7 +179,7 @@ class SpeakerForm extends Component {
 
       this.state.editSpeaker
         ? this.updateSpeaker(speaker._id, editedSpeaker)
-        : this.createSpeaker(speaker, attendeeCount);
+        : this.createSpeaker(speaker, this.state.profileFile,attendeeCount);
     } else {
       !speaker.firstName ? this.setState({ firstNameRequired: true }) : null;
       !speaker.lastName ? this.setState({ lastNameRequired: true }) : null;
@@ -200,10 +210,10 @@ class SpeakerForm extends Component {
     }, 2000);
   }
 
-  createSpeaker(speaker, attendeeCount) {
+  createSpeaker(speaker,image, attendeeCount) {
     let compRef = this;
     speaker.roleName = "Speaker";
-    this.props.createSpeaker(speaker, attendeeCount);
+    this.props.createSpeaker(speaker,image, attendeeCount);
     setTimeout(() => {
       let speakerCreated = this.props.speakerCreated;
       compRef.Toaster(compRef, speakerCreated, "Created");
@@ -364,7 +374,7 @@ class SpeakerForm extends Component {
           </Col>
           <Col md="6">
             <InputElement
-              type="text"
+              type="file"
               placeholder="Profile image URL"
               name="profileImageURL"
               icon="icon-link"
@@ -455,8 +465,8 @@ const mapStateToProps = state => {
 };
 const mapDispatchToProps = dispatch => {
   return {
-    createSpeaker: (speaker, attendeeCount) =>
-      dispatch(actions.createSpeaker(speaker, attendeeCount)),
+    createSpeaker: (speaker,image, attendeeCount) =>
+      dispatch(actions.createSpeaker(speaker,image, attendeeCount)),
     getSpeakerData: id => dispatch(actions.getSpeakerData(id)),
     editSpeakerData: (id, speaker) =>
       dispatch(actions.editSpeakerData(id, speaker)),

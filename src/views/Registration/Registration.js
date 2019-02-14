@@ -110,17 +110,10 @@ class Registration extends Component {
   onChangeInput(event) {
 
     if (event.target.name === 'profileImageURL') {
-
-      ///let newState={...this.state};
-      //let imageFile={...this.newState.profileFile};
       let imageFile = event.target.files[0];
-      //newState.profileFile=imageFile;
-
       this.setState({
         profileFile: imageFile
       })
-
-
     }
 
     const {
