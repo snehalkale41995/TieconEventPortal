@@ -48,7 +48,6 @@ export const getProfileArray = () => {
         let ProfileArray = [];
         ProfileArray = response.data[0].profiles;
         ProfileArray.push("Speaker");
-        console.log("ProfileArrayyyy", ProfileArray);
         dispatch(getProfileArraysSuccess(ProfileArray));
       })
       .catch(error => {

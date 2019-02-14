@@ -47,7 +47,6 @@ class EventLocation extends Component {
   }
 
   componentDidUpdate(prevProps, prevState) {
-    console.log("this.props.eventLocation", this.props.eventLocation);
     if (prevProps.eventLocation !== this.props.eventLocation) {
       let isEmpty = !Object.keys(this.props.eventLocation).length;
       if (!isEmpty) {

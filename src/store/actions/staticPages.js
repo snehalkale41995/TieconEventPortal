@@ -221,7 +221,6 @@ export const getLocationForEvent = id => {
       })
       .catch(error => {
         dispatch(getLocationError());
-        //console.log('error',error);
       });
   };
 };
