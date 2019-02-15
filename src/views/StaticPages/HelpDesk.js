@@ -226,7 +226,7 @@ class HelpDesk extends Component {
       <Loader loading={this.state.loading} />
     ) : (
       <CardLayout name="Help Desk">
-        <FormGroup row>
+        <FormGroup row style={{ marginTop: 20 }}>
           <Col xs="12" md="4">
             <Select
               placeholder="Select event"
@@ -245,11 +245,12 @@ class HelpDesk extends Component {
             ) : null}
           </Col>
         </FormGroup>
-        <FormGroup row>
+        <FormGroup row style={{ marginTop: 30 }}>
           <Col xs="12" md="6">
             <InputElement
               icon="icon-envelope"
               type="email"
+              label="Event support email"
               placeholder="Event support email"
               name="eventSupportEmail"
               inValid={this.state.inValidEventEmail}
@@ -262,6 +263,7 @@ class HelpDesk extends Component {
             <InputElement
               icon="icon-phone"
               type="text"
+              label="Event support contact"
               placeholder="Event support contact"
               name="eventSupportContact"
               maxLength="10"
@@ -277,6 +279,7 @@ class HelpDesk extends Component {
             <InputElement
               icon="icon-envelope"
               type="email"
+              label="Technical support email"
               placeholder="Technical support email"
               name="techSupportEmail"
               inValid={this.state.inValidTechEmail}
@@ -289,6 +292,7 @@ class HelpDesk extends Component {
             <InputElement
               type="text"
               icon="icon-phone"
+              label="Technical support contact"
               placeholder="Technical support contact"
               name="techSupportContact"
               maxLength="10"

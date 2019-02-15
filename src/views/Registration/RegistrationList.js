@@ -132,7 +132,7 @@ class RegistrationList extends Component {
       this.setState({ modalPopupFlag: true });
     }
   }
- 
+
   sendEmailToSelectedRowKeys() {
     let selectedUsersId = this.refs.table.state.selectedRowKeys;
     if (selectedUsersId.length > 0) {
@@ -145,11 +145,10 @@ class RegistrationList extends Component {
         });
       });
       users.forEach(user => {
-        this.props.sendEmail(user.userInfo)
+        this.props.sendEmail(user.userInfo);
       });
-     // this.props.getAttendeeList();
-
-    } else { 
+      // this.props.getAttendeeList();
+    } else {
       this.setState({ modalPopupFlag: true });
     }
   }
@@ -255,24 +254,24 @@ class RegistrationList extends Component {
                         onChange={this.handleProfileChange.bind(this)}
                       />
                     </Col>
-                    <Col xs="12" md="1">
+                    <Col xs="12" md="1" style={{ marginTop: 6 }}>
                       <Button
                         type="button"
                         onClick={this.getSelectedRowKeys.bind(this)}
                         color="success"
+                        title="Print QR code"
                       >
                         <i className="fa fa-print" />
-                      
                       </Button>
                     </Col>
-                    <Col xs="12" md="1">
+                    <Col xs="12" md="1" style={{ marginTop: 6 }}>
                       <Button
                         type="button"
                         onClick={this.sendEmailToSelectedRowKeys.bind(this)}
                         color="success"
+                        title="Send email"
                       >
                         <i className="fa fa-envelope" />
-                      
                       </Button>
                     </Col>
                   </FormGroup>
@@ -404,8 +403,7 @@ const mapStateToProps = state => {
 
 const mapDispatchToProps = dispatch => {
   return {
-    sendEmail: attendee =>
-    dispatch(actions.sendEmail(attendee)),
+    sendEmail: attendee => dispatch(actions.sendEmail(attendee)),
     getAttendeeList: () => dispatch(actions.getAttendees()),
     storeAttendeeData: attendee =>
       dispatch(actions.storeAttendeeData(attendee)),

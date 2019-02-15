@@ -1,7 +1,15 @@
 import React, { Component } from "react";
 import { connect } from "react-redux";
 import * as actions from "../../store/actions/index";
-import { FormGroup, Col, Button, InputGroup, InputGroupText,Input} from "reactstrap";
+import {
+  FormGroup,
+  Col,
+  Button,
+  InputGroup,
+  InputGroupText,
+  Input,
+  Label
+} from "reactstrap";
 import InputElement from "../../components/Input/";
 import CardLayout from "../../components/CardLayout/";
 import _ from "lodash";
@@ -117,9 +125,12 @@ class AboutUs extends Component {
     this.setState({ loading: false });
     if (!createEditError) {
       this.onReset();
-      toast.success("About Event Information " + actionName + " Successfully.", {
-        position: toast.POSITION.BOTTOM_RIGHT
-      });
+      toast.success(
+        "About Event Information " + actionName + " Successfully.",
+        {
+          position: toast.POSITION.BOTTOM_RIGHT
+        }
+      );
     } else {
       toast.error("Something went wrong", {
         position: toast.POSITION.BOTTOM_RIGHT
@@ -146,7 +157,7 @@ class AboutUs extends Component {
       <Loader loading={this.state.loading} />
     ) : (
       <CardLayout name="About Event">
-        <FormGroup row>
+        <FormGroup row style={{ marginTop: 30 }}>
           <Col xs="12" md="4">
             <Select
               placeholder="Select event"
@@ -165,8 +176,9 @@ class AboutUs extends Component {
             ) : null}
           </Col>
         </FormGroup>
-        <FormGroup row>
+        <FormGroup row style={{ marginTop: 20 }}>
           <Col xs="12" md="6">
+            <Label style={{ fontSize: 16 }}>Event information</Label>
             <InputGroup className="mb-3">
               <InputGroupText>
                 <i className="icon-info" />
@@ -194,6 +206,7 @@ class AboutUs extends Component {
             <InputElement
               icon="icon-link"
               type="text"
+              label="Website Url"
               placeholder="Website Url"
               name="url"
               inValid={this.state.invalidUrl}

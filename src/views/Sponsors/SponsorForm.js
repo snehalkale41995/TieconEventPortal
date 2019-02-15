@@ -1,7 +1,15 @@
 import React, { Component } from "react";
 import { connect } from "react-redux";
 import * as actions from "../../store/actions/index";
-import { FormGroup, Col, Button,InputGroup, InputGroupText, Input} from "reactstrap";
+import {
+  FormGroup,
+  Col,
+  Button,
+  InputGroup,
+  InputGroupText,
+  Input,
+  Label
+} from "reactstrap";
 import InputElement from "../../components/Input/";
 import CardLayout from "../../components/CardLayout/";
 import Select from "react-select";
@@ -160,7 +168,7 @@ class SponsorForm extends Component {
       "imageURL",
       "orderNumber"
     ]);
-   
+
     let orderNumber;
     orderNumber = this.getOrderNumber(Sponsor.category);
     Sponsor.orderNumber = orderNumber;
@@ -257,6 +265,7 @@ class SponsorForm extends Component {
             <InputElement
               icon="fa fa-money"
               type="text"
+              label="Sponsor name"
               placeholder="Sponsor name"
               name="name"
               maxLength="50"
@@ -266,6 +275,7 @@ class SponsorForm extends Component {
             />
           </Col>
           <Col md="6">
+            <Label style={{ fontSize: 16 }}>Event</Label>
             <Select
               placeholder="Select event"
               value={Sponsor.event}
@@ -286,16 +296,27 @@ class SponsorForm extends Component {
         </FormGroup>
         <FormGroup row>
           <Col xs="12" md="6">
-          <InputGroup className="mb-3">
-          <InputGroupText><i className="icon-note"></i></InputGroupText>
-          <Input style={{height:'36px'}} maxLength="500" type="textarea" placeholder="Description" name="description"  value={Sponsor.description}
-           onChange={event => this.onChangeInput(event)}/>
-          </InputGroup>
+            <Label style={{ fontSize: 16 }}>Description</Label>
+            <InputGroup className="mb-3">
+              <InputGroupText>
+                <i className="icon-note" />
+              </InputGroupText>
+              <Input
+                style={{ height: "36px" }}
+                maxLength="500"
+                type="textarea"
+                placeholder="Description"
+                name="description"
+                value={Sponsor.description}
+                onChange={event => this.onChangeInput(event)}
+              />
+            </InputGroup>
           </Col>
           <Col md="6">
             <InputElement
               icon="icon-link"
               type="text"
+              label="Website URL"
               placeholder="Website URL"
               name="websiteURL"
               inValid={this.state.invalidWebsiteUrl}
@@ -309,6 +330,7 @@ class SponsorForm extends Component {
             <InputElement
               icon="icon-link"
               type="text"
+              label="Image URL"
               placeholder="Image URL"
               name="imageURL"
               inValid={this.state.invalidImageUrl}
@@ -317,6 +339,7 @@ class SponsorForm extends Component {
             />
           </Col>
           <Col md="6">
+           <Label style={{ fontSize: 16 }}>Category</Label>
             <Select
               placeholder="Select category"
               value={Sponsor.category}

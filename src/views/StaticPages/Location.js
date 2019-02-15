@@ -7,7 +7,8 @@ import {
   Button,
   InputGroup,
   InputGroupText,
-  Input
+  Input,
+  Label
 } from "reactstrap";
 import InputElement from "../../components/Input/";
 import CardLayout from "../../components/CardLayout/";
@@ -194,8 +195,9 @@ class EventLocation extends Component {
       <Loader loading={this.state.loading} />
     ) : (
       <CardLayout name="Event Location">
-        <FormGroup row>
+        <FormGroup row style={{ marginTop: 20 }}>
           <Col xs="12" md="6">
+            <Label style={{ fontSize: 16 }}>Event</Label>
             <Select
               name="event"
               placeholder="Select event"
@@ -214,6 +216,7 @@ class EventLocation extends Component {
             ) : null}
           </Col>
           <Col md="6">
+            <Label style={{ fontSize: 16 }}>Event address</Label>
             <InputGroup className="mb-3">
               <InputGroupText>
                 <i className="icon-home" />
@@ -242,6 +245,7 @@ class EventLocation extends Component {
           <Col xs="12" md="6">
             <InputElement
               className="inputNumber"
+              label="Latitude"
               icon="fa fa-map-marker"
               type="number"
               placeholder="Latitude"
@@ -256,6 +260,7 @@ class EventLocation extends Component {
           <Col xs="12" md="6">
             <InputElement
               className="inputNumber"
+              label="Longitude"
               icon="fa fa-map-marker"
               type="number"
               placeholder="Longitude"

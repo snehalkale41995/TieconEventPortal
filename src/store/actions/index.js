@@ -79,7 +79,8 @@ export {
   editSpeakerData,
   storeSpeakerData,
   deleteSpeaker,
-  getSpeakersForEvent
+  getSpeakersForEvent,
+  sendEmailToSpeaker
 } from "./speaker";
 
 export {
