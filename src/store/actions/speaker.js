@@ -69,6 +69,7 @@ export const getSpeakers = () => {
       .get(`${AppConfig.serverURL}/api/speaker`)
       .then(response => {
         speakers = response.data;
+        console.log(speakers)
         speakers.forEach(speaker => {
           if (speaker.event !== null) {
             speaker.eventName = speaker.event.eventName;
@@ -129,8 +130,7 @@ export const editSpeakerData = (id, speaker) => {
       });
   };
 };
-
-export const createSpeaker = (speaker, attendeeCount) => {
+export const createSpeaker = (speaker,image, attendeeCount) => {
   let id = attendeeCount._id;
   let attendeeCountObj = {
     attendeeCount: attendeeCount.attendeeCount,
@@ -140,10 +140,23 @@ export const createSpeaker = (speaker, attendeeCount) => {
   };
   speaker["attendeeCount"] = attendeeCount.speakerCount + 1;
   speaker["attendeeLabel"] = "SPE";
+
+  let data=new FormData();
+  for ( var key in speaker ) {
+    if(key!='profileImageURL')
+      data.append(key, speaker[key]);
+  }
+  data.append('isEmail',true);
+  data.append("profileImageURL",image);
+
   return dispatch => {
-    axios
-      .post(`${AppConfig.serverURL}/api/speaker`, speaker)
-      .then(response => {
+    axios({
+      method: 'post',
+      url: AppConfig.serverURL+'/api/speaker/new',
+      data: data,
+      config: { headers: {'Content-Type': 'multipart/form-data' }}
+      })
+      .then(function (response) {
         axios
           .put(
             `${AppConfig.serverURL}/api/attendeeCount/${id}`,
@@ -160,7 +173,60 @@ export const createSpeaker = (speaker, attendeeCount) => {
       });
   };
 };
+// export const createSpeaker = (speaker, attendeeCount) => {
+//   let id = attendeeCount._id;
+//   let attendeeCountObj = {
+//     attendeeCount: attendeeCount.attendeeCount,
+//     totalCount: attendeeCount.totalCount + 1,
+//     speakerCount: attendeeCount.speakerCount + 1,
+//     event: attendeeCount.event
+//   };
+//   speaker["attendeeCount"] = attendeeCount.speakerCount + 1;
+//   speaker["attendeeLabel"] = "SPE";
+//   return dispatch => {
+//     axios
+//       .post(`${AppConfig.serverURL}/api/speaker`, speaker)
+//       .then(response => {
+//         axios
+//           .put(
+//             `${AppConfig.serverURL}/api/attendeeCount/${id}`,
+//             attendeeCountObj
+//           )
+//           .then(response => {
+//             dispatch(getSpeakers());
+//             dispatch(createSpeakerSuccess());
+//           });
+//       })
+//       .catch(error => {
+//         dispatch(createSpeakerFail(error.response.data, error.response.status));
+//         //dispatch(logRegistrationError());
+//       });
+//   };
+// };
+export const sendEmailToSpeaker=speaker=> {
+  if(!speaker.isEmail){
+    speaker={...speaker,isEmail:true}; 
+    return dispatch => {
+      axios
+        .post(`${AppConfig.serverURL}/api/speaker/inform`, speaker)
+        .then(response => {  
+          dispatch(getSpeakers());
+        })
+        .catch(error => {
+          // dispatch(
+          //   creatEditAttendeeFail(error.response.data, error.response.status)
+          // );
+          console.log(error)
+        });
+      };
+      }else{
+        return dispatch => {
+          console.log(speaker)
 
+        }
+      }
+
+};
 export const deleteSpeaker = id => {
   return dispatch => {
     axios
