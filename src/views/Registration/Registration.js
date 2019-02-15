@@ -1,7 +1,15 @@
 import React, { Component } from "react";
 import { connect } from "react-redux";
 import * as actions from "../../store/actions/index";
-import { FormGroup, Col, Button, Label } from "reactstrap";
+import {
+  FormGroup,
+  Col,
+  Button,
+  Label,
+  InputGroup,
+  Input,
+  InputGroupText
+} from "reactstrap";
 import InputElement from "../../components/Input/";
 import CardLayout from "../../components/CardLayout/";
 import Select from "react-select";
@@ -507,16 +515,31 @@ class Registration extends Component {
             ) : null}
           </Col>
           <Col xs="12" md="6">
-            <InputElement
+            {/* <InputElement
               type="file"
               label="Profile image URL"
               placeholder="Profile image URL"
               name="profileImageURL"
               icon="icon-link"
+              className="form-control-range"
               inValid={this.state.invalidProfileUrl}
               value={Registration.profileImageURL}
               onchanged={event => this.onChangeInput(event)}
-            />
+            /> */}
+            <Label style={{ fontSize: 16 }}>Profile image URL</Label>
+            <InputGroup className="mb-3">
+              <InputGroupText>
+                <i className="icon-link" />
+              </InputGroupText>
+              <input
+                class="imageFile"
+                type="file"
+                placeholder="Profile image URL"
+                name="profileImageURL"
+                value={Registration.profileImageURL}
+                onchanged={event => this.onChangeInput(event)}
+              />
+            </InputGroup>
           </Col>
         </FormGroup>
         <FormGroup row>

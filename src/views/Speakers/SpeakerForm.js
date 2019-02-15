@@ -380,20 +380,6 @@ class SpeakerForm extends Component {
           </Col>
           <Col md="6">
             <InputElement
-              type="file"
-              placeholder="Profile image URL"
-              label="Profile image URL"
-              name="profileImageURL"
-              icon="icon-link"
-              inValid={this.state.invalidProfileUrl}
-              value={Speaker.profileImageURL}
-              onchanged={event => this.onChangeInput(event)}
-            />
-          </Col>
-        </FormGroup>
-        <FormGroup row>
-          <Col xs="12" md="6">
-            <InputElement
               type="text"
               label="Brief info"
               placeholder="Brief info"
@@ -404,6 +390,8 @@ class SpeakerForm extends Component {
               onchanged={event => this.onChangeInput(event)}
             />
           </Col>
+        </FormGroup>
+        <FormGroup row>
           <Col xs="12" md="6">
             <Label style={{ fontSize: 16 }}>Info</Label>
             <InputGroup className="mb-3">
@@ -418,6 +406,32 @@ class SpeakerForm extends Component {
                 maxLength="250"
                 value={Speaker.info}
                 onChange={event => this.onChangeInput(event)}
+              />
+            </InputGroup>
+          </Col>
+          <Col xs="12" md="6">
+            {/* <InputElement
+              type="file"
+              placeholder="Profile image URL"
+              label="Profile image URL"
+              name="profileImageURL"
+              icon="icon-link"
+              inValid={this.state.invalidProfileUrl}
+              value={Speaker.profileImageURL}
+              onchanged={event => this.onChangeInput(event)}
+            /> */}
+            <Label style={{ fontSize: 16 }}>Profile image URL</Label>
+            <InputGroup className="mb-3">
+              <InputGroupText>
+                <i className="icon-link" />
+              </InputGroupText>
+              <input
+                class="imageFile"
+                type="file"
+                placeholder="Profile image URL"
+                name="profileImageURL"
+                value={Speaker.profileImageURL}
+                onchanged={event => this.onChangeInput(event)}
               />
             </InputGroup>
           </Col>
