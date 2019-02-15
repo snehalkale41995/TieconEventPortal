@@ -812,6 +812,7 @@ class SessionForm extends Component {
                 <Col xs="12">
                   <InputElement
                     type="text"
+                    label="Session name"
                     placeholder="Session name"
                     maxLength="250"
                     name="sessionName"
@@ -823,8 +824,11 @@ class SessionForm extends Component {
                   />
                 </Col>
               </FormGroup>
-              <FormGroup row>
+              <FormGroup row style={{ marginTop: -10 }}>
                 <Col xs="12">
+                  <Label style={{ fontSize: 16, marginTop: -10 }}>
+                    Session type
+                  </Label>
                   <Select
                     simpleValue
                     onChange={this.changeSessionType.bind(this)}
@@ -840,6 +844,7 @@ class SessionForm extends Component {
               </FormGroup>
               <FormGroup row>
                 <Col xs="12">
+                  <Label style={{ fontSize: 16 }}>Speakers</Label>
                   <Select
                     multi
                     onChange={this.changeSpeakers.bind(this)}
@@ -859,6 +864,7 @@ class SessionForm extends Component {
               </FormGroup>
               <FormGroup row>
                 <Col xs="12">
+                  <Label style={{ fontSize: 16 }}>Volunteers</Label>
                   <Select
                     multi
                     placeholder="Select volunteers"
@@ -878,6 +884,7 @@ class SessionForm extends Component {
               </FormGroup>
               <FormGroup row>
                 <Col xs="12">
+                  <Label style={{ fontSize: 16 }}>Description</Label>
                   <InputGroup className="mb-3">
                     <InputGroupText>
                       <i className="icon-note" />
@@ -895,19 +902,23 @@ class SessionForm extends Component {
                 </Col>
               </FormGroup>
               <FormGroup row>
-                <Col xs="12">
-                  <InputElement
-                    type="number"
-                    placeholder="Session capacity"
-                    name="sessionCapacity"
-                    icon="icon-pie-chart"
-                    disabled={this.state.isCommon}
-                    required={
-                      this.state.sessionCapacityRequired && !this.state.isCommon
-                    }
-                    value={this.state.Session.sessionCapacity}
-                    onchanged={session => this.ChangeCapacityHandler(session)}
-                  />
+                <Col xs="12" style={{ marginTop: -10 }}>
+                  <Label style={{ fontSize: 16 }}>Session capacity</Label>
+                  <div style={{ marginTop: -20 }}>
+                    <InputElement
+                      type="number"
+                      placeholder="Session capacity"
+                      name="sessionCapacity"
+                      icon="icon-pie-chart"
+                      disabled={this.state.isCommon}
+                      required={
+                        this.state.sessionCapacityRequired &&
+                        !this.state.isCommon
+                      }
+                      value={this.state.Session.sessionCapacity}
+                      onchanged={session => this.ChangeCapacityHandler(session)}
+                    />
+                  </div>
                 </Col>
               </FormGroup>
               {this.state.inValidSessionCapacity ? (
@@ -920,14 +931,17 @@ class SessionForm extends Component {
                 </div>
               ) : null}
               <FormGroup row>
-                <Col xs="12">
+                <Col xs="1">
                   <input
                     disabled={this.state.isCommon}
                     type="checkbox"
+                    class="largerCheckbox"
                     checked={this.state.Session.isRegistrationRequired}
                     onChange={this.toggleSessionRequired.bind(this)}
                   />
-                  <Label> Registration Required </Label>
+                </Col>
+                <Col xs="11">
+                  <Label style={{ fontSize: 16 }}>Registration Required</Label>
                 </Col>
               </FormGroup>
               {this.state.editDeleteFlag && (

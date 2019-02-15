@@ -8,7 +8,8 @@ import {
   Input,
   InputGroup,
   InputGroupAddon,
-  InputGroupText
+  InputGroupText,
+  Label
 } from "reactstrap";
 import InputElement from "../../components/Input/";
 import CardLayout from "../../components/CardLayout/";
@@ -72,14 +73,14 @@ class SpeakerForm extends Component {
   }
 
   onChangeInput(event) {
-    if (event.target.name === 'profileImageURL') {
+    if (event.target.name === "profileImageURL") {
       ///let newState={...this.state};
       //let imageFile={...this.newState.profileFile};
       let imageFile = event.target.files[0];
       //newState.profileFile=imageFile;
       this.setState({
         profileFile: imageFile
-      })
+      });
     }
     const { Speaker } = { ...this.state };
     Speaker[event.target.name] = event.target.value;
@@ -179,7 +180,7 @@ class SpeakerForm extends Component {
 
       this.state.editSpeaker
         ? this.updateSpeaker(speaker._id, editedSpeaker)
-        : this.createSpeaker(speaker, this.state.profileFile,attendeeCount);
+        : this.createSpeaker(speaker, this.state.profileFile, attendeeCount);
     } else {
       !speaker.firstName ? this.setState({ firstNameRequired: true }) : null;
       !speaker.lastName ? this.setState({ lastNameRequired: true }) : null;
@@ -210,10 +211,10 @@ class SpeakerForm extends Component {
     }, 2000);
   }
 
-  createSpeaker(speaker,image, attendeeCount) {
+  createSpeaker(speaker, image, attendeeCount) {
     let compRef = this;
     speaker.roleName = "Speaker";
-    this.props.createSpeaker(speaker,image, attendeeCount);
+    this.props.createSpeaker(speaker, image, attendeeCount);
     setTimeout(() => {
       let speakerCreated = this.props.speakerCreated;
       compRef.Toaster(compRef, speakerCreated, "Created");
@@ -304,6 +305,7 @@ class SpeakerForm extends Component {
             <InputElement
               type="text"
               placeholder="First name"
+              label="First name"
               name="firstName"
               icon="icon-user"
               maxLength="20"
@@ -316,6 +318,7 @@ class SpeakerForm extends Component {
             <InputElement
               type="text"
               placeholder="Last name"
+              label="Last name"
               name="lastName"
               icon="icon-user"
               maxLength="20"
@@ -329,6 +332,7 @@ class SpeakerForm extends Component {
           <Col xs="12" md="6">
             <InputElement
               type="email"
+              label="Email"
               placeholder="Email"
               name="email"
               icon="icon-envelope"
@@ -343,6 +347,7 @@ class SpeakerForm extends Component {
             <InputElement
               type="text"
               placeholder="Contact number"
+              label="Contact number"
               name="contact"
               icon="icon-phone"
               value={Speaker.contact}
@@ -356,6 +361,7 @@ class SpeakerForm extends Component {
         </FormGroup>
         <FormGroup row>
           <Col xs="12" md="6">
+            <Label style={{ fontSize: 16 }}>Event</Label>
             <Select
               placeholder="Select event"
               value={Speaker.event}
@@ -376,6 +382,7 @@ class SpeakerForm extends Component {
             <InputElement
               type="file"
               placeholder="Profile image URL"
+              label="Profile image URL"
               name="profileImageURL"
               icon="icon-link"
               inValid={this.state.invalidProfileUrl}
@@ -388,6 +395,7 @@ class SpeakerForm extends Component {
           <Col xs="12" md="6">
             <InputElement
               type="text"
+              label="Brief info"
               placeholder="Brief info"
               name="briefInfo"
               icon="icon-info"
@@ -397,6 +405,7 @@ class SpeakerForm extends Component {
             />
           </Col>
           <Col xs="12" md="6">
+            <Label style={{ fontSize: 16 }}>Info</Label>
             <InputGroup className="mb-3">
               <InputGroupText>
                 <i className="fa fa-info" />
@@ -465,8 +474,8 @@ const mapStateToProps = state => {
 };
 const mapDispatchToProps = dispatch => {
   return {
-    createSpeaker: (speaker,image, attendeeCount) =>
-      dispatch(actions.createSpeaker(speaker,image, attendeeCount)),
+    createSpeaker: (speaker, image, attendeeCount) =>
+      dispatch(actions.createSpeaker(speaker, image, attendeeCount)),
     getSpeakerData: id => dispatch(actions.getSpeakerData(id)),
     editSpeakerData: (id, speaker) =>
       dispatch(actions.editSpeakerData(id, speaker)),

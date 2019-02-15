@@ -12,7 +12,8 @@ import {
   Input,
   Col,
   Button,
-  FormGroup
+  FormGroup,
+  Label
 } from "reactstrap";
 import { ToastContainer, toast } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
@@ -264,6 +265,7 @@ class EventForm extends Component {
             <InputElement
               type="text"
               placeholder="Event name"
+              label="Event name"
               name="eventName"
               icon="icon-home"
               maxLength="50"
@@ -273,6 +275,7 @@ class EventForm extends Component {
             />
           </Col>
           <Col sm={{ size: 4, order: 2 }}>
+            <Label style={{ fontSize: 16 }}>Description</Label>
             <InputGroup className="mb-3">
               <InputGroupText>
                 <i className="icon-note" />
@@ -291,6 +294,7 @@ class EventForm extends Component {
         </FormGroup>
         <FormGroup row>
           <Col sm="6" md="4" className="date-col">
+            <Label style={{ fontSize: 16 }}>Start date</Label>
             <InputGroup className="mb-3">
               <InputGroupText>
                 <i className="icon-calendar" />
@@ -299,7 +303,7 @@ class EventForm extends Component {
                 className="datepicker"
                 selected={this.state.Event.startDate}
                 onChange={event => this.changeFunction(event, "startDate")}
-                placeholderText="--Select Start Date--"
+                placeholderText="--Select Start date--"
               />
             </InputGroup>
             {this.state.startDateRequired ? (
@@ -315,11 +319,12 @@ class EventForm extends Component {
                 style={{ color: "red", marginTop: -12 }}
                 className="help-block"
               >
-                *Please enter valid Start Date and End Date
+                *Please enter valid Start date and End date
               </div>
             ) : null}
           </Col>
           <Col sm="6" md="4" className="date-col">
+            <Label style={{ fontSize: 16 }}>End date</Label>
             <InputGroup className="mb-3">
               <InputGroupText>
                 <i className="icon-calendar" />
@@ -328,7 +333,7 @@ class EventForm extends Component {
                 className="datepicker"
                 selected={this.state.Event.endDate}
                 onChange={event => this.changeFunction(event, "endDate")}
-                placeholderText="--Select End Date--"
+                placeholderText="--Select End date--"
               />
             </InputGroup>
             {this.state.endDateRequired ? (
@@ -341,12 +346,12 @@ class EventForm extends Component {
             ) : null}
           </Col>
         </FormGroup>
-        <FormGroup row />
         <FormGroup row>
           <Col xs="12" md="4">
             <InputElement
               type="text"
               placeholder="Venue"
+              label="Venue"
               name="venue"
               icon="icon-home"
               maxLength="255"
@@ -359,7 +364,8 @@ class EventForm extends Component {
             <InputElement
               icon="icon-link"
               type="text"
-              placeholder="Event Logo"
+              placeholder="Event logo"
+              label="Event logo"
               name="eventLogo"
               inValid={this.state.invalidEventLogo}
               value={this.state.Event.eventLogo}

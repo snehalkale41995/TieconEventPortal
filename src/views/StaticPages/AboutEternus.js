@@ -7,7 +7,8 @@ import {
   Button,
   InputGroup,
   InputGroupText,
-  Input
+  Input,
+  Label
 } from "reactstrap";
 import InputElement from "../../components/Input/";
 import CardLayout from "../../components/CardLayout/";
@@ -121,8 +122,9 @@ class AboutEternus extends Component {
       <Loader loading={this.state.loading} />
     ) : (
       <CardLayout name="About Eternus">
-        <FormGroup row>
+        <FormGroup row style={{ marginTop: 30 }}>
           <Col xs="12" md="6">
+            <Label style={{ fontSize: 16 }}>Information about eternus</Label>
             <InputGroup className="mb-3">
               <InputGroupText>
                 <i className="icon-info" />
@@ -150,6 +152,7 @@ class AboutEternus extends Component {
             <InputElement
               icon="icon-link"
               type="text"
+              label="Website Url"
               placeholder="Eternus website Url"
               name="url"
               inValid={this.state.invalidUrl}

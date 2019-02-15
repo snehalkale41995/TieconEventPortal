@@ -335,3 +335,15 @@ input[type="checkbox"] {
     left: 10rem;
   }
 }
+
+/* 14feb-2019 */
+
+.form-control-range {
+  display: block;
+  width: 90%;
+}
+
+.largerCheckbox {
+  width: 18px;
+  height: 18px;
+}

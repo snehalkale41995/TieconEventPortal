@@ -1,7 +1,7 @@
 import React, { Component } from "react";
 import { connect } from "react-redux";
 import * as actions from "../../store/actions/index";
-import { FormGroup, Col, Button } from "reactstrap";
+import { FormGroup, Col, Button, Label } from "reactstrap";
 import InputElement from "../../components/Input/";
 import CardLayout from "../../components/CardLayout/";
 import Select from "react-select";
@@ -170,6 +170,7 @@ class Rooms extends Component {
             <InputElement
               icon="icon-home"
               type="text"
+              label="Room name"
               placeholder="Room name"
               name="roomName"
               maxLength="20"
@@ -179,6 +180,7 @@ class Rooms extends Component {
             />
           </Col>
           <Col md="6">
+            <Label style={{ fontSize: 16 }}>Event</Label>
             <Select
               placeholder="Select event"
               value={Room.event}
@@ -201,6 +203,7 @@ class Rooms extends Component {
             <InputElement
               className="inputNumber"
               icon="icon-pie-chart"
+              label="Capacity"
               type="number"
               placeholder="Capacity"
               name="capacity"
