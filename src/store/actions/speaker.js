@@ -115,11 +115,17 @@ export const getSpeakerData = id => {
       });
   };
 };
-
-export const editSpeakerData = (id, speaker) => {
+export const editSpeakerData = (id,image, speaker) => {
+  
+  let data=new FormData();
+  for ( var key in speaker ) {
+    if(key!='profileImageURL')
+      data.append(key, speaker[key]);
+  }
+  data.append("profileImageURL",image);
   return dispatch => {
     axios
-      .put(`${AppConfig.serverURL}/api/speaker/${id}`, speaker)
+      .put(`${AppConfig.serverURL}/api/speaker/new/${id}`, data)
       .then(response => {
         dispatch(getSpeakers());
         dispatch(updateSpeakerSuccess());
@@ -130,6 +136,20 @@ export const editSpeakerData = (id, speaker) => {
       });
   };
 };
+// export const editSpeakerData = (id, speaker) => {
+//   return dispatch => {
+//     axios
+//       .put(`${AppConfig.serverURL}/api/speaker/${id}`, speaker)
+//       .then(response => {
+//         dispatch(getSpeakers());
+//         dispatch(updateSpeakerSuccess());
+//       })
+//       .catch(error => {
+//         dispatch(logRegistrationError());
+//         dispatch(updateSpeakerFail());
+//       });
+//   };
+// };
 export const createSpeaker = (speaker,image, attendeeCount) => {
   let id = attendeeCount._id;
   let attendeeCountObj = {

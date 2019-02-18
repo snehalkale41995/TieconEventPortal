@@ -68,6 +68,7 @@ class Registration extends Component {
           : null;
         Attendee.profileName = this.props.attendeeData.profileName;
         Attendee._id = this.props.attendeeData._id;
+        Attendee.profileImageURL="";
         this.setState({
           Registration: Attendee,
           editAttendee: true
@@ -105,9 +106,12 @@ class Registration extends Component {
     }
   }
   onChangeInput(event) {
+    console.log(this.state.Registration)
+
     if (event.target.name === "profileImageURL") {
       ///let newState={...this.state};
       //let imageFile={...this.newState.profileFile};
+      console.log(event.target.files[0])
       let imageFile = event.target.files[0];
       this.setState({
         profileFile: imageFile
@@ -191,7 +195,7 @@ class Registration extends Component {
         "roleName"
       ]);
       this.state.editAttendee
-        ? this.props.editAttendeeData(attendee._id, editedAttendee)
+        ? this.props.editAttendeeData(attendee._id,this.state.profileFile, editedAttendee)
         : this.props.createAttendee(
             attendee,
             this.state.profileFile,
@@ -515,7 +519,7 @@ class Registration extends Component {
             ) : null}
           </Col>
           <Col xs="12" md="6">
-            {/* <InputElement
+            <InputElement
               type="file"
               label="Profile image URL"
               placeholder="Profile image URL"
@@ -525,8 +529,8 @@ class Registration extends Component {
               inValid={this.state.invalidProfileUrl}
               value={Registration.profileImageURL}
               onchanged={event => this.onChangeInput(event)}
-            /> */}
-            <Label style={{ fontSize: 16 }}>Profile image URL</Label>
+            />
+            {/* <Label style={{ fontSize: 16 }}>Profile image URL</Label>
             <InputGroup className="mb-3">
               <InputGroupText>
                 <i className="icon-link" />
@@ -539,7 +543,7 @@ class Registration extends Component {
                 value={Registration.profileImageURL}
                 onchanged={event => this.onChangeInput(event)}
               />
-            </InputGroup>
+            </InputGroup> */}
           </Col>
         </FormGroup>
         <FormGroup row>
@@ -560,7 +564,7 @@ class Registration extends Component {
                 color="success"
                 onClick={() => this.onSubmit()}
               >
-                Create
+                CreateeditAttendeeData
               </Button>
             )}
           </Col>
@@ -621,8 +625,8 @@ const mapDispatchToProps = dispatch => {
     getAttendeeData: id => dispatch(actions.getAttendeeData(id)),
     getAttendeeCountForEvent: id =>
       dispatch(actions.getAttendeeCountForEvent(id)),
-    editAttendeeData: (id, attendee) =>
-      dispatch(actions.editAttendeeData(id, attendee)),
+    editAttendeeData: (id,image, attendee) =>
+      dispatch(actions.editAttendeeData(id,image, attendee)),
     getEvents: () => dispatch(actions.getEvents()),
     getProfileList: () => dispatch(actions.getProfileList()),
     getAttendeeById: id => dispatch(actions.getAttendeeById(id))
