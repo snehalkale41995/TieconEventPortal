@@ -127,7 +127,6 @@ class SpeakerList extends Component {
   }
 
   sendEmailToSelectedRowKeys() {
-    console.log('Here');
     let selectedUsersId = this.refs.table.state.selectedRowKeys;
     if (selectedUsersId.length > 0) {
       let users = [];
@@ -139,13 +138,10 @@ class SpeakerList extends Component {
         });
       });
       users.forEach(user => {
-        console.log('Here 2');
-
-        this.props.sendEmailToSpeaker(user.userInfo)
+        this.props.sendEmailToSpeaker(user.userInfo);
       });
-     // this.props.getAttendeeList();
-
-    } else { 
+      // this.props.getAttendeeList();
+    } else {
       this.setState({ modalPopupFlag: true });
     }
   }
@@ -237,7 +233,6 @@ class SpeakerList extends Component {
                         color="success"
                       >
                         <i className="fa fa-envelope" />
-                      
                       </Button>
                     </Col>
                   </FormGroup>
@@ -366,7 +361,8 @@ const mapStateToProps = state => {
 
 const mapDispatchToProps = dispatch => {
   return {
-    sendEmailToSpeaker:speaker=>dispatch(actions.sendEmailToSpeaker(speaker)),
+    sendEmailToSpeaker: speaker =>
+      dispatch(actions.sendEmailToSpeaker(speaker)),
     getSpeakerList: () => dispatch(actions.getSpeakers()),
     storeSpeakerData: attendee => dispatch(actions.storeSpeakerData(attendee)),
     deleteSpeaker: id => dispatch(actions.deleteSpeaker(id)),

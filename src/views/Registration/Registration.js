@@ -68,7 +68,7 @@ class Registration extends Component {
           : null;
         Attendee.profileName = this.props.attendeeData.profileName;
         Attendee._id = this.props.attendeeData._id;
-        Attendee.profileImageURL="";
+        Attendee.profileImageURL = "";
         this.setState({
           Registration: Attendee,
           editAttendee: true
@@ -106,12 +106,9 @@ class Registration extends Component {
     }
   }
   onChangeInput(event) {
-    console.log(this.state.Registration)
-
     if (event.target.name === "profileImageURL") {
       ///let newState={...this.state};
       //let imageFile={...this.newState.profileFile};
-      console.log(event.target.files[0])
       let imageFile = event.target.files[0];
       this.setState({
         profileFile: imageFile
@@ -195,7 +192,11 @@ class Registration extends Component {
         "roleName"
       ]);
       this.state.editAttendee
-        ? this.props.editAttendeeData(attendee._id,this.state.profileFile, editedAttendee)
+        ? this.props.editAttendeeData(
+            attendee._id,
+            this.state.profileFile,
+            editedAttendee
+          )
         : this.props.createAttendee(
             attendee,
             this.state.profileFile,
@@ -564,7 +565,7 @@ class Registration extends Component {
                 color="success"
                 onClick={() => this.onSubmit()}
               >
-                CreateeditAttendeeData
+                Create
               </Button>
             )}
           </Col>
@@ -625,8 +626,8 @@ const mapDispatchToProps = dispatch => {
     getAttendeeData: id => dispatch(actions.getAttendeeData(id)),
     getAttendeeCountForEvent: id =>
       dispatch(actions.getAttendeeCountForEvent(id)),
-    editAttendeeData: (id,image, attendee) =>
-      dispatch(actions.editAttendeeData(id,image, attendee)),
+    editAttendeeData: (id, image, attendee) =>
+      dispatch(actions.editAttendeeData(id, image, attendee)),
     getEvents: () => dispatch(actions.getEvents()),
     getProfileList: () => dispatch(actions.getProfileList()),
     getAttendeeById: id => dispatch(actions.getAttendeeById(id))
