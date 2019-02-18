@@ -59,7 +59,7 @@ export const getAttendees = () => {
       .get(`${AppConfig.serverURL}/api/attendee`)
       .then(response => {
         attendees = response.data;
-
+        console.log("From get attendees",attendees)
         attendees.forEach(attendee => {
           if (attendee.event !== null) {
             attendee.eventName = attendee.event.eventName;
@@ -131,13 +131,25 @@ export const getAttendeeById = id => {
   };
 };
 
-export const editAttendeeData = (id, attendee) => {
+export const editAttendeeData = (id,image, attendee) => {
+  // console.log("editAttendeeData",image)
+  // console.log("editAttendeeData",attendee)
+
   attendee["attendeeLabel"] = attendee.profileName
     .substring(0, 3)
     .toUpperCase();
+
+    let data=new FormData();
+    for ( var key in attendee ) {
+      if(key!='profileImageURL')
+        data.append(key, attendee[key]);
+    }
+    data.append("profileImageURL",image);
+    console.log("editAttendeeData",data)
+
   return dispatch => {
     axios
-      .put(`${AppConfig.serverURL}/api/attendee/${id}`, attendee)
+      .put(`${AppConfig.serverURL}/api/attendee/new/${id}`, data)
       .then(response => {
         dispatch(getAttendees());
         dispatch(creatEditAttendeeSuccess());
@@ -149,6 +161,25 @@ export const editAttendeeData = (id, attendee) => {
       });
   };
 };
+
+// export const editAttendeeData = (id,image, attendee) => {
+//   attendee["attendeeLabel"] = attendee.profileName
+//     .substring(0, 3)
+//     .toUpperCase();
+//   return dispatch => {
+//     axios
+//       .put(`${AppConfig.serverURL}/api/attendee/${id}`, attendee)
+//       .then(response => {
+//         dispatch(getAttendees());
+//         dispatch(creatEditAttendeeSuccess());
+//       })
+//       .catch(error => {
+//         dispatch(
+//           creatEditAttendeeFail(error.response.data, error.response.status)
+//         );
+//       });
+//   };
+// };
 
 export const sendEmail=attendee=> {
   if(!attendee.isEmail){
