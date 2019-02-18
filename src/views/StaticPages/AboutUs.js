@@ -24,13 +24,17 @@ class AboutUs extends Component {
       aboutUs: {
         info: "",
         url: "",
-        event: ""
+        event: "",
+        facebookUrl: "",
+        twitterUrl: ""
       },
       eventValue: "",
       loading: true,
       infoRequired: false,
       eventRequired: false,
-      invalidUrl: false
+      invalidUrl: false,
+      invalidFacebookUrl: false,
+      invalidTwitterUrl: false
     };
   }
   componentDidMount() {
@@ -52,7 +56,9 @@ class AboutUs extends Component {
           aboutUs: {
             ...prevState.aboutUs,
             info: "",
-            url: ""
+            url: "",
+            facebookUrl: "",
+            twitterUrl: ""
           }
         }));
       }
@@ -65,10 +71,13 @@ class AboutUs extends Component {
       aboutUs: aboutUs,
       infoRequired: false,
       eventRequired: false,
-      invalidUrl: false
+      invalidUrl: false,
+      invalidFacebookUrl: false,
+      invalidTwitterUrl: false
     });
   }
   handleEventChange(value) {
+    let compRef = this;
     if (value !== null) {
       let aboutUs = { ...this.state.aboutUs };
       aboutUs.event = value;
@@ -77,7 +86,9 @@ class AboutUs extends Component {
         eventValue: value,
         infoRequired: false,
         eventRequired: false,
-        invalidUrl: false
+        invalidUrl: false,
+        invalidFacebookUrl: false,
+        invalidTwitterUrl: false
       });
       this.props.getAboutUsForEvent(value);
       let compRef = this;
@@ -95,14 +106,35 @@ class AboutUs extends Component {
   }
   onSubmit() {
     var re = /^(http[s]?:\/\/){0,1}(www\.){0,1}[a-zA-Z0-9\.\-]+\.[a-zA-Z]{2,5}[\.]{0,1}/;
-    var invalidUrl = false;
-    if (!re.test(this.state.aboutUs.url)) {
+    var invalidUrl = false,
+      invalidFacebookUrl = false,
+      invalidTwitterUrl = false;
+    let { url, facebookUrl, twitterUrl } = { ...this.state.aboutUs };
+    if (url && !re.test(url)) {
       invalidUrl = true;
     }
-    if (this.state.aboutUs.info && this.state.aboutUs.event && !invalidUrl) {
+    if (facebookUrl && !re.test(facebookUrl)) {
+      invalidFacebookUrl = true;
+    }
+    if (twitterUrl && !re.test(twitterUrl)) {
+      invalidTwitterUrl = true;
+    }
+    if (
+      this.state.aboutUs.info &&
+      this.state.aboutUs.event &&
+      !invalidUrl &&
+      !invalidFacebookUrl &&
+      !invalidTwitterUrl
+    ) {
       this.setState({ loading: true });
       let isEmpty = !Object.keys(this.props.aboutUs).length;
-      let aboutUs = _.pick(this.state.aboutUs, ["info", "url", "event"]);
+      let aboutUs = _.pick(this.state.aboutUs, [
+        "info",
+        "url",
+        "event",
+        "facebookUrl",
+        "twitterUrl"
+      ]);
       let id;
       !isEmpty ? (id = this.props.aboutUs._id) : null;
       isEmpty
@@ -119,6 +151,8 @@ class AboutUs extends Component {
       !this.state.aboutUs.info ? this.setState({ infoRequired: true }) : null;
       !this.state.aboutUs.event ? this.setState({ eventRequired: true }) : null;
       invalidUrl ? this.setState({ invalidUrl: true }) : null;
+      invalidFacebookUrl ? this.setState({ invalidFacebookUrl: true }) : null;
+      invalidTwitterUrl ? this.setState({ invalidTwitterUrl: true }) : null;
     }
   }
   Toaster(compRef, createEditError, actionName) {
@@ -143,16 +177,22 @@ class AboutUs extends Component {
         ...prevState.aboutUs,
         info: "",
         url: "",
-        event: ""
+        event: "",
+        facebookUrl: "",
+        twitterUrl: ""
       },
       eventValue: "",
       infoRequired: false,
       eventRequired: false,
-      invalidUrl: false
+      invalidUrl: false,
+      invalidFacebookUrl: false,
+      invalidTwitterUrl: false
     }));
   }
   render() {
-    const { info, url, event } = { ...this.state.aboutUs };
+    const { info, url, event, facebookUrl, twitterUrl } = {
+      ...this.state.aboutUs
+    };
     return this.state.loading ? (
       <Loader loading={this.state.loading} />
     ) : (
@@ -196,7 +236,12 @@ class AboutUs extends Component {
           </Col>
           {this.state.infoRequired ? (
             <div
-              style={{ color: "red", fontSize: "12px", marginLeft: 10 }}
+              style={{
+                color: "red",
+                fontSize: "12px",
+                marginLeft: 10,
+                marginTop: 70
+              }}
               className="help-block"
             >
               *Information about event is required
@@ -206,11 +251,37 @@ class AboutUs extends Component {
             <InputElement
               icon="icon-link"
               type="text"
-              label="Website Url"
-              placeholder="Website Url"
+              label="Website URL"
+              placeholder="Website URL"
               name="url"
               inValid={this.state.invalidUrl}
               value={url}
+              onchanged={event => this.onChangeInput(event)}
+            />
+          </Col>
+        </FormGroup>
+        <FormGroup row>
+          <Col md="6">
+            <InputElement
+              icon="icon-link"
+              type="text"
+              label="Facebook page URL"
+              placeholder="Facebook page URL"
+              name="facebookUrl"
+              inValid={this.state.invalidFacebookUrl}
+              value={facebookUrl}
+              onchanged={event => this.onChangeInput(event)}
+            />
+          </Col>
+          <Col md="6">
+            <InputElement
+              icon="icon-link"
+              type="text"
+              label="Twitter page URL"
+              placeholder="Twitter page URL"
+              name="twitterUrl"
+              inValid={this.state.invalidTwitterUrl}
+              value={twitterUrl}
               onchanged={event => this.onChangeInput(event)}
             />
           </Col>
