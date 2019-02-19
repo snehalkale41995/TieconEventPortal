@@ -52,14 +52,12 @@ export const storeAttendeeData = attendeeData => {
 };
 
 export const getAttendees = () => {
-
   let attendees = [];
   return dispatch => {
     axios
       .get(`${AppConfig.serverURL}/api/attendee`)
       .then(response => {
         attendees = response.data;
-
         attendees.forEach(attendee => {
           if (attendee.event !== null) {
             attendee.eventName = attendee.event.eventName;
@@ -68,7 +66,6 @@ export const getAttendees = () => {
         dispatch(storeAttendees(attendees));
       })
       .catch(error => {
-
         dispatch(getAttendeeFail());
       });
   };
@@ -131,13 +128,19 @@ export const getAttendeeById = id => {
   };
 };
 
-export const editAttendeeData = (id, attendee) => {
+export const editAttendeeData = (id, image, attendee) => {
   attendee["attendeeLabel"] = attendee.profileName
     .substring(0, 3)
     .toUpperCase();
+
+  let data = new FormData();
+  for (var key in attendee) {
+    if (key != "profileImageURL") data.append(key, attendee[key]);
+  }
+  data.append("profileImageURL", image);
   return dispatch => {
     axios
-      .put(`${AppConfig.serverURL}/api/attendee/${id}`, attendee)
+      .put(`${AppConfig.serverURL}/api/attendee/new/${id}`, data)
       .then(response => {
         dispatch(getAttendees());
         dispatch(creatEditAttendeeSuccess());
@@ -150,13 +153,32 @@ export const editAttendeeData = (id, attendee) => {
   };
 };
 
-export const sendEmail=attendee=> {
-  if(!attendee.isEmail){
-    attendee={...attendee,isEmail:true}; 
+// export const editAttendeeData = (id,image, attendee) => {
+//   attendee["attendeeLabel"] = attendee.profileName
+//     .substring(0, 3)
+//     .toUpperCase();
+//   return dispatch => {
+//     axios
+//       .put(`${AppConfig.serverURL}/api/attendee/${id}`, attendee)
+//       .then(response => {
+//         dispatch(getAttendees());
+//         dispatch(creatEditAttendeeSuccess());
+//       })
+//       .catch(error => {
+//         dispatch(
+//           creatEditAttendeeFail(error.response.data, error.response.status)
+//         );
+//       });
+//   };
+// };
+
+export const sendEmail = attendee => {
+  if (!attendee.isEmail) {
+    attendee = { ...attendee, isEmail: true };
     return dispatch => {
       axios
         .post(`${AppConfig.serverURL}/api/attendee/inform`, attendee)
-        .then(response => {  
+        .then(response => {
           dispatch(getAttendees());
         })
         .catch(error => {
@@ -164,14 +186,12 @@ export const sendEmail=attendee=> {
           //   creatEditAttendeeFail(error.response.data, error.response.status)
           // );
         });
-      };
-      }else{
-        return dispatch => {
-        }
-      }
-
+    };
+  } else {
+    return dispatch => {};
+  }
 };
-export const createAttendee = (attendee,image, attendeeCount) => {
+export const createAttendee = (attendee, image, attendeeCount) => {
   let id = attendeeCount._id;
   let attendeeCountObj = {
     attendeeCount: attendeeCount.attendeeCount + 1,
@@ -184,25 +204,24 @@ export const createAttendee = (attendee,image, attendeeCount) => {
     .substring(0, 3)
     .toUpperCase();
 
-  let data=new FormData();
-    for ( var key in attendee ) {
-      if(key!='profileImageURL')
-        data.append(key, attendee[key]);
-    }
-    data.append('isEmail',true);
-     data.append("profileImageURL",image);
-    
+  let data = new FormData();
+  for (var key in attendee) {
+    if (key != "profileImageURL") data.append(key, attendee[key]);
+  }
+  data.append("isEmail", true);
+  data.append("profileImageURL", image);
+
   return dispatch => {
     axios({
-      method: 'post',
-      url: AppConfig.serverURL+'/api/attendee/new',
+      method: "post",
+      url: AppConfig.serverURL + "/api/attendee/new",
       data: data,
-      config: { headers: {'Content-Type': 'multipart/form-data' }}
-      })
-      .then(function (response) {
-          //handle success
-          axios
-          .put( 
+      config: { headers: { "Content-Type": "multipart/form-data" } }
+    })
+      .then(function(response) {
+        //handle success
+        axios
+          .put(
             `${AppConfig.serverURL}/api/attendeeCount/${id}`,
             attendeeCountObj
           )
@@ -211,8 +230,8 @@ export const createAttendee = (attendee,image, attendeeCount) => {
             dispatch(creatEditAttendeeSuccess());
           });
       })
-      .catch(function (response) {
-          //handle error
+      .catch(function(response) {
+        //handle error
       });
   };
 };
@@ -233,7 +252,7 @@ export const createAttendee = (attendee,image, attendeeCount) => {
 //       .post(`${AppConfig.serverURL}/api/attendee/new`, attendee)
 //       .then(response => {
 //         axios
-//           .put( 
+//           .put(
 //             `${AppConfig.serverURL}/api/attendeeCount/${id}`,
 //             attendeeCountObj
 //           )
@@ -263,6 +282,3 @@ export const deleteAttendee = id => {
       });
   };
 };
-
-
-

@@ -254,7 +254,11 @@ class RegistrationList extends Component {
                         onChange={this.handleProfileChange.bind(this)}
                       />
                     </Col>
-                    <Col xs="12" md="1" style={{ marginTop: 6 }}>
+                    <Col
+                      xs="12"
+                      md="1"
+                      style={{ marginLeft: 30, marginTop: 7 }}
+                    >
                       <Button
                         type="button"
                         onClick={this.getSelectedRowKeys.bind(this)}
@@ -264,7 +268,7 @@ class RegistrationList extends Component {
                         <i className="fa fa-print" />
                       </Button>
                     </Col>
-                    <Col xs="12" md="1" style={{ marginTop: 6 }}>
+                    <Col xs="12" md="1" style={{ marginTop: 7 }}>
                       <Button
                         type="button"
                         onClick={this.sendEmailToSelectedRowKeys.bind(this)}

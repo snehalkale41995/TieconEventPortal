@@ -127,7 +127,6 @@ class SpeakerList extends Component {
   }
 
   sendEmailToSelectedRowKeys() {
-    console.log('Here');
     let selectedUsersId = this.refs.table.state.selectedRowKeys;
     if (selectedUsersId.length > 0) {
       let users = [];
@@ -139,13 +138,10 @@ class SpeakerList extends Component {
         });
       });
       users.forEach(user => {
-        console.log('Here 2');
-
-        this.props.sendEmailToSpeaker(user.userInfo)
+        this.props.sendEmailToSpeaker(user.userInfo);
       });
-     // this.props.getAttendeeList();
-
-    } else { 
+      // this.props.getAttendeeList();
+    } else {
       this.setState({ modalPopupFlag: true });
     }
   }
@@ -208,10 +204,10 @@ class SpeakerList extends Component {
               <Card>
                 <CardHeader>
                   <FormGroup row className="marginBottomZero">
-                    <Col xs="12" md="4">
+                    <Col xs="12" md="3">
                       <h1 className="regHeading paddingTop8">Speaker List</h1>
                     </Col>
-                    <Col xs="10" md="4">
+                    <Col xs="12" md="3">
                       <Select
                         name="Event"
                         placeholder="Select event"
@@ -221,23 +217,28 @@ class SpeakerList extends Component {
                         onChange={this.handleEventChange.bind(this)}
                       />
                     </Col>
-                    <Col xs="10" md="2">
+                    <Col
+                      xs="12"
+                      md="1"
+                      style={{ marginLeft: 30, marginTop: 7 }}
+                    >
                       <Button
                         type="button"
                         onClick={this.getSelectedRowKeys.bind(this)}
                         color="success"
+                        title="Print QR code"
                       >
                         <i className="fa fa-print" />
                       </Button>
                     </Col>
-                    <Col xs="12" md="2">
+                    <Col xs="12" md="1" style={{ marginTop: 7 }}>
                       <Button
                         type="button"
                         onClick={this.sendEmailToSelectedRowKeys.bind(this)}
                         color="success"
+                        title="Send email"
                       >
                         <i className="fa fa-envelope" />
-                      
                       </Button>
                     </Col>
                   </FormGroup>
@@ -366,7 +367,8 @@ const mapStateToProps = state => {
 
 const mapDispatchToProps = dispatch => {
   return {
-    sendEmailToSpeaker:speaker=>dispatch(actions.sendEmailToSpeaker(speaker)),
+    sendEmailToSpeaker: speaker =>
+      dispatch(actions.sendEmailToSpeaker(speaker)),
     getSpeakerList: () => dispatch(actions.getSpeakers()),
     storeSpeakerData: attendee => dispatch(actions.storeSpeakerData(attendee)),
     deleteSpeaker: id => dispatch(actions.deleteSpeaker(id)),
