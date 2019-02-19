@@ -116,9 +116,9 @@ class AboutUs extends Component {
     if (facebookUrl && !re.test(facebookUrl)) {
       invalidFacebookUrl = true;
     }
-    if (twitterUrl && !re.test(twitterUrl)) {
-      invalidTwitterUrl = true;
-    }
+    // if (twitterUrl && !re.test(twitterUrl)) {
+    //   invalidTwitterUrl = true;
+    // }
     if (
       this.state.aboutUs.info &&
       this.state.aboutUs.event &&
