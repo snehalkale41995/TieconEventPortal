@@ -64,7 +64,7 @@ class SpeakerForm extends Component {
       ]);
       Speaker.event = this.props.speakerData.event._id;
       Speaker._id = this.props.speakerData._id;
-      Speaker.profileImageURL="";
+      Speaker.profileImageURL = "";
       this.setState({
         Speaker: Speaker,
         editSpeaker: true
@@ -179,7 +179,7 @@ class SpeakerForm extends Component {
       ]);
 
       this.state.editSpeaker
-        ? this.updateSpeaker(speaker._id,this.state.profileFile, editedSpeaker)
+        ? this.updateSpeaker(speaker._id, this.state.profileFile, editedSpeaker)
         : this.createSpeaker(speaker, this.state.profileFile, attendeeCount);
     } else {
       !speaker.firstName ? this.setState({ firstNameRequired: true }) : null;
@@ -201,10 +201,10 @@ class SpeakerForm extends Component {
     }
   }
 
-  updateSpeaker(id,image, editedSpeaker) {
+  updateSpeaker(id, image, editedSpeaker) {
     let compRef = this;
     editedSpeaker.roleName = "Speaker";
-    this.props.editSpeakerData(id,image, editedSpeaker);
+    this.props.editSpeakerData(id, image, editedSpeaker);
     setTimeout(() => {
       let speakerUpdated = this.props.speakerUpdated;
       compRef.Toaster(compRef, speakerUpdated, "Updated");
@@ -410,17 +410,17 @@ class SpeakerForm extends Component {
             </InputGroup>
           </Col>
           <Col xs="12" md="6">
-            <InputElement
+            {/* <InputElement
               type="file"
               placeholder="Profile image URL"
               label="Profile image URL"
               name="profileImageURL"
-              icon="icon-link"
+              // icon="icon-link"
               inValid={this.state.invalidProfileUrl}
               value={Speaker.profileImageURL}
               onchanged={event => this.onChangeInput(event)}
-            />
-            {/* <Label style={{ fontSize: 16 }}>Profile image URL</Label>
+            />  */}
+            <Label style={{ fontSize: 16 }}>Profile image URL</Label>
             <InputGroup className="mb-3">
               <InputGroupText>
                 <i className="icon-link" />
@@ -431,9 +431,9 @@ class SpeakerForm extends Component {
                 placeholder="Profile image URL"
                 name="profileImageURL"
                 value={Speaker.profileImageURL}
-                onchanged={event => this.onChangeInput(event)}
+                onChange={event => this.onChangeInput(event)}
               />
-            </InputGroup> */}
+            </InputGroup>
           </Col>
         </FormGroup>
         <FormGroup row>
@@ -491,8 +491,8 @@ const mapDispatchToProps = dispatch => {
     createSpeaker: (speaker, image, attendeeCount) =>
       dispatch(actions.createSpeaker(speaker, image, attendeeCount)),
     getSpeakerData: id => dispatch(actions.getSpeakerData(id)),
-    editSpeakerData: (id,image, speaker) =>
-      dispatch(actions.editSpeakerData(id,image, speaker)),
+    editSpeakerData: (id, image, speaker) =>
+      dispatch(actions.editSpeakerData(id, image, speaker)),
     getAttendeeCountForEvent: id =>
       dispatch(actions.getAttendeeCountForEvent(id)),
     getEvents: () => dispatch(actions.getEvents())

@@ -520,7 +520,7 @@ class Registration extends Component {
             ) : null}
           </Col>
           <Col xs="12" md="6">
-            <InputElement
+            {/* <InputElement
               type="file"
               label="Profile image URL"
               placeholder="Profile image URL"
@@ -530,8 +530,8 @@ class Registration extends Component {
               inValid={this.state.invalidProfileUrl}
               value={Registration.profileImageURL}
               onchanged={event => this.onChangeInput(event)}
-            />
-            {/* <Label style={{ fontSize: 16 }}>Profile image URL</Label>
+            /> */}
+            <Label style={{ fontSize: 16 }}>Profile image URL</Label>
             <InputGroup className="mb-3">
               <InputGroupText>
                 <i className="icon-link" />
@@ -542,9 +542,9 @@ class Registration extends Component {
                 placeholder="Profile image URL"
                 name="profileImageURL"
                 value={Registration.profileImageURL}
-                onchanged={event => this.onChangeInput(event)}
+                onChange={event => this.onChangeInput(event)}
               />
-            </InputGroup> */}
+            </InputGroup>
           </Col>
         </FormGroup>
         <FormGroup row>
