@@ -171,13 +171,9 @@ export const createSpeaker = (speaker, image, attendeeCount) => {
   data.append("profileImageURL", image);
 
   return dispatch => {
-    axios({
-      method: "post",
-      url: AppConfig.serverURL + "/api/speaker/new",
-      data: data,
-      config: { headers: { "Content-Type": "multipart/form-data" } }
-    })
-      .then(function(response) {
+      axios
+      .post(`${AppConfig.serverURL}/api/speaker/new`, data)
+      .then(response => {
         axios
           .put(
             `${AppConfig.serverURL}/api/attendeeCount/${id}`,
@@ -192,6 +188,27 @@ export const createSpeaker = (speaker, image, attendeeCount) => {
         dispatch(createSpeakerFail(error.response.data, error.response.status));
         //dispatch(logRegistrationError());
       });
+    // axios({
+    //   method: "post",
+    //   url: AppConfig.serverURL + "/api/speaker/new",
+    //   data: data,
+    //   config: { headers: { "Content-Type": "multipart/form-data" } }
+    // })
+    //   .then(function(response) {
+    //     axios
+    //       .put(
+    //         `${AppConfig.serverURL}/api/attendeeCount/${id}`,
+    //         attendeeCountObj
+    //       )
+    //       .then(response => {
+    //         dispatch(getSpeakers());
+    //         dispatch(createSpeakerSuccess());
+    //       });
+    //   })
+    //   .catch(error => {
+    //     dispatch(createSpeakerFail(error.response.data, error.response.status));
+    //     //dispatch(logRegistrationError());
+    //   });
   };
 };
 // export const createSpeaker = (speaker, attendeeCount) => {

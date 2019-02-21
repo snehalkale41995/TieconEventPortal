@@ -1,6 +1,7 @@
 import * as actionTypes from "../actions/actionTypes";
 import axios from "axios";
 import AppConfig from "../../constants/AppConfig";
+import { setTimeout } from "timers";
 
 export const logRegistrationError = error => {
   return {
@@ -130,9 +131,6 @@ export const getAttendeeById = id => {
 
 export const editAttendeeData = (id, image,oldUrl, attendee) => {
 
-  console.log(image);
-
-
   attendee["attendeeLabel"] = attendee.profileName
     .substring(0, 3)
     .toUpperCase();
@@ -144,10 +142,9 @@ export const editAttendeeData = (id, image,oldUrl, attendee) => {
   
 
   if(image.name){
-    data.append("profileImageURL", image);//console.log(data.getAll());
+    data.append("profileImageURL", image);
   }else{
     data.append("profileImageURL", oldUrl);
-   // console.log(data.getAll());
   }
   return dispatch => {
     axios
@@ -223,14 +220,9 @@ export const createAttendee = (attendee, image, attendeeCount) => {
   data.append("profileImageURL", image);
 
   return dispatch => {
-    axios({
-      method: "post",
-      url: AppConfig.serverURL + "/api/attendee/new",
-      data: data,
-      config: { headers: { "Content-Type": "multipart/form-data" } }
-    })
-      .then(function(response) {
-        //handle success
+      axios
+      .post(`${AppConfig.serverURL}/api/attendee/new`, data)
+      .then(response => {
         axios
           .put(
             `${AppConfig.serverURL}/api/attendeeCount/${id}`,
@@ -241,9 +233,39 @@ export const createAttendee = (attendee, image, attendeeCount) => {
             dispatch(creatEditAttendeeSuccess());
           });
       })
-      .catch(function(response) {
-        //handle error
+      .catch(error => {
+        dispatch(
+          creatEditAttendeeFail(error.response.data, error.response.status)
+        );
       });
+    // axios({
+    //   method: "post",
+    //   url: AppConfig.serverURL + "/api/attendee/new",
+    //   data: data,
+    //   config: { headers: { "Content-Type": "multipart/form-data" } }
+    // })
+    //   .then(function(response) {
+    //     console.log(response)
+
+    //     //handle success
+    //     setTimeout(axios
+    //       .put(
+    //         `${AppConfig.serverURL}/api/attendeeCount/${id}`,
+    //         attendeeCountObj
+    //       )
+    //       .then(response => {
+    //         console.log(response)
+    //         dispatch(getAttendees());
+    //         dispatch(creatEditAttendeeSuccess());
+    //       }),1500)
+        
+    //   })
+    //   .catch(function(response) {
+    //     console.log(response)
+
+    //     dispatch(
+    //         creatEditAttendeeFail(error.response.data, error.response.status));
+    //   });
   };
 };
 // export const createAttendee = (attendee, attendeeCount) => {

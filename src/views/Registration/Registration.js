@@ -209,6 +209,9 @@ class Registration extends Component {
         loading: true
       });
       setTimeout(() => {
+        let attendee={...this.state.Registration};
+        attendee.profileImageURL="";
+        this.setState({Registration:attendee});
         let createEditError = compRef.props.createEditError;
         let errorMessage = compRef.props.creatError;
         let status = "";
