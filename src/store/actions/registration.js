@@ -128,7 +128,11 @@ export const getAttendeeById = id => {
   };
 };
 
-export const editAttendeeData = (id, image, attendee) => {
+export const editAttendeeData = (id, image,oldUrl, attendee) => {
+
+  console.log(image);
+
+
   attendee["attendeeLabel"] = attendee.profileName
     .substring(0, 3)
     .toUpperCase();
@@ -137,7 +141,14 @@ export const editAttendeeData = (id, image, attendee) => {
   for (var key in attendee) {
     if (key != "profileImageURL") data.append(key, attendee[key]);
   }
-  data.append("profileImageURL", image);
+  
+
+  if(image.name){
+    data.append("profileImageURL", image);//console.log(data.getAll());
+  }else{
+    data.append("profileImageURL", oldUrl);
+   // console.log(data.getAll());
+  }
   return dispatch => {
     axios
       .put(`${AppConfig.serverURL}/api/attendee/new/${id}`, data)

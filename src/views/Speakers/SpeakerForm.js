@@ -36,6 +36,7 @@ class SpeakerForm extends Component {
         password: ""
       },
       profileFile: {},
+      editProfileUrl:"",
       firstNameRequired: false,
       lastNameRequired: false,
       emailRequired: false,
@@ -64,6 +65,7 @@ class SpeakerForm extends Component {
       ]);
       Speaker.event = this.props.speakerData.event._id;
       Speaker._id = this.props.speakerData._id;
+      this.setState({editProfileUrl:Speaker.profileImageURL})
       Speaker.profileImageURL = "";
       this.setState({
         Speaker: Speaker,
@@ -179,7 +181,7 @@ class SpeakerForm extends Component {
       ]);
 
       this.state.editSpeaker
-        ? this.updateSpeaker(speaker._id, this.state.profileFile, editedSpeaker)
+        ? this.updateSpeaker(speaker._id, this.state.profileFile,this.state.editProfileUrl, editedSpeaker)
         : this.createSpeaker(speaker, this.state.profileFile, attendeeCount);
     } else {
       !speaker.firstName ? this.setState({ firstNameRequired: true }) : null;
@@ -201,10 +203,10 @@ class SpeakerForm extends Component {
     }
   }
 
-  updateSpeaker(id, image, editedSpeaker) {
+  updateSpeaker(id, image, oldUrl,editedSpeaker) {
     let compRef = this;
     editedSpeaker.roleName = "Speaker";
-    this.props.editSpeakerData(id, image, editedSpeaker);
+    this.props.editSpeakerData(id, image, oldUrl,editedSpeaker);
     setTimeout(() => {
       let speakerUpdated = this.props.speakerUpdated;
       compRef.Toaster(compRef, speakerUpdated, "Updated");
@@ -491,8 +493,8 @@ const mapDispatchToProps = dispatch => {
     createSpeaker: (speaker, image, attendeeCount) =>
       dispatch(actions.createSpeaker(speaker, image, attendeeCount)),
     getSpeakerData: id => dispatch(actions.getSpeakerData(id)),
-    editSpeakerData: (id, image, speaker) =>
-      dispatch(actions.editSpeakerData(id, image, speaker)),
+    editSpeakerData: (id, image,oldUrl, speaker) =>
+      dispatch(actions.editSpeakerData(id, image,oldUrl, speaker)),
     getAttendeeCountForEvent: id =>
       dispatch(actions.getAttendeeCountForEvent(id)),
     getEvents: () => dispatch(actions.getEvents())

@@ -36,6 +36,7 @@ class Registration extends Component {
         password: ""
       },
       profileFile: {},
+      editProfileUrl:"",
       firstNameRequired: false,
       lastNameRequired: false,
       emailRequired: false,
@@ -68,6 +69,7 @@ class Registration extends Component {
           : null;
         Attendee.profileName = this.props.attendeeData.profileName;
         Attendee._id = this.props.attendeeData._id;
+        this.setState({editProfileUrl:Attendee.profileImageURL})
         Attendee.profileImageURL = "";
         this.setState({
           Registration: Attendee,
@@ -195,6 +197,7 @@ class Registration extends Component {
         ? this.props.editAttendeeData(
             attendee._id,
             this.state.profileFile,
+            this.state.editProfileUrl,
             editedAttendee
           )
         : this.props.createAttendee(
@@ -626,8 +629,8 @@ const mapDispatchToProps = dispatch => {
     getAttendeeData: id => dispatch(actions.getAttendeeData(id)),
     getAttendeeCountForEvent: id =>
       dispatch(actions.getAttendeeCountForEvent(id)),
-    editAttendeeData: (id, image, attendee) =>
-      dispatch(actions.editAttendeeData(id, image, attendee)),
+    editAttendeeData: (id, image,oldUrl, attendee) =>
+      dispatch(actions.editAttendeeData(id, image,oldUrl, attendee)),
     getEvents: () => dispatch(actions.getEvents()),
     getProfileList: () => dispatch(actions.getProfileList()),
     getAttendeeById: id => dispatch(actions.getAttendeeById(id))

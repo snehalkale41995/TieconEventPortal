@@ -114,12 +114,17 @@ export const getSpeakerData = id => {
       });
   };
 };
-export const editSpeakerData = (id, image, speaker) => {
+export const editSpeakerData = (id, image,oldUrl, speaker) => {
   let data = new FormData();
   for (var key in speaker) {
     if (key != "profileImageURL") data.append(key, speaker[key]);
   }
-  data.append("profileImageURL", image);
+
+  if(image.name){
+    data.append("profileImageURL", image);
+  }else{
+    data.append("profileImageURL", oldUrl);
+  }
   return dispatch => {
     axios
       .put(`${AppConfig.serverURL}/api/speaker/new/${id}`, data)
