@@ -147,6 +147,10 @@ class SpeakerForm extends Component {
     this.setState({ passwordModal: password });
     this.setState({ emailModal: speaker.email });
     var re = /^(http[s]?:\/\/){0,1}(www\.){0,1}[a-zA-Z0-9\.\-]+\.[a-zA-Z]{2,5}[\.]{0,1}/;
+    if(this.state.profileFile.type==="image/gif" || this.state.profileFile.type==="image/jpeg" || this.state.profileFile.type==="image/jpg" || this.state.profileFile.type==="image/png"){
+    }else{
+      invalidProfileUrl = true;
+    }
     // if (speaker.profileImageURL !== "") {
     //   if (!re.test(speaker.profileImageURL)) {
     //     invalidProfileUrl = true;
@@ -409,6 +413,17 @@ class SpeakerForm extends Component {
                 value={Speaker.info}
                 onChange={event => this.onChangeInput(event)}
               />
+              {this.state.invalidProfileUrl ? (
+              <div
+                style={{
+                  color: "red",
+                  marginTop: 30
+                }}
+                className="help-block"
+              >
+                * Please select image only
+              </div>
+            ) : null}
             </InputGroup>
           </Col>
           <Col xs="12" md="6">

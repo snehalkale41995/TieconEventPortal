@@ -134,6 +134,7 @@ class Registration extends Component {
       inValidEmail: false,
       invalidProfileUrl: false
     });
+    
   }
 
   toggleFunction() {
@@ -159,6 +160,10 @@ class Registration extends Component {
     let validEmail;
     let invalidProfileUrl = false;
     var re = /^(http[s]?:\/\/){0,1}(www\.){0,1}[a-zA-Z0-9\.\-]+\.[a-zA-Z]{2,5}[\.]{0,1}/;
+    if(this.state.profileFile.type==="image/gif" || this.state.profileFile.type==="image/jpeg" || this.state.profileFile.type==="image/jpg" || this.state.profileFile.type==="image/png"){
+    }else{
+      invalidProfileUrl = true;
+    }
     // if (attendee.profileImageURL !== "") {
     //   if (!re.test(attendee.profileImageURL)) {
     //     invalidProfileUrl = true;
@@ -545,11 +550,23 @@ class Registration extends Component {
               <input
                 class="imageFile"
                 type="file"
+                accept="image/gif,image/jpeg,image/jpg,image/png,"
                 placeholder="Profile image URL"
                 name="profileImageURL"
                 value={Registration.profileImageURL}
                 onChange={event => this.onChangeInput(event)}
               />
+                {this.state.invalidProfileUrl ? (
+              <div
+                style={{
+                  color: "red",
+                  marginTop: 30
+                }}
+                className="help-block"
+              >
+                * Please select image only
+              </div>
+            ) : null}
             </InputGroup>
           </Col>
         </FormGroup>
