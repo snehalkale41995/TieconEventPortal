@@ -114,15 +114,15 @@ export const getSpeakerData = id => {
       });
   };
 };
-export const editSpeakerData = (id, image,oldUrl, speaker) => {
+export const editSpeakerData = (id, image, oldUrl, speaker) => {
   let data = new FormData();
   for (var key in speaker) {
     if (key != "profileImageURL") data.append(key, speaker[key]);
   }
 
-  if(image.name){
+  if (image.name) {
     data.append("profileImageURL", image);
-  }else{
+  } else {
     data.append("profileImageURL", oldUrl);
   }
   return dispatch => {
@@ -171,7 +171,7 @@ export const createSpeaker = (speaker, image, attendeeCount) => {
   data.append("profileImageURL", image);
 
   return dispatch => {
-      axios
+    axios
       .post(`${AppConfig.serverURL}/api/speaker/new`, data)
       .then(response => {
         axios
@@ -242,7 +242,7 @@ export const createSpeaker = (speaker, image, attendeeCount) => {
 //   };
 // };
 export const sendEmailToSpeaker = speaker => {
-  if (!speaker.isEmail) {
+  if (speaker.isEmail === "false") {
     speaker = { ...speaker, isEmail: true };
     return dispatch => {
       axios

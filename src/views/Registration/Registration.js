@@ -36,7 +36,7 @@ class Registration extends Component {
         password: ""
       },
       profileFile: {},
-      editProfileUrl:"",
+      editProfileUrl: "",
       firstNameRequired: false,
       lastNameRequired: false,
       emailRequired: false,
@@ -69,7 +69,7 @@ class Registration extends Component {
           : null;
         Attendee.profileName = this.props.attendeeData.profileName;
         Attendee._id = this.props.attendeeData._id;
-        this.setState({editProfileUrl:Attendee.profileImageURL})
+        this.setState({ editProfileUrl: Attendee.profileImageURL });
         Attendee.profileImageURL = "";
         this.setState({
           Registration: Attendee,
@@ -134,7 +134,6 @@ class Registration extends Component {
       inValidEmail: false,
       invalidProfileUrl: false
     });
-    
   }
 
   toggleFunction() {
@@ -148,6 +147,7 @@ class Registration extends Component {
     let attendee = {
       ...this.state.Registration
     };
+    console.log("attendee", attendee);
     let password = "ES" + Math.floor(1000 + Math.random() * 9000);
     attendee.password = password;
     this.setState({
@@ -160,10 +160,24 @@ class Registration extends Component {
     let validEmail;
     let invalidProfileUrl = false;
     var re = /^(http[s]?:\/\/){0,1}(www\.){0,1}[a-zA-Z0-9\.\-]+\.[a-zA-Z]{2,5}[\.]{0,1}/;
-    if(this.state.profileFile.type==="image/gif" || this.state.profileFile.type==="image/jpeg" || this.state.profileFile.type==="image/jpg" || this.state.profileFile.type==="image/png"){
-    }else{
-      invalidProfileUrl = true;
+
+    console.log("this.state.profileFile", this.state.profileFile);
+
+    if (Object.keys(this.state.profileFile).length != 0) {
+      if (
+        this.state.profileFile.type === "image/gif" ||
+        this.state.profileFile.type === "image/jpeg" ||
+        this.state.profileFile.type === "image/jpg" ||
+        this.state.profileFile.type === "image/png"
+      ) {
+        invalidProfileUrl = false;
+      } else {
+        invalidProfileUrl = true;
+      }
+    } else {
+      invalidProfileUrl = false;
     }
+
     // if (attendee.profileImageURL !== "") {
     //   if (!re.test(attendee.profileImageURL)) {
     //     invalidProfileUrl = true;
@@ -214,9 +228,9 @@ class Registration extends Component {
         loading: true
       });
       setTimeout(() => {
-        let attendee={...this.state.Registration};
-        attendee.profileImageURL="";
-        this.setState({Registration:attendee});
+        let attendee = { ...this.state.Registration };
+        attendee.profileImageURL = "";
+        this.setState({ Registration: attendee });
         let createEditError = compRef.props.createEditError;
         let errorMessage = compRef.props.creatError;
         let status = "";
@@ -556,17 +570,17 @@ class Registration extends Component {
                 value={Registration.profileImageURL}
                 onChange={event => this.onChangeInput(event)}
               />
-                {this.state.invalidProfileUrl ? (
-              <div
-                style={{
-                  color: "red",
-                  marginTop: 30
-                }}
-                className="help-block"
-              >
-                * Please select image only
-              </div>
-            ) : null}
+              {this.state.invalidProfileUrl ? (
+                <div
+                  style={{
+                    color: "red",
+                    marginTop: 30
+                  }}
+                  className="help-block"
+                >
+                  * Please select image only
+                </div>
+              ) : null}
             </InputGroup>
           </Col>
         </FormGroup>
@@ -649,8 +663,8 @@ const mapDispatchToProps = dispatch => {
     getAttendeeData: id => dispatch(actions.getAttendeeData(id)),
     getAttendeeCountForEvent: id =>
       dispatch(actions.getAttendeeCountForEvent(id)),
-    editAttendeeData: (id, image,oldUrl, attendee) =>
-      dispatch(actions.editAttendeeData(id, image,oldUrl, attendee)),
+    editAttendeeData: (id, image, oldUrl, attendee) =>
+      dispatch(actions.editAttendeeData(id, image, oldUrl, attendee)),
     getEvents: () => dispatch(actions.getEvents()),
     getProfileList: () => dispatch(actions.getProfileList()),
     getAttendeeById: id => dispatch(actions.getAttendeeById(id))

@@ -129,8 +129,7 @@ export const getAttendeeById = id => {
   };
 };
 
-export const editAttendeeData = (id, image,oldUrl, attendee) => {
-
+export const editAttendeeData = (id, image, oldUrl, attendee) => {
   attendee["attendeeLabel"] = attendee.profileName
     .substring(0, 3)
     .toUpperCase();
@@ -139,11 +138,10 @@ export const editAttendeeData = (id, image,oldUrl, attendee) => {
   for (var key in attendee) {
     if (key != "profileImageURL") data.append(key, attendee[key]);
   }
-  
 
-  if(image.name){
+  if (image.name) {
     data.append("profileImageURL", image);
-  }else{
+  } else {
     data.append("profileImageURL", oldUrl);
   }
   return dispatch => {
@@ -181,7 +179,7 @@ export const editAttendeeData = (id, image,oldUrl, attendee) => {
 // };
 
 export const sendEmail = attendee => {
-  if (!attendee.isEmail) {
+  if (attendee.isEmail === "false") {
     attendee = { ...attendee, isEmail: true };
     return dispatch => {
       axios
@@ -220,7 +218,7 @@ export const createAttendee = (attendee, image, attendeeCount) => {
   data.append("profileImageURL", image);
 
   return dispatch => {
-      axios
+    axios
       .post(`${AppConfig.serverURL}/api/attendee/new`, data)
       .then(response => {
         axios
@@ -258,7 +256,7 @@ export const createAttendee = (attendee, image, attendeeCount) => {
     //         dispatch(getAttendees());
     //         dispatch(creatEditAttendeeSuccess());
     //       }),1500)
-        
+
     //   })
     //   .catch(function(response) {
     //     console.log(response)
