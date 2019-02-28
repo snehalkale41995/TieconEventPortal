@@ -36,7 +36,7 @@ class SpeakerForm extends Component {
         password: ""
       },
       profileFile: {},
-      editProfileUrl:"",
+      editProfileUrl: "",
       firstNameRequired: false,
       lastNameRequired: false,
       emailRequired: false,
@@ -65,7 +65,7 @@ class SpeakerForm extends Component {
       ]);
       Speaker.event = this.props.speakerData.event._id;
       Speaker._id = this.props.speakerData._id;
-      this.setState({editProfileUrl:Speaker.profileImageURL})
+      this.setState({ editProfileUrl: Speaker.profileImageURL });
       Speaker.profileImageURL = "";
       this.setState({
         Speaker: Speaker,
@@ -147,9 +147,20 @@ class SpeakerForm extends Component {
     this.setState({ passwordModal: password });
     this.setState({ emailModal: speaker.email });
     var re = /^(http[s]?:\/\/){0,1}(www\.){0,1}[a-zA-Z0-9\.\-]+\.[a-zA-Z]{2,5}[\.]{0,1}/;
-    if(this.state.profileFile.type==="image/gif" || this.state.profileFile.type==="image/jpeg" || this.state.profileFile.type==="image/jpg" || this.state.profileFile.type==="image/png"){
-    }else{
-      invalidProfileUrl = true;
+
+    if (Object.keys(this.state.profileFile).length != 0) {
+      if (
+        this.state.profileFile.type === "image/gif" ||
+        this.state.profileFile.type === "image/jpeg" ||
+        this.state.profileFile.type === "image/jpg" ||
+        this.state.profileFile.type === "image/png"
+      ) {
+        invalidProfileUrl = false;
+      } else {
+        invalidProfileUrl = true;
+      }
+    } else {
+      invalidProfileUrl = false;
     }
     // if (speaker.profileImageURL !== "") {
     //   if (!re.test(speaker.profileImageURL)) {
@@ -185,7 +196,12 @@ class SpeakerForm extends Component {
       ]);
 
       this.state.editSpeaker
-        ? this.updateSpeaker(speaker._id, this.state.profileFile,this.state.editProfileUrl, editedSpeaker)
+        ? this.updateSpeaker(
+            speaker._id,
+            this.state.profileFile,
+            this.state.editProfileUrl,
+            editedSpeaker
+          )
         : this.createSpeaker(speaker, this.state.profileFile, attendeeCount);
     } else {
       !speaker.firstName ? this.setState({ firstNameRequired: true }) : null;
@@ -207,10 +223,10 @@ class SpeakerForm extends Component {
     }
   }
 
-  updateSpeaker(id, image, oldUrl,editedSpeaker) {
+  updateSpeaker(id, image, oldUrl, editedSpeaker) {
     let compRef = this;
     editedSpeaker.roleName = "Speaker";
-    this.props.editSpeakerData(id, image, oldUrl,editedSpeaker);
+    this.props.editSpeakerData(id, image, oldUrl, editedSpeaker);
     setTimeout(() => {
       let speakerUpdated = this.props.speakerUpdated;
       compRef.Toaster(compRef, speakerUpdated, "Updated");
@@ -413,17 +429,6 @@ class SpeakerForm extends Component {
                 value={Speaker.info}
                 onChange={event => this.onChangeInput(event)}
               />
-              {this.state.invalidProfileUrl ? (
-              <div
-                style={{
-                  color: "red",
-                  marginTop: 30
-                }}
-                className="help-block"
-              >
-                * Please select image only
-              </div>
-            ) : null}
             </InputGroup>
           </Col>
           <Col xs="12" md="6">
@@ -451,6 +456,17 @@ class SpeakerForm extends Component {
                 onChange={event => this.onChangeInput(event)}
               />
             </InputGroup>
+            {this.state.invalidProfileUrl ? (
+              <div
+                style={{
+                  color: "red",
+                  marginTop: -15
+                }}
+                className="help-block"
+              >
+                * Please select image only
+              </div>
+            ) : null}
           </Col>
         </FormGroup>
         <FormGroup row>
@@ -508,8 +524,8 @@ const mapDispatchToProps = dispatch => {
     createSpeaker: (speaker, image, attendeeCount) =>
       dispatch(actions.createSpeaker(speaker, image, attendeeCount)),
     getSpeakerData: id => dispatch(actions.getSpeakerData(id)),
-    editSpeakerData: (id, image,oldUrl, speaker) =>
-      dispatch(actions.editSpeakerData(id, image,oldUrl, speaker)),
+    editSpeakerData: (id, image, oldUrl, speaker) =>
+      dispatch(actions.editSpeakerData(id, image, oldUrl, speaker)),
     getAttendeeCountForEvent: id =>
       dispatch(actions.getAttendeeCountForEvent(id)),
     getEvents: () => dispatch(actions.getEvents())
