@@ -29,13 +29,13 @@ class SessionReports extends React.Component {
       roles: new Set(),
       event: "",
       session: "",
-      sessions : []
+      sessions: []
     };
     this.renderTable = this.renderTable.bind(this);
   }
 
   componentDidMount() {
-    this.props.getAttendanceList();
+    this.props.clearResult();
     this.props.getEvents();
   }
 
@@ -129,7 +129,7 @@ class SessionReports extends React.Component {
                   <FormGroup row className="marginBottomZero">
                     <Col xs="12" md="4">
                       <h1 className="regHeading paddingTop8">
-                         Attendance Report
+                        Attendance Report
                       </h1>
                     </Col>
                     <Col xs="10" md="3">
@@ -237,6 +237,7 @@ const mapStateToProps = state => {
 
 const mapDispatchToProps = dispatch => {
   return {
+    clearResult: () => dispatch(actions.clearResult()),
     getAttendanceList: () => dispatch(actions.getAttendanceList()),
     getAttendanceByEvent: eventId =>
       dispatch(actions.getAttendanceByEvent(eventId)),

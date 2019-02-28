@@ -43,7 +43,8 @@ export {
 export {
   getAttendanceList,
   getAttendanceByEvent,
-  getAttendanceBySession
+  getAttendanceBySession,
+  clearResult
 } from "./attendance";
 
 export {

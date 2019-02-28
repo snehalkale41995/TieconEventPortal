@@ -104,6 +104,13 @@ export const getAttendanceByEvent = eventId => {
   };
 };
 
+export const clearResult = () => {
+  let attendance = [];
+  return dispatch => {
+    dispatch(storeAttendance(attendance));
+  };
+};
+
 export const getAttendanceBySession = (eventId, sessionId) => {
   let attendance = [];
   return dispatch => {
