@@ -142,22 +142,24 @@ import "react-toastify/dist/ReactToastify.css";
 
 const csvData = [
   [
-    "UserName",
-    "Name",
-    "PhoneNumber",
-    "Age",
-    "Gender",
-    "State",
-    "District",
-    "Grampanchayat",
-    "Village",
-    "Aadhaar",
-    "IMEI1",
-    "IMEI2",
-    "Language",
-    "FCMToken"
+    "firstName",
+    "lastName",
+    "email",
+    "event",
+    // "password",
+    "contact",
+    "profileName",
+    "roleName",
+    "briefInfo"
+    // "attendeeLabel",
+    // "attendeeCount",
+    // "profileImageURL",
+    // "facebookProfileURL",
+    // "linkedinProfileURL",
+    // "twitterProfileURL"
   ]
 ];
+
 class AttendeeBulkUpload extends Component {
   constructor(props) {
     super(props);
@@ -223,11 +225,11 @@ class AttendeeBulkUpload extends Component {
   }
 
   onValidate() {
-    let beneficiaries = [...this.state.CSVdata];
+    let attendees = [...this.state.CSVdata];
     let compRef = this;
-    if (beneficiaries.length !== 0) {
+    if (attendees.length !== 0) {
       this.setState({ loading: true });
-      // this.props.bulkValidateBeneficiary(beneficiaries);
+      // this.props.bulkValidateattendee(attendees);
       setTimeout(() => {
         let validationError = this.props.bulkUserError;
         let CSVdata = compRef.props.bulkUserData;
@@ -253,7 +255,7 @@ class AttendeeBulkUpload extends Component {
     //else if(this.state.CSVdata === null){
     //   this.setState({ csvFileRequired: true });
     // }else{
-    //   if (beneficiaries.length === 0 && this.state.clearCSValue) {
+    //   if (attendees.length === 0 && this.state.clearCSValue) {
     //     this.setState({
     //       csvFileInvalid: true
     //     });
@@ -261,7 +263,7 @@ class AttendeeBulkUpload extends Component {
     // }
 
     // else {
-    //   if (beneficiaries.length === 0 ) {
+    //   if (attendees.length === 0 ) {
     //     this.setState({
     //       csvFileInvalid: true
     //     });
@@ -272,14 +274,14 @@ class AttendeeBulkUpload extends Component {
   }
 
   onSubmit() {
-    let beneficiaries = [...this.state.CSVdata];
+    let attendees = [...this.state.CSVdata];
     //let csvFileRequired = false;
     if (this.state.CSVdataTracker === null) {
       this.setState({ csvFileRequired: true });
     } else if (this.state.CSVdataTracker === []) {
       this.setState({ csvFileInvalid: true });
     }
-    if (beneficiaries.length === 0) {
+    if (attendees.length === 0) {
       //csvFileRequired = true;
       this.setState({ csvFileRequired: true });
     }
@@ -287,27 +289,27 @@ class AttendeeBulkUpload extends Component {
     if (!this.state.csvFileRequired && !this.state.csvFileInvalid) {
       let guid = uuid.v1(new Date());
       let currentUser = localStorage.getItem("user");
-      beneficiaries.forEach(beneficiary => {
-        beneficiary.BulkUploadId = guid;
-        beneficiary.CreatedOn = new Date();
-        beneficiary.Createdby = currentUser;
-        beneficiary.Active = true;
-        beneficiary.Role = "Beneficiary User";
+      attendees.forEach(attendee => {
+        attendee.BulkUploadId = guid;
+        attendee.CreatedOn = new Date();
+        attendee.Createdby = currentUser;
+        attendee.Active = true;
+        attendee.Role = "attendee User";
       });
-      this.props.bulkUploadBeneficiary(beneficiaries);
+      this.props.bulkUploadattendee(attendees);
       this.setState({ loading: true });
       setTimeout(() => {
         let message = "";
         compRef.setState({ loading: false });
-        compRef.props.beneficiaryError
+        compRef.props.attendeeError
           ? (message = "Something went wrong !")
           : (message = "Users uploaded successfully");
 
-        // Toaster.Toaster(message, compRef.props.beneficiaryError);
+        // Toaster.Toaster(message, compRef.props.attendeeError);
         setTimeout(() => {
-          if (!compRef.props.beneficiaryError) {
+          if (!compRef.props.attendeeError) {
             compRef.onReset();
-            compRef.props.history.push("/beneficiary/beneficiaryList");
+            compRef.props.history.push("/attendee/attendeeList");
           }
         }, 1000);
       }, 2000);
@@ -375,20 +377,21 @@ class AttendeeBulkUpload extends Component {
       sizePerPage: 5
     };
     const keys = [
-      "UserName",
-      "Name",
-      "PhoneNumber",
-      "Age",
-      "Gender",
-      "State",
-      "District",
-      "Grampanchayat",
-      "Village",
-      "Aadhaar",
-      "IMEI1",
-      "IMEI2",
-      "Language",
-      "FCMToken"
+      "firstName",
+      "lastName",
+      "email",
+      "event",
+      // "password",
+      "contact",
+      "profileName",
+      "roleName",
+      "briefInfo"
+      // "attendeeLabel",
+      // "attendeeCount",
+      // "profileImageURL",
+      // "facebookProfileURL",
+      // "linkedinProfileURL",
+      // "twitterProfileURL"
     ];
     const tableFormat = keys.map(key => {
       return <td className="csv-table-border">{key}</td>;
@@ -397,7 +400,7 @@ class AttendeeBulkUpload extends Component {
     return this.state.loading ? (
       <Loader loading={this.state.loading} />
     ) : (
-      <CardLayout name="Bulk Upload Beneficiary">
+      <CardLayout name="Bulk Upload Attendee">
         <div className="div-padding">
           <FormGroup row>
             <Col xs="12">
@@ -421,15 +424,20 @@ class AttendeeBulkUpload extends Component {
                         onChange={onChange}
                         required={this.state.csvFileRequired}
                         //invalid={this.state.csvFileInvalid}
-                        blankCSVFile={this.state.csvFileInvalid}
+                        // blankCSVFile={this.state.csvFileInvalid}
                       />
                     )}
                   />
+                  {this.state.csvFileInvalid ? (
+                    <div className="help-block" style={{ marginTop: 2 }}>
+                      *Blank CSV file cannot be accepted
+                    </div>
+                  ) : null}
                 </Col>
                 <Col md="6">
                   <FormGroup row>
                     <Label>Format required for CSV : &nbsp; &nbsp;</Label>
-                    <CSVLink filename="_beneficiaryList.csv" data={csvData}>
+                    <CSVLink filename="_attendeeList.csv" data={csvData}>
                       Download
                     </CSVLink>
                     &nbsp; Or &nbsp;
@@ -503,9 +511,10 @@ class AttendeeBulkUpload extends Component {
                 //search={true}
                 options={sortingOptions}
                 hover={true}
+                ScrollPosition="Bottom"
               >
                 <TableHeaderColumn
-                  dataField="UserName"
+                  dataField="email"
                   headerAlign="left"
                   isKey
                   hidden
@@ -513,75 +522,106 @@ class AttendeeBulkUpload extends Component {
                   Id
                 </TableHeaderColumn>
                 <TableHeaderColumn
-                  dataField="UserName"
+                  dataField="firstName"
                   headerAlign="left"
                   dataSort={true}
                   width={20}
                 >
-                  UserName
+                  First Name
                 </TableHeaderColumn>
                 <TableHeaderColumn
-                  dataField="Name"
+                  dataField="lastName"
                   headerAlign="left"
                   dataSort={true}
                   width={20}
                 >
-                  Name
+                  Last Name
+                </TableHeaderColumn>
+                <TableHeaderColumn
+                  width={30}
+                  dataField="email"
+                  headerAlign="left"
+                  dataSort={true}
+                >
+                  Email
+                </TableHeaderColumn>
+                <TableHeaderColumn
+                  width={30}
+                  dataField="event"
+                  headerAlign="left"
+                >
+                  Event
                 </TableHeaderColumn>
                 <TableHeaderColumn
                   width={20}
-                  dataField="PhoneNumber"
+                  dataField="contact"
                   headerAlign="left"
                   dataSort={true}
                 >
-                  Phone Number
+                  Contact
                 </TableHeaderColumn>
-                <TableHeaderColumn
-                  width={12}
-                  dataField="Age"
-                  headerAlign="left"
-                >
-                  Age
-                </TableHeaderColumn>
-                <TableHeaderColumn
-                  width={15}
-                  dataField="State"
-                  headerAlign="left"
-                  dataSort={true}
-                >
-                  State
-                </TableHeaderColumn>
-                <TableHeaderColumn
-                  width={15}
-                  dataField="District"
-                  headerAlign="left"
-                  dataSort={true}
-                >
-                  District
-                </TableHeaderColumn>
-
                 <TableHeaderColumn
                   width={20}
-                  dataField="Grampanchayat"
+                  dataField="profileName"
                   headerAlign="left"
                   dataSort={true}
                 >
-                  Grampanchayat
+                  Profile Name
                 </TableHeaderColumn>
                 <TableHeaderColumn
-                  width={15}
-                  dataField="Village"
+                  width={20}
+                  dataField="roleName"
                   headerAlign="left"
                   dataSort={true}
                 >
-                  Village
+                  Role Name
                 </TableHeaderColumn>
+                <TableHeaderColumn
+                  width={20}
+                  dataField="briefInfo"
+                  headerAlign="left"
+                  dataSort={true}
+                >
+                  Brief Info
+                </TableHeaderColumn>
+                {/* <TableHeaderColumn
+                  width={50}
+                  dataField="profileImageURL"
+                  headerAlign="left"
+                  dataSort={true}
+                >
+                  Profile ImageURL
+                </TableHeaderColumn> */}
+                {/* <TableHeaderColumn
+                  width={50}
+                  dataField="facebookProfileURL"
+                  headerAlign="left"
+                  dataSort={true}
+                >
+                  Facebook URL
+                </TableHeaderColumn>
+                <TableHeaderColumn
+                  width={50}
+                  dataField="linkedinProfileURL"
+                  headerAlign="left"
+                  dataSort={true}
+                >
+                  Linkedin URL
+                </TableHeaderColumn>
+                <TableHeaderColumn
+                  width={50}
+                  dataField="twitterProfileURL"
+                  headerAlign="left"
+                  dataSort={true}
+                >
+                  Twitter URL
+                </TableHeaderColumn> */}
                 {this.state.bulkUserError ? (
                   <TableHeaderColumn
                     tdStyle={trStyle}
                     dataField="ErrorMessage"
                     headerAlign="left"
-                    width={70}
+                    width={50}
                   >
                     ErrorMessage
                   </TableHeaderColumn>
@@ -598,20 +638,20 @@ class AttendeeBulkUpload extends Component {
 }
 // const mapStateToProps = state => {
 //   return {
-//     beneficiaryError: state.beneficiaryReducer.beneficiaryError,
-//     bulkUploadHistory: state.beneficiaryReducer.bulkUploadHistory,
-//     bulkUserData: state.beneficiaryReducer.bulkUserData,
-//     bulkUserError: state.beneficiaryReducer.bulkUserError
+//     attendeeError: state.attendeeReducer.attendeeError,
+//     bulkUploadHistory: state.attendeeReducer.bulkUploadHistory,
+//     bulkUserData: state.attendeeReducer.bulkUserData,
+//     bulkUserError: state.attendeeReducer.bulkUserError
 //   };
 // };
 
 // const mapDispatchToProps = dispatch => {
 //   return {
-//     bulkUploadBeneficiary: beneficiaries =>
-//       dispatch(actions.bulkUploadBeneficiary(beneficiaries)),
+//     bulkUploadattendee: attendees =>
+//       dispatch(actions.bulkUploadattendee(attendees)),
 //     getBulkUploadHistory: () => dispatch(actions.getBulkUploadHistory()),
-//     bulkValidateBeneficiary: beneficiaries =>
-//       dispatch(actions.bulkValidateBeneficiary(beneficiaries))
+//     bulkValidateattendee: attendees =>
+//       dispatch(actions.bulkValidateattendee(attendees))
 //   };
 // };
 // export default connect(mapStateToProps, mapDispatchToProps)(AttendeeBulkUpload);
