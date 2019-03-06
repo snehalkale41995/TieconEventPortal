@@ -2,6 +2,8 @@ import React, { Component } from "react";
 import { Switch, Route, Redirect } from "react-router-dom";
 import Dashboard from "../../views/Dashboard/";
 import Events from "../../views/Events/";
+import AttendeeBulkUpload from "../../views/BulkUpload/AttendeeBulkUpload";
+import SpeakerBulkUpload from "../../views/BulkUpload/SpeakerBulkUpload";
 import Rooms from "../../views/Rooms/Rooms";
 import RoomsModule from "../../views/Rooms/RoomsModule";
 import Registration from "../../views/Registration/Registration";
@@ -56,6 +58,8 @@ class App extends Component {
               path="/reports/attendeeReports"
               component={AttendeeReports}
             />
+            <Route path="/bulkUpload/attendee" component={AttendeeBulkUpload} />
+            <Route path="/bulkUpload/speaker" component={SpeakerBulkUpload} />
             <Route path="/dynamicForms" component={DynamicForms} />
             <Route path="/questionForms" component={QuestionForms} />
             <Route path="/sponsors" component={Sponsors} />

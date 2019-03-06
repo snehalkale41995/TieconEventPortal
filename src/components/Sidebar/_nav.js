@@ -91,6 +91,23 @@ export default {
       ]
     },
     {
+      name: "Bulk Upload ",
+      url: "/bulkUpload/",
+      icon: "icon-chart",
+      children: [
+        {
+          name: "Attendee Bulk Upload",
+          url: "/bulkUpload/attendee",
+          icon: "icon-chart"
+        },
+        {
+          name: "Speaker Bulk Upload",
+          url: "/bulkUpload/speaker",
+          icon: "icon-chart"
+        }
+      ]
+    },
+    {
       name: "Logout",
       url: "/logout",
       icon: "fa fa-sign-out"

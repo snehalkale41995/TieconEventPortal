@@ -347,3 +347,9 @@ input[type="checkbox"] {
   width: 18px;
   height: 18px;
 }
+
+.csv-table-border {
+  border: 1px solid #2C3A5D;
+  padding: 3px;
+  margin-left: 0px
+}
