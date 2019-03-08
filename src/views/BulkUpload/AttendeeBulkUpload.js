@@ -287,15 +287,15 @@ class AttendeeBulkUpload extends Component {
     }
     let compRef = this;
     if (!this.state.csvFileRequired && !this.state.csvFileInvalid) {
-      let guid = uuid.v1(new Date());
-      let currentUser = localStorage.getItem("user");
-      attendees.forEach(attendee => {
-        attendee.BulkUploadId = guid;
-        attendee.CreatedOn = new Date();
-        attendee.Createdby = currentUser;
-        attendee.Active = true;
-        attendee.Role = "attendee User";
-      });
+      // let guid = uuid.v1(new Date());
+      // let currentUser = localStorage.getItem("user");
+      // attendees.forEach(attendee => {
+      //   attendee.BulkUploadId = guid;
+      //   attendee.CreatedOn = new Date();
+      //   attendee.Createdby = currentUser;
+      //   attendee.Active = true;
+      //   attendee.Role = "attendee User";
+      // });
       this.props.bulkUploadattendee(attendees);
       this.setState({ loading: true });
       setTimeout(() => {
