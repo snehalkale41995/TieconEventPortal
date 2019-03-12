@@ -95,7 +95,7 @@ class Registration extends Component {
           ]);
           let Empty = !Object.keys(Attendee).length;
           if (Empty) {
-            compRef.props.history.push("/sponsors");
+            compRef.props.history.push("/registrationList");
           } else {
             compRef.setState({
               Registration: Attendee,

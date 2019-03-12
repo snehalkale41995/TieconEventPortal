@@ -144,10 +144,12 @@ import uuid from "uuid";
 import { connect } from "react-redux";
 import * as actions from "../../store/actions";
 import Loader from "../../components/Loader/Loader";
-import { ToastContainer } from "react-toastify";
-import "react-toastify/dist/ReactToastify.css";
+// import { ToastContainer } from "react-toastify";
+// import "react-toastify/dist/ReactToastify.css";
 import Select from "react-select";
 import "react-select/dist/react-select.css";
+import { ToastContainer, toast } from "react-toastify";
+import "react-toastify/dist/ReactToastify.css";
 //import * as Toaster from "../../constants/Toaster";
 
 const csvData = [
@@ -172,7 +174,7 @@ class AttendeeBulkUpload extends Component {
       showTableHeaderFormat: false,
       csvFileRequired: false,
       uploadFlag: false,
-      bulkUserError: false,
+      bulkUploadError: false,
       fileName: "",
       clearCSValue: false,
       csvFileInvalid: false,
@@ -209,7 +211,7 @@ class AttendeeBulkUpload extends Component {
         CSVdata: data,
         CSVdataTracker: data,
         csvFileRequired: false,
-        bulkUserError: false,
+        bulkUploadError: false,
         uploadFlag: false
       });
     } else {
@@ -231,7 +233,7 @@ class AttendeeBulkUpload extends Component {
       CSVdata: [],
       CSVdataTracker: null,
       csvFileRequired: false,
-      bulkUserError: false,
+      bulkUploadError: false,
       fileName: "",
       uploadFlag: false,
       csvFileInvalid: false,
@@ -246,20 +248,20 @@ class AttendeeBulkUpload extends Component {
    // attendees.length == 0 ? this.setState({ csvFileRequired: true }) : null;
     if (attendees.length !== 0 && this.state.eventValue) {
       this.setState({ loading: true });
-      // this.props.bulkValidateattendee(attendees);
+       this.props.bulkValidateAttendee(attendees);
       setTimeout(() => {
-        let validationError = this.props.bulkUserError;
-        let CSVdata = compRef.props.bulkUserData;
-        validationError
+        let bulkValidationError = this.props.bulkValidationError;
+        let CSVdata = compRef.props.attendeeList;
+        bulkValidationError
           ? this.setState({
               loading: false,
               CSVdata: CSVdata,
-              bulkUserError: true
+              bulkUploadError: true
             })
           : this.setState({
               loading: false,
               uploadFlag: true,
-              bulkUserError: false
+              bulkUploadError: false
             });
       }, 1000);
     } else if (this.state.CSVdataTracker === null) {
@@ -306,34 +308,38 @@ class AttendeeBulkUpload extends Component {
     }
     let compRef = this;
     if (!this.state.csvFileRequired && !this.state.csvFileInvalid) {
-      // let guid = uuid.v1(new Date());
-      // let currentUser = localStorage.getItem("user");
-      // attendees.forEach(attendee => {
-      //   attendee.BulkUploadId = guid;
-      //   attendee.CreatedOn = new Date();
-      //   attendee.Createdby = currentUser;
-      //   attendee.Active = true;
-      //   attendee.Role = "attendee User";
-      // });
       this.props.bulkUploadAttendee(attendees, eventId);
       this.setState({ loading: true });
       setTimeout(() => {
         let message = "";
         compRef.setState({ loading: false });
-        compRef.props.attendeeError
-          ? (message = "Something went wrong !")
-          : (message = "Users uploaded successfully");
-
+        let bulkUploadError = compRef.props.bulkUploadError;
+        console.log("bulkUploadError", bulkUploadError);
         // Toaster.Toaster(message, compRef.props.attendeeError);
+        compRef.Toaster(compRef, bulkUploadError);
         setTimeout(() => {
-          if (!compRef.props.attendeeError) {
+          if (!compRef.props.bulkUploadError) {
             compRef.onReset();
-            compRef.props.history.push("/attendee/attendeeList");
+            compRef.props.history.push("/registrationList");
           }
         }, 1000);
       }, 2000);
     }
   }
+
+  Toaster(compRef, bulkUploadError) {
+    compRef.setState({ loading: false });
+    if (!bulkUploadError) {
+      toast.success("Attendee uploaded successfully", {
+        position: toast.POSITION.BOTTOM_RIGHT
+      });
+    } else {
+      toast.error("Something went wrong", {
+        position: toast.POSITION.BOTTOM_RIGHT
+      });
+    }
+  }
+
   onShowTableFormat() {
     let showTableHeaderFormat = this.state.showTableHeaderFormat;
     this.setState({
@@ -608,10 +614,10 @@ class AttendeeBulkUpload extends Component {
                         >
                           Brief Info
                         </TableHeaderColumn>
-                        {this.state.bulkUserError ? (
+                        {this.props.bulkValidationError ? (
                           <TableHeaderColumn
                             tdStyle={trStyle}
-                            dataField="ErrorMessage"
+                            dataField="errorMessage"
                             headerAlign="left"
                             width={50}
                           >
@@ -638,7 +644,10 @@ const mapStateToProps = state => {
     // attendeeError: state.attendeeReducer.attendeeError,
     // bulkUploadHistory: state.attendeeReducer.bulkUploadHistory,
     // bulkUserData: state.attendeeReducer.bulkUserData,
-    // bulkUserError: state.attendeeReducer.bulkUserError
+    // bulkUploadError: state.attendeeReducer.bulkUploadError,
+    attendeeList : state.bulkUpload.attendeeList,
+    bulkUploadError : state.bulkUpload.bulkUploadError,
+    bulkValidationError : state.bulkUpload.bulkValidationError,
     eventList: state.event.eventList
   };
 };
@@ -647,10 +656,10 @@ const mapDispatchToProps = dispatch => {
   return {
      bulkUploadAttendee: (attendees, eventId) =>
       dispatch(actions.bulkUploadAttendee(attendees, eventId)),
+     bulkValidateAttendee: (attendees) =>
+      dispatch(actions.bulkValidateAttendee(attendees)),
     // getBulkUploadHistory: () => dispatch(actions.getBulkUploadHistory()),
-    // bulkValidateattendee: attendees =>
-    //   dispatch(actions.bulkValidateattendee(attendees))
-    getEvents: () => dispatch(actions.getEvents())
+     getEvents: () => dispatch(actions.getEvents())
   };
 };
 export default connect(

@@ -1,8 +1,9 @@
 import * as actionTypes from "../actions/actionTypes";
 
 const initialState = {
-  bulkUploadErrorFlag : false,
-  bulkValidationErrorFlag : false 
+  attendeeList : [],
+  bulkUploadError : false,
+  bulkValidationError : false 
 };
 
 const bulkUploadReducer = (state = initialState, action) => {
@@ -20,12 +21,14 @@ const bulkUploadReducer = (state = initialState, action) => {
     case actionTypes.LOG_BULk_VALIDATE_ERROR:
       return {
         ...state,
-        bulkValidationErrorFlag: true
+        bulkValidationError: true,
+        attendeeList : action.attendeeList
       };
      case actionTypes.CLEAR_BULk_VALIDATE_ERROR:
       return {
         ...state,
-         bulkValidationErrorFlag: false
+         bulkValidationError: false,
+         attendeeList : action.attendeeList
       };
     default:
       return state;
