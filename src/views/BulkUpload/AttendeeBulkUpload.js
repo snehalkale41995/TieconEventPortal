@@ -122,11 +122,19 @@
 // )(AttendeeBulkUpload);
 
 import React, { Component } from "react";
-// import CardLayout from "../../components/Cards/CardLayout";
-// import InputElement from "../../components/InputElement/InputElement";
 import InputElement from "../../components/Input/";
 import CardLayout from "../../components/CardLayout/";
-import { FormGroup, Col, Button, Label, Input } from "reactstrap";
+import {
+  FormGroup,
+  Col,
+  Button,
+  Label,
+  Input,
+  Row,
+  Card,
+  CardBody,
+  CardHeader
+} from "reactstrap";
 import CsvParse from "@vtex/react-csv-parse";
 import { BootstrapTable, TableHeaderColumn } from "react-bootstrap-table";
 import "react-bootstrap-table/dist/react-bootstrap-table.min.css";
@@ -138,6 +146,8 @@ import * as actions from "../../store/actions";
 import Loader from "../../components/Loader/Loader";
 import { ToastContainer } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
+import Select from "react-select";
+import "react-select/dist/react-select.css";
 //import * as Toaster from "../../constants/Toaster";
 
 const csvData = [
@@ -145,18 +155,9 @@ const csvData = [
     "firstName",
     "lastName",
     "email",
-    "event",
-    // "password",
     "contact",
     "profileName",
-    "roleName",
     "briefInfo"
-    // "attendeeLabel",
-    // "attendeeCount",
-    // "profileImageURL",
-    // "facebookProfileURL",
-    // "linkedinProfileURL",
-    // "twitterProfileURL"
   ]
 ];
 
@@ -174,15 +175,28 @@ class AttendeeBulkUpload extends Component {
       bulkUserError: false,
       fileName: "",
       clearCSValue: false,
-      csvFileInvalid: false
+      csvFileInvalid: false,
+      eventValue: "",
+      eventRequired: false
     };
     this.handleData = this.handleData.bind(this);
   }
   componentDidMount() {
     //this.props.getBulkUploadHistory();
+    this.props.getEvents();
     setTimeout(() => {
       this.setState({ loading: false });
     }, 1000);
+  }
+
+  handleEventChange(value) {
+    let compRef = this;
+    if (value !== null) {
+      this.setState({
+        eventValue: value,
+        eventRequired: false
+      });
+    }
   }
 
   handleData(data, file) {
@@ -220,14 +234,17 @@ class AttendeeBulkUpload extends Component {
       bulkUserError: false,
       fileName: "",
       uploadFlag: false,
-      csvFileInvalid: false
+      csvFileInvalid: false,
+      eventRequired : false
     });
   }
 
   onValidate() {
     let attendees = [...this.state.CSVdata];
     let compRef = this;
-    if (attendees.length !== 0) {
+    !this.state.eventValue ? this.setState({ eventRequired: true }) : null;
+   // attendees.length == 0 ? this.setState({ csvFileRequired: true }) : null;
+    if (attendees.length !== 0 && this.state.eventValue) {
       this.setState({ loading: true });
       // this.props.bulkValidateattendee(attendees);
       setTimeout(() => {
@@ -247,11 +264,12 @@ class AttendeeBulkUpload extends Component {
       }, 1000);
     } else if (this.state.CSVdataTracker === null) {
       this.setState({ csvFileRequired: true });
-    } else {
-      this.setState({
-        csvFileInvalid: true
-      });
-    }
+    } 
+    // else {
+    //   this.setState({
+    //     csvFileInvalid: true
+    //   });
+    // }
     //else if(this.state.CSVdata === null){
     //   this.setState({ csvFileRequired: true });
     // }else{
@@ -275,6 +293,7 @@ class AttendeeBulkUpload extends Component {
 
   onSubmit() {
     let attendees = [...this.state.CSVdata];
+    let eventId = this.state.eventValue;
     //let csvFileRequired = false;
     if (this.state.CSVdataTracker === null) {
       this.setState({ csvFileRequired: true });
@@ -296,7 +315,7 @@ class AttendeeBulkUpload extends Component {
       //   attendee.Active = true;
       //   attendee.Role = "attendee User";
       // });
-      this.props.bulkUploadattendee(attendees);
+      this.props.bulkUploadAttendee(attendees, eventId);
       this.setState({ loading: true });
       setTimeout(() => {
         let message = "";
@@ -328,33 +347,9 @@ class AttendeeBulkUpload extends Component {
     let trStyle = (row, rowIndex) => {
       return { color: "#E00000" };
     };
-    const historySortOptions = {
-      defaultSortName: "CreatedOn",
-      defaultSortOrder: "desc",
-      sizePerPageList: [
-        {
-          text: "5",
-          value: 5
-        },
-        {
-          text: "10",
-          value: 10
-        },
-        {
-          text: "20",
-          value: 20
-        },
-        {
-          text: "All",
-          value: ""
-        }
-      ],
-      sizePerPage: 5
-      //paginationPosition: 'top',
-      //paginationShowsTotal: this.props.bulkUploadHistory.length
-    };
+   
     const sortingOptions = {
-      defaultSortName: "Name",
+      defaultSortName: "firstName",
       defaultSortOrder: "asc",
       sizePerPageList: [
         {
@@ -380,18 +375,9 @@ class AttendeeBulkUpload extends Component {
       "firstName",
       "lastName",
       "email",
-      "event",
-      // "password",
       "contact",
       "profileName",
-      "roleName",
       "briefInfo"
-      // "attendeeLabel",
-      // "attendeeCount",
-      // "profileImageURL",
-      // "facebookProfileURL",
-      // "linkedinProfileURL",
-      // "twitterProfileURL"
     ];
     const tableFormat = keys.map(key => {
       return <td className="csv-table-border">{key}</td>;
@@ -400,259 +386,275 @@ class AttendeeBulkUpload extends Component {
     return this.state.loading ? (
       <Loader loading={this.state.loading} />
     ) : (
-      <CardLayout name="Bulk Upload Attendee">
-        <div className="div-padding">
-          <FormGroup row>
-            <Col xs="12">
-              <FormGroup row>
-                <Col xs="12" md="6">
-                  <CsvParse
-                    keys={keys}
-                    onDataUploaded={this.handleData}
-                    value={this.state.fileName}
-                    //onError={this.handleError}
-                    render={onChange => (
-                      <Input
-                        id="fileValue"
-                        icon=""
-                        label="CSV file"
-                        type="file"
-                        accept=".csv"
-                        value={
-                          this.state.clearCSValue ? this.state.fileName : null
-                        }
-                        onChange={onChange}
-                        required={this.state.csvFileRequired}
-                        //invalid={this.state.csvFileInvalid}
-                        // blankCSVFile={this.state.csvFileInvalid}
+      <div>
+        <div className="animated fadeIn">
+          <Row>
+            <Col xs="12" lg="12">
+              <Card>
+                <CardHeader>
+                  <FormGroup row className="marginBottomZero">
+                    <Col xs="12" md="4">
+                      <h1 className="regHeading paddingTop8">
+                        Attendee Bulk Upload
+                      </h1>
+                    </Col>
+                    <Col xs="10" md="3">
+                      <Select
+                        name="Event"
+                        placeholder="Select event"
+                        options={this.props.eventList}
+                        value={this.state.eventValue}
+                        simpleValue
+                        onChange={this.handleEventChange.bind(this)}
                       />
+                      {this.state.eventRequired ? (
+                        <div
+                          style={{ color: "red", marginTop: -1 }}
+                          className="help-block"
+                        >
+                          *Please select event
+                        </div>
+                      ) : null}
+                    </Col>
+                  </FormGroup>
+                </CardHeader>
+                <CardBody>
+                  <FormGroup row>
+                    <Col xs="12">
+                      <FormGroup row>
+                        <Col xs="12" md="6">
+                          <CsvParse
+                            keys={keys}
+                            onDataUploaded={this.handleData}
+                            value={this.state.fileName}
+                            //onError={this.handleError}
+                            render={onChange => (
+                              <Input
+                                id="fileValue"
+                                icon=""
+                                label="CSV file"
+                                type="file"
+                                accept=".csv"
+                                value={
+                                  this.state.clearCSValue
+                                    ? this.state.fileName
+                                    : null
+                                }
+                                onChange={onChange}
+                                required={this.state.csvFileRequired}
+                                //invalid={this.state.csvFileInvalid}
+                                // blankCSVFile={this.state.csvFileInvalid}
+                              />
+                            )}
+                          />
+                          {this.state.csvFileInvalid ? (
+                            <div
+                              className="help-block"
+                              style={{ marginTop: 2 }}
+                            >
+                              *Blank CSV file cannot be accepted
+                            </div>
+                          ) : null}
+                        </Col>
+                        <Col md="6">
+                          <FormGroup row>
+                            <Label>
+                              Format required for CSV : &nbsp; &nbsp;
+                            </Label>
+                            <CSVLink
+                              filename="_attendeeList.csv"
+                              data={csvData}
+                            >
+                              Download
+                            </CSVLink>
+                            &nbsp; Or &nbsp;
+                            <Link
+                              to={this}
+                              onClick={this.onShowTableFormat.bind(this)}
+                            >
+                              View
+                            </Link>
+                            &nbsp; CSV header format
+                            <br />{" "}
+                            <div
+                              className="help-block"
+                              style={{
+                                fontWeight: "500",
+                                marginTop: 20
+                              }}
+                            >
+                              *Use the provided format ONLY for bulk upload.
+                            </div>
+                          </FormGroup>
+                        </Col>
+                      </FormGroup>
+                      <FormGroup row>
+                        {this.state.showTableHeaderFormat ? (
+                          <Col xs="12" md="10">
+                            <table className="csv-table-border">
+                              <tr className="csv-table-border">
+                                {tableFormat}
+                              </tr>
+                            </table>
+                            <div
+                              style={{
+                                marginTop: 0,
+                                color: "red",
+                                fontSize: 12
+                              }}
+                            >
+                              *Please note : Sequence of headers should be
+                              exactly same.
+                            </div>
+                          </Col>
+                        ) : null}
+                      </FormGroup>
+                    </Col>
+                  </FormGroup>
+                  <FormGroup row>
+                    {this.state.uploadFlag ? (
+                      <Col md="1">
+                        <Button
+                          className="theme-positive-btn"
+                          onClick={this.onSubmit.bind(this)}
+                        >
+                          Upload
+                        </Button>
+                      </Col>
+                    ) : (
+                      <Col md="1">
+                        <Button
+                          className="theme-positive-btn"
+                          onClick={this.onValidate.bind(this)}
+                        >
+                          Validate
+                        </Button>
+                      </Col>
                     )}
-                  />
-                  {this.state.csvFileInvalid ? (
-                    <div className="help-block" style={{ marginTop: 2 }}>
-                      *Blank CSV file cannot be accepted
+                    <Col md="1">
+                      <Button
+                        className="theme-reset-btn"
+                        onClick={this.onReset.bind(this)}
+                      >
+                        Reset
+                      </Button>
+                    </Col>
+                  </FormGroup>
+                  {this.state.showDataTable ? (
+                    <div>
+                      <h5>Your Uploaded File : </h5>
+                      <BootstrapTable
+                        ref="table"
+                        data={this.state.CSVdata}
+                        pagination={true}
+                        //search={true}
+                        options={sortingOptions}
+                        hover={true}
+                        ScrollPosition="Bottom"
+                      >
+                        <TableHeaderColumn
+                          dataField="email"
+                          headerAlign="left"
+                          isKey
+                          hidden
+                        >
+                          email
+                        </TableHeaderColumn>
+                        <TableHeaderColumn
+                          dataField="firstName"
+                          headerAlign="left"
+                          dataSort={true}
+                          width={20}
+                        >
+                          First Name
+                        </TableHeaderColumn>
+                        <TableHeaderColumn
+                          dataField="lastName"
+                          headerAlign="left"
+                          dataSort={true}
+                          width={20}
+                        >
+                          Last Name
+                        </TableHeaderColumn>
+                        <TableHeaderColumn
+                          width={30}
+                          dataField="email"
+                          headerAlign="left"
+                          dataSort={true}
+                        >
+                          Email
+                        </TableHeaderColumn>
+                        <TableHeaderColumn
+                          width={20}
+                          dataField="contact"
+                          headerAlign="left"
+                          dataSort={true}
+                        >
+                          Contact
+                        </TableHeaderColumn>
+                        <TableHeaderColumn
+                          width={20}
+                          dataField="profileName"
+                          headerAlign="left"
+                          dataSort={true}
+                        >
+                          Profile Name
+                        </TableHeaderColumn>
+                        <TableHeaderColumn
+                          width={20}
+                          dataField="briefInfo"
+                          headerAlign="left"
+                          dataSort={true}
+                        >
+                          Brief Info
+                        </TableHeaderColumn>
+                        {this.state.bulkUserError ? (
+                          <TableHeaderColumn
+                            tdStyle={trStyle}
+                            dataField="ErrorMessage"
+                            headerAlign="left"
+                            width={50}
+                          >
+                            ErrorMessage
+                          </TableHeaderColumn>
+                        ) : null}
+                      </BootstrapTable>
+                      <hr />
                     </div>
                   ) : null}
-                </Col>
-                <Col md="6">
-                  <FormGroup row>
-                    <Label>Format required for CSV : &nbsp; &nbsp;</Label>
-                    <CSVLink filename="_attendeeList.csv" data={csvData}>
-                      Download
-                    </CSVLink>
-                    &nbsp; Or &nbsp;
-                    <Link to={this} onClick={this.onShowTableFormat.bind(this)}>
-                      View
-                    </Link>
-                    &nbsp; CSV header format
-                    <br />{" "}
-                    <div
-                      className="help-block"
-                      style={{
-                        fontWeight: "500",
-                        marginTop: 20
-                      }}
-                    >
-                      *Use the provided format ONLY for bulk upload.
-                    </div>
-                  </FormGroup>
-                </Col>
-              </FormGroup>
-              <FormGroup row>
-                {this.state.showTableHeaderFormat ? (
-                  <Col xs="12" md="10">
-                    <table className="csv-table-border">
-                      <tr className="csv-table-border">{tableFormat}</tr>
-                    </table>
-                    <div style={{ marginTop: 0, color: "red", fontSize: 12 }}>
-                      *Please note : Sequence of headers should be exactly same.
-                    </div>
-                  </Col>
-                ) : null}
-              </FormGroup>
+                   <ToastContainer autoClose={1000} />
+                </CardBody>
+              </Card>
             </Col>
-          </FormGroup>
-          <FormGroup row>
-            {this.state.uploadFlag ? (
-              <Col md="1">
-                <Button
-                  className="theme-positive-btn"
-                  onClick={this.onSubmit.bind(this)}
-                >
-                  Upload
-                </Button>
-              </Col>
-            ) : (
-              <Col md="1">
-                <Button
-                  className="theme-positive-btn"
-                  onClick={this.onValidate.bind(this)}
-                >
-                  Validate
-                </Button>
-              </Col>
-            )}
-            <Col md="1">
-              <Button
-                className="theme-reset-btn"
-                onClick={this.onReset.bind(this)}
-              >
-                Reset
-              </Button>
-            </Col>
-          </FormGroup>
-          {this.state.showDataTable ? (
-            <div>
-              <h5>Your Uploaded File : </h5>
-              <BootstrapTable
-                ref="table"
-                data={this.state.CSVdata}
-                pagination={true}
-                //search={true}
-                options={sortingOptions}
-                hover={true}
-                ScrollPosition="Bottom"
-              >
-                <TableHeaderColumn
-                  dataField="email"
-                  headerAlign="left"
-                  isKey
-                  hidden
-                >
-                  Id
-                </TableHeaderColumn>
-                <TableHeaderColumn
-                  dataField="firstName"
-                  headerAlign="left"
-                  dataSort={true}
-                  width={20}
-                >
-                  First Name
-                </TableHeaderColumn>
-                <TableHeaderColumn
-                  dataField="lastName"
-                  headerAlign="left"
-                  dataSort={true}
-                  width={20}
-                >
-                  Last Name
-                </TableHeaderColumn>
-                <TableHeaderColumn
-                  width={30}
-                  dataField="email"
-                  headerAlign="left"
-                  dataSort={true}
-                >
-                  Email
-                </TableHeaderColumn>
-                <TableHeaderColumn
-                  width={30}
-                  dataField="event"
-                  headerAlign="left"
-                >
-                  Event
-                </TableHeaderColumn>
-                <TableHeaderColumn
-                  width={20}
-                  dataField="contact"
-                  headerAlign="left"
-                  dataSort={true}
-                >
-                  Contact
-                </TableHeaderColumn>
-                <TableHeaderColumn
-                  width={20}
-                  dataField="profileName"
-                  headerAlign="left"
-                  dataSort={true}
-                >
-                  Profile Name
-                </TableHeaderColumn>
-                <TableHeaderColumn
-                  width={20}
-                  dataField="roleName"
-                  headerAlign="left"
-                  dataSort={true}
-                >
-                  Role Name
-                </TableHeaderColumn>
-                <TableHeaderColumn
-                  width={20}
-                  dataField="briefInfo"
-                  headerAlign="left"
-                  dataSort={true}
-                >
-                  Brief Info
-                </TableHeaderColumn>
-                {/* <TableHeaderColumn
-                  width={50}
-                  dataField="profileImageURL"
-                  headerAlign="left"
-                  dataSort={true}
-                >
-                  Profile ImageURL
-                </TableHeaderColumn> */}
-                {/* <TableHeaderColumn
-                  width={50}
-                  dataField="facebookProfileURL"
-                  headerAlign="left"
-                  dataSort={true}
-                >
-                  Facebook URL
-                </TableHeaderColumn>
-                <TableHeaderColumn
-                  width={50}
-                  dataField="linkedinProfileURL"
-                  headerAlign="left"
-                  dataSort={true}
-                >
-                  Linkedin URL
-                </TableHeaderColumn>
-                <TableHeaderColumn
-                  width={50}
-                  dataField="twitterProfileURL"
-                  headerAlign="left"
-                  dataSort={true}
-                >
-                  Twitter URL
-                </TableHeaderColumn> */}
-                {this.state.bulkUserError ? (
-                  <TableHeaderColumn
-                    tdStyle={trStyle}
-                    dataField="ErrorMessage"
-                    headerAlign="left"
-                    width={50}
-                  >
-                    ErrorMessage
-                  </TableHeaderColumn>
-                ) : null}
-              </BootstrapTable>
-              <hr />
-            </div>
-          ) : null}
+          </Row>
         </div>
-        <ToastContainer autoClose={1000} />
-      </CardLayout>
+      </div>
+     
     );
   }
 }
-// const mapStateToProps = state => {
-//   return {
-//     attendeeError: state.attendeeReducer.attendeeError,
-//     bulkUploadHistory: state.attendeeReducer.bulkUploadHistory,
-//     bulkUserData: state.attendeeReducer.bulkUserData,
-//     bulkUserError: state.attendeeReducer.bulkUserError
-//   };
-// };
+const mapStateToProps = state => {
+  return {
+    // attendeeError: state.attendeeReducer.attendeeError,
+    // bulkUploadHistory: state.attendeeReducer.bulkUploadHistory,
+    // bulkUserData: state.attendeeReducer.bulkUserData,
+    // bulkUserError: state.attendeeReducer.bulkUserError
+    eventList: state.event.eventList
+  };
+};
 
-// const mapDispatchToProps = dispatch => {
-//   return {
-//     bulkUploadattendee: attendees =>
-//       dispatch(actions.bulkUploadattendee(attendees)),
-//     getBulkUploadHistory: () => dispatch(actions.getBulkUploadHistory()),
-//     bulkValidateattendee: attendees =>
-//       dispatch(actions.bulkValidateattendee(attendees))
-//   };
-// };
-// export default connect(mapStateToProps, mapDispatchToProps)(AttendeeBulkUpload);
-export default AttendeeBulkUpload;
+const mapDispatchToProps = dispatch => {
+  return {
+     bulkUploadAttendee: (attendees, eventId) =>
+      dispatch(actions.bulkUploadAttendee(attendees, eventId)),
+    // getBulkUploadHistory: () => dispatch(actions.getBulkUploadHistory()),
+    // bulkValidateattendee: attendees =>
+    //   dispatch(actions.bulkValidateattendee(attendees))
+    getEvents: () => dispatch(actions.getEvents())
+  };
+};
+export default connect(
+  mapStateToProps,
+  mapDispatchToProps
+)(AttendeeBulkUpload);
+
