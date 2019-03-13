@@ -54,7 +54,6 @@ export const bulkValidateAttendee = (attendee) => {
     axios
       .post(`${AppConfig.serverURL}/api/bulkUploadAttendee/validate/`, attendee)
       .then(response => {
-        console.log("responsesss", response)
         attendeeList = response.data.userList;
        if(response.data.success==true){
           dispatch(bulkValidateAttendeeSuccess(attendeeList));

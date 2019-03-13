@@ -147,7 +147,6 @@ class Registration extends Component {
     let attendee = {
       ...this.state.Registration
     };
-    console.log("attendee", attendee);
     let password = "ES" + Math.floor(1000 + Math.random() * 9000);
     attendee.password = password;
     this.setState({
@@ -160,8 +159,6 @@ class Registration extends Component {
     let validEmail;
     let invalidProfileUrl = false;
     var re = /^(http[s]?:\/\/){0,1}(www\.){0,1}[a-zA-Z0-9\.\-]+\.[a-zA-Z]{2,5}[\.]{0,1}/;
-
-    console.log("this.state.profileFile", this.state.profileFile);
 
     if (Object.keys(this.state.profileFile).length != 0) {
       if (
