@@ -12,6 +12,7 @@ import staticPageReducer from "./staticPages";
 import sponsorReducer from "./sponsor";
 import profileListReducer from "./profileList";
 import appThemeReducer from "./appTheme";
+import bulkUploadReducer from "./bulkUpload";
 
 const rootReducer = combineReducers({
   event: eventReducer,
@@ -26,7 +27,8 @@ const rootReducer = combineReducers({
   staticPages: staticPageReducer,
   sponsor: sponsorReducer,
   profileList: profileListReducer,
-  appTheme: appThemeReducer
+  appTheme: appThemeReducer,
+  bulkUpload : bulkUploadReducer
 });
 
 export default rootReducer;

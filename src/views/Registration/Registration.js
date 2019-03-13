@@ -95,7 +95,7 @@ class Registration extends Component {
           ]);
           let Empty = !Object.keys(Attendee).length;
           if (Empty) {
-            compRef.props.history.push("/sponsors");
+            compRef.props.history.push("/registrationList");
           } else {
             compRef.setState({
               Registration: Attendee,
@@ -147,7 +147,6 @@ class Registration extends Component {
     let attendee = {
       ...this.state.Registration
     };
-  
     let password = "ES" + Math.floor(1000 + Math.random() * 9000);
     attendee.password = password;
     this.setState({

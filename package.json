@@ -38,6 +38,7 @@
     "webpack-dev-server": "2.11.1"
   },
   "dependencies": {
+    "@vtex/react-csv-parse": "^3.0.2",
     "axios": "^0.18.0",
     "bootstrap": "4.0.0",
     "chart.js": "2.7.1",
@@ -60,6 +61,7 @@
     "react-bootstrap-time-picker": "^1.0.3",
     "react-chartjs-2": "2.7.0",
     "react-color": "^2.14.1",
+    "react-csv": "^1.1.1",
     "react-datepicker": "^1.5.0",
     "react-dom": "16.2.0",
     "react-geocode": "^0.1.2",
