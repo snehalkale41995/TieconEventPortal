@@ -1,126 +1,3 @@
-// import React, { Component } from "react";
-// import { connect } from "react-redux";
-// import * as actions from "../../store/actions/index";
-// import { Row, Col, Card, CardBody, CardHeader } from "reactstrap";
-// import moment from "moment";
-// import Loader from "../../components/Loader/Loader";
-// import "react-toastify/dist/ReactToastify.css";
-// import { ToastContainer, toast } from "react-toastify";
-// import CsvParse from "@vtex/react-csv-parse";
-// import { Link } from "react-router-dom";
-// import { CSVLink } from "react-csv";
-
-// class AttendeeBulkUpload extends Component {
-//   constructor(props) {
-//     super(props);
-//     this.state = {
-//       events: [],
-//       loading: true
-//     };
-//   }
-//   componentDidMount() {
-//     this.props.getEvents();
-//     let compRef = this;
-//     setTimeout(function() {
-//       compRef.setState({ loading: false });
-//     }, 1000);
-//   }
-//   componentDidUpdate(prevProps, prevState) {
-//     if (prevProps.events !== this.props.events) {
-//       this.setState({
-//         events: this.props.events
-//       });
-//     }
-//   }
-//   render() {
-//     var ColorCode = "#808587";
-//     let today = new Date().setHours(0, 0, 0, 0);
-//     if (this.state.loading || this.props.events.length === 0) {
-//       //return <Loader loading={this.state.loading} />;
-//       return <h1>hello</h1>;
-//     } else {
-//       return (
-//         <div className="animated fadeIn">
-//           <div>
-//             {this.props.events.map((event, index) => {
-//               index % 2 === 0
-//                 ? (ColorCode = "#8bc3d7")
-//                 : (ColorCode = "#808587");
-
-//               if (today <= new Date(event["endDate"]).setHours(0, 0, 0, 0)) {
-//                 return (
-//                   <Row key={index} className="justify-content-left">
-//                     <Col xs="6">
-//                       <Card
-//                         className="mx-12"
-//                         style={{ backgroundColor: ColorCode }}
-//                       >
-//                         <CardHeader>
-//                           <h3>{event.eventName}</h3>
-//                         </CardHeader>
-//                         <CardBody
-//                           style={{ fontWeight: "bold", fontSize: 20 }}
-//                           className="p-8"
-//                         >
-//                           <Row>
-//                             <Col xs="12">
-//                               <h5> {event.description} </h5>
-//                             </Col>
-//                           </Row>
-//                           <Row>
-//                             <Col xs="12" md="4">
-//                               <h5>
-//                                 <i className="fa fa-map-marker" /> {event.venue}
-//                               </h5>
-//                             </Col>
-//                           </Row>
-//                           <Row>
-//                             <Col md="8">
-//                               <h5>
-//                                 <i className="fa fa-clock-o" />
-//                                 {moment(event.startDate).format(
-//                                   "DD.MM.YYYY"
-//                                 )} -{" "}
-//                                 {moment(event.endDate).format("DD.MM.YYYY")}
-//                               </h5>
-//                             </Col>
-//                           </Row>
-//                         </CardBody>
-//                       </Card>
-//                     </Col>
-//                     <ToastContainer autoClose={2000} />
-//                   </Row>
-//                 );
-//               }
-//             })}
-//           </div>
-//           {/* <div>
-//             <div class="pm-button">
-//               <a href="https://www.payumoney.com/paybypayumoney/#/AA5AF4F8AAE527C22E26FA4FB3A0CCAE">
-//                 <img src="https://www.payumoney.com/media/images/payby_payumoney/new_buttons/21.png" />
-//               </a>
-//             </div>{" "}
-//           </div> */}
-//         </div>
-//       );
-//     }
-//   }
-// }
-// const mapStateToProps = state => {
-//   return {
-//     events: state.event.events
-//   };
-// };
-// const mapDispatchToProps = dispatch => {
-//   return {
-//     getEvents: () => dispatch(actions.getEvents())
-//   };
-// };
-// export default connect(
-//   mapStateToProps,
-//   mapDispatchToProps
-// )(AttendeeBulkUpload);
-
 import React, { Component } from "react";
 import InputElement from "../../components/Input/";
 import CardLayout from "../../components/CardLayout/";
@@ -144,13 +21,10 @@ import uuid from "uuid";
 import { connect } from "react-redux";
 import * as actions from "../../store/actions";
 import Loader from "../../components/Loader/Loader";
-// import { ToastContainer } from "react-toastify";
-// import "react-toastify/dist/ReactToastify.css";
 import Select from "react-select";
 import "react-select/dist/react-select.css";
 import { ToastContainer, toast } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
-//import * as Toaster from "../../constants/Toaster";
 
 const csvData = [
   [
@@ -202,7 +76,6 @@ class AttendeeBulkUpload extends Component {
   }
 
   handleData(data, file) {
-    console.log("data", data);
     if (data.length !== 0) {
       this.setState({
         clearCSValue: false,
@@ -245,7 +118,6 @@ class AttendeeBulkUpload extends Component {
     let attendees = [...this.state.CSVdata];
     let compRef = this;
     !this.state.eventValue ? this.setState({ eventRequired: true }) : null;
-   // attendees.length == 0 ? this.setState({ csvFileRequired: true }) : null;
     if (attendees.length !== 0 && this.state.eventValue) {
       this.setState({ loading: true });
        this.props.bulkValidateAttendee(attendees);
@@ -263,47 +135,21 @@ class AttendeeBulkUpload extends Component {
               uploadFlag: true,
               bulkUploadError: false
             });
-      }, 1000);
+      }, 5000);
     } else if (this.state.CSVdataTracker === null) {
       this.setState({ csvFileRequired: true });
     } 
-    // else {
-    //   this.setState({
-    //     csvFileInvalid: true
-    //   });
-    // }
-    //else if(this.state.CSVdata === null){
-    //   this.setState({ csvFileRequired: true });
-    // }else{
-    //   if (attendees.length === 0 && this.state.clearCSValue) {
-    //     this.setState({
-    //       csvFileInvalid: true
-    //     });
-    //   }
-    // }
-
-    // else {
-    //   if (attendees.length === 0 ) {
-    //     this.setState({
-    //       csvFileInvalid: true
-    //     });
-    //   } else {
-    //     this.setState({ csvFileRequired: true });
-    //   }
-    // }
   }
 
   onSubmit() {
     let attendees = [...this.state.CSVdata];
     let eventId = this.state.eventValue;
-    //let csvFileRequired = false;
     if (this.state.CSVdataTracker === null) {
       this.setState({ csvFileRequired: true });
     } else if (this.state.CSVdataTracker === []) {
       this.setState({ csvFileInvalid: true });
     }
     if (attendees.length === 0) {
-      //csvFileRequired = true;
       this.setState({ csvFileRequired: true });
     }
     let compRef = this;
@@ -314,8 +160,6 @@ class AttendeeBulkUpload extends Component {
         let message = "";
         compRef.setState({ loading: false });
         let bulkUploadError = compRef.props.bulkUploadError;
-        console.log("bulkUploadError", bulkUploadError);
-        // Toaster.Toaster(message, compRef.props.attendeeError);
         compRef.Toaster(compRef, bulkUploadError);
         setTimeout(() => {
           if (!compRef.props.bulkUploadError) {
@@ -346,9 +190,7 @@ class AttendeeBulkUpload extends Component {
       showTableHeaderFormat: !showTableHeaderFormat
     });
   }
-  renderShowsTotal() {
-    // return <p>Total : {this.props.bulkUploadHistory.length}</p>;
-  }
+  
   render() {
     let trStyle = (row, rowIndex) => {
       return { color: "#E00000" };
@@ -521,7 +363,7 @@ class AttendeeBulkUpload extends Component {
                     {this.state.uploadFlag ? (
                       <Col md="1">
                         <Button
-                          className="theme-positive-btn"
+                           color="success"
                           onClick={this.onSubmit.bind(this)}
                         >
                           Upload
@@ -530,7 +372,7 @@ class AttendeeBulkUpload extends Component {
                     ) : (
                       <Col md="1">
                         <Button
-                          className="theme-positive-btn"
+                          color="primary"
                           onClick={this.onValidate.bind(this)}
                         >
                           Validate
@@ -539,7 +381,7 @@ class AttendeeBulkUpload extends Component {
                     )}
                     <Col md="1">
                       <Button
-                        className="theme-reset-btn"
+                         color="secondary"
                         onClick={this.onReset.bind(this)}
                       >
                         Reset
@@ -614,7 +456,7 @@ class AttendeeBulkUpload extends Component {
                         >
                           Brief Info
                         </TableHeaderColumn>
-                        {this.props.bulkValidationError ? (
+                        {this.state.bulkUploadError ? (
                           <TableHeaderColumn
                             tdStyle={trStyle}
                             dataField="errorMessage"
@@ -641,10 +483,6 @@ class AttendeeBulkUpload extends Component {
 }
 const mapStateToProps = state => {
   return {
-    // attendeeError: state.attendeeReducer.attendeeError,
-    // bulkUploadHistory: state.attendeeReducer.bulkUploadHistory,
-    // bulkUserData: state.attendeeReducer.bulkUserData,
-    // bulkUploadError: state.attendeeReducer.bulkUploadError,
     attendeeList : state.bulkUpload.attendeeList,
     bulkUploadError : state.bulkUpload.bulkUploadError,
     bulkValidationError : state.bulkUpload.bulkValidationError,
@@ -658,7 +496,6 @@ const mapDispatchToProps = dispatch => {
       dispatch(actions.bulkUploadAttendee(attendees, eventId)),
      bulkValidateAttendee: (attendees) =>
       dispatch(actions.bulkValidateAttendee(attendees)),
-    // getBulkUploadHistory: () => dispatch(actions.getBulkUploadHistory()),
      getEvents: () => dispatch(actions.getEvents())
   };
 };
