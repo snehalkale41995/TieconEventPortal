@@ -93,18 +93,19 @@ export default {
     {
       name: "Bulk Upload ",
       url: "/bulkUpload/",
-      icon: "icon-chart",
+      icon: "fa fa-upload",
       children: [
         {
-          name: "Attendee Bulk Upload",
+          name: "Attendees",
           url: "/bulkUpload/attendee",
-          icon: "icon-chart"
-        },
-        {
-          name: "Speaker Bulk Upload",
-          url: "/bulkUpload/speaker",
-          icon: "icon-chart"
+          icon: "fa fa-users"
         }
+        // ,
+        // {
+        //   name: "Speakers",
+        //   url: "/bulkUpload/speaker",
+        //   icon: "icon-microphone"
+        // }
       ]
     },
     {
