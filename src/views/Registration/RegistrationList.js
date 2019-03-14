@@ -268,7 +268,7 @@ class RegistrationList extends Component {
                         <i className="fa fa-print" />
                       </Button>
                     </Col>
-                    <Col xs="12" md="1" style={{ marginTop: 7 }}>
+                    {/* <Col xs="12" md="1" style={{ marginTop: 7 }}>
                       <Button
                         type="button"
                         onClick={this.sendEmailToSelectedRowKeys.bind(this)}
@@ -277,7 +277,7 @@ class RegistrationList extends Component {
                       >
                         <i className="fa fa-envelope" />
                       </Button>
-                    </Col>
+                    </Col> */}
                   </FormGroup>
                 </CardHeader>
                 <CardBody>
