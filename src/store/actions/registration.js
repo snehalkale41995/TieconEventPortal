@@ -214,7 +214,6 @@ export const createAttendee = (attendee, image, attendeeCount) => {
   for (var key in attendee) {
     if (key != "profileImageURL") data.append(key, attendee[key]);
   }
-  data.append("isEmail", true);
   data.append("profileImageURL", image);
 
   return dispatch => {

@@ -142,7 +142,10 @@ class SpeakerForm extends Component {
     let validContact;
     let validEmail;
     let invalidProfileUrl = false;
+
+    let dateCreated = new Date();
     let password = "ES" + Math.floor(1000 + Math.random() * 9000);
+    speaker.dateCreated = dateCreated ;
     speaker.password = password;
     this.setState({ passwordModal: password });
     this.setState({ emailModal: speaker.email });

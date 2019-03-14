@@ -167,7 +167,6 @@ export const createSpeaker = (speaker, image, attendeeCount) => {
   for (var key in speaker) {
     if (key != "profileImageURL") data.append(key, speaker[key]);
   }
-  data.append("isEmail", true);
   data.append("profileImageURL", image);
 
   return dispatch => {
