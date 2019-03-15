@@ -135,7 +135,7 @@ class SpeakerBulkUpload extends Component {
               uploadFlag: true,
               bulkUploadError: false
             });
-      }, 5000);
+      }, 10000);
     } else if (this.state.CSVdataTracker === null) {
       this.setState({ csvFileRequired: true });
     } 
@@ -167,7 +167,7 @@ class SpeakerBulkUpload extends Component {
             compRef.props.history.push("/speakers");
           }
         }, 1000);
-      }, 2000);
+      }, 10000);
     }
   }
 
