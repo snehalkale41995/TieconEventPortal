@@ -36,7 +36,6 @@ const csvData = [
     "briefInfo"
   ]
 ];
-
 class AttendeeBulkUpload extends Component {
   constructor(props) {
     super(props);
@@ -57,6 +56,7 @@ class AttendeeBulkUpload extends Component {
     };
     this.handleData = this.handleData.bind(this);
   }
+  
   componentDidMount() {
     //this.props.getBulkUploadHistory();
     this.props.getEvents();
@@ -135,7 +135,7 @@ class AttendeeBulkUpload extends Component {
               uploadFlag: true,
               bulkUploadError: false
             });
-      }, 10000);
+      }, 30000);
     } else if (this.state.CSVdataTracker === null) {
       this.setState({ csvFileRequired: true });
     } 
@@ -167,7 +167,7 @@ class AttendeeBulkUpload extends Component {
             compRef.props.history.push("/registrationList");
           }
         }, 1000);
-      }, 10000);
+      }, 30000);
     }
   }
 
