@@ -201,23 +201,23 @@ class SpeakerBulkUpload extends Component {
       defaultSortOrder: "asc",
       sizePerPageList: [
         {
-          text: "5",
-          value: 5
+          text: "25",
+          value: 25
         },
         {
-          text: "10",
-          value: 10
+          text: "50",
+          value: 50
         },
         {
-          text: "20",
-          value: 20
+          text: "75",
+          value: 75
         },
         {
           text: "All",
           value: this.state.CSVdata.length
         }
       ],
-      sizePerPage: 5
+      sizePerPage: 25
     };
     const keys = [
       "firstName",
