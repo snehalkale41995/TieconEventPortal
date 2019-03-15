@@ -147,7 +147,9 @@ class Registration extends Component {
     let attendee = {
       ...this.state.Registration
     };
+    let dateCreated = new Date();
     let password = "ES" + Math.floor(1000 + Math.random() * 9000);
+    attendee.dateCreated = dateCreated ;
     attendee.password = password;
     this.setState({
       passwordModal: password

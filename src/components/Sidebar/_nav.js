@@ -100,12 +100,12 @@ export default {
           url: "/bulkUpload/attendee",
           icon: "fa fa-users"
         }
-        // ,
-        // {
-        //   name: "Speakers",
-        //   url: "/bulkUpload/speaker",
-        //   icon: "icon-microphone"
-        // }
+        ,
+        {
+          name: "Speakers",
+          url: "/bulkUpload/speaker",
+          icon: "icon-microphone"
+        }
       ]
     },
     {
