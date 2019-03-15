@@ -65,3 +65,40 @@ export const bulkValidateAttendee = (attendee) => {
       });
   };
 };
+
+
+export const bulkUploadSpeaker = (attendee, eventId) => {
+  return dispatch => {
+    axios
+      .post(`${AppConfig.serverURL}/api/bulkUploadSpeaker/post/${eventId}`, attendee)
+      .then(response => {
+       if(response.data.success==true){
+        dispatch(getAttendees());
+        dispatch(bulkUploadAttendeeSuccess());
+       }
+       else dispatch(bulkUploadAttendeeFail());
+      })
+      .catch(error => {
+        dispatch(bulkUploadAttendeeFail());
+      });
+  };
+};
+
+
+export const bulkValidateSpeaker = (attendee) => {
+  let attendeeList = [];
+  return dispatch => {
+    axios
+      .post(`${AppConfig.serverURL}/api/bulkUploadSpeaker/validate/`, attendee)
+      .then(response => {
+        attendeeList = response.data.userList;
+       if(response.data.success==true){
+          dispatch(bulkValidateAttendeeSuccess(attendeeList));
+       }
+        else dispatch(bulkValidateAttendeeFail(attendeeList));
+      })
+      .catch(error => {
+        dispatch(bulkValidateAttendeeFail(attendeeList));
+      });
+  };
+};

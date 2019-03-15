@@ -100,4 +100,4 @@ export { getProfileList, getProfileArray } from "./profileList";
 
 export { getAppTheme, createAppTheme, updateAppTheme } from "./appTheme";
 
-export {bulkUploadAttendee, bulkValidateAttendee} from './attendeeBulkUpload';
+export {bulkUploadAttendee, bulkValidateAttendee, bulkValidateSpeaker, bulkUploadSpeaker} from './attendeeBulkUpload';
