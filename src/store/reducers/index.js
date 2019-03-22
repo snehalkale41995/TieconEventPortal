@@ -13,6 +13,7 @@ import sponsorReducer from "./sponsor";
 import profileListReducer from "./profileList";
 import appThemeReducer from "./appTheme";
 import bulkUploadReducer from "./bulkUpload";
+import sessionQAReducer from "./sessionQA"
 
 const rootReducer = combineReducers({
   event: eventReducer,
@@ -28,7 +29,8 @@ const rootReducer = combineReducers({
   sponsor: sponsorReducer,
   profileList: profileListReducer,
   appTheme: appThemeReducer,
-  bulkUpload : bulkUploadReducer
+  bulkUpload : bulkUploadReducer,
+  sessionQA : sessionQAReducer
 });
 
 export default rootReducer;

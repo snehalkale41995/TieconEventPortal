@@ -108,6 +108,11 @@ export default {
         }
       ]
     },
+     {
+      name: "Session Questions",
+      url: "/SessionQA",
+      icon: "icon-microphone"
+    },
     {
       name: "Logout",
       url: "/logout",
