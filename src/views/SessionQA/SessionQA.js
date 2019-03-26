@@ -28,30 +28,38 @@ class SessionQA extends Component {
   }
   componentDidMount() {
     let thisRef = this;
-    this.props.getAttendanceList();
+   this.props.getSessionQA();
     this.props.getEvents();
   }
 
   handleEventChange(value) {
     if (value !== null) {
-      this.props.getAttendanceByEvent(value);
+     // this.props.getAttendanceByEvent(value);
+      this.props.getSessionQA();
       this.setState({ event: value });
       this.props.getSessions(value);
      
     } else {
+      this.props.getSessionQA();
       this.setState({ event: "", session: "" });
-      this.props.getAttendanceList();
+    //  this.props.getSessionQA();
     }
   }
 
   handleSessionChange(value) {
     let eventId = this.state.event;
     if (value !== null) {
-      this.props.getAttendanceBySession(eventId, value);
+      if(eventId!=null){
+       this.props.getSessionQAByEventSession(eventId, value);
       this.setState({ session: value });
+      }
+    else{
+       this.setState({ session: "" });
+      this.props.getSessionQA();
+    }
     } else {
       this.setState({ session: "" });
-      this.props.getAttendanceList();
+      this.props.getSessionQA();
     }
   }
 
@@ -72,7 +80,7 @@ class SessionQA extends Component {
         },
         {
           text: "All",
-          value: this.props.attendanceList.length
+          value: this.props.sessionQA.length
         }
       ],
       sizePerPage: 50
@@ -115,7 +123,7 @@ class SessionQA extends Component {
                 <CardBody>
                   <BootstrapTable
                     ref="table"
-                    data={this.props.attendanceList}
+                    data={this.props.sessionQA}
                     pagination={true}
                     search={true}
                     options={options}
@@ -132,22 +140,22 @@ class SessionQA extends Component {
                       Id
                     </TableHeaderColumn>
                     <TableHeaderColumn
-                      dataField="userName"
+                      dataField="question"
                       headerAlign="left"
                       width="100"
-                      csvHeader="Attendee Name"
+                      csvHeader="Question"
                       dataSort={true}
                     >
-                      Attendee Name
+                     Question
                     </TableHeaderColumn>
-                    <TableHeaderColumn
-                      dataField="eventName"
+                     <TableHeaderColumn
+                      dataField="voteCount"
                       headerAlign="left"
                       width="100"
-                      csvHeader="Event Name"
+                      csvHeader="voteCount"
                       dataSort={true}
                     >
-                      Event Name
+                      Vote Count
                     </TableHeaderColumn>
                     <TableHeaderColumn
                       dataField="sessionName"
@@ -157,15 +165,6 @@ class SessionQA extends Component {
                       csvHeader="Session Name"
                     >
                       Session Name
-                    </TableHeaderColumn>
-                    <TableHeaderColumn
-                      dataField="profile"
-                      headerAlign="left"
-                      width="100"
-                      csvHeader="Profile"
-                      dataSort={true}
-                    >
-                      Profile
                     </TableHeaderColumn>
                   </BootstrapTable>
                 </CardBody>
@@ -180,7 +179,7 @@ class SessionQA extends Component {
 
 const mapStateToProps = state => {
   return {
-    attendanceList: state.attendance.attendance,
+    sessionQA: state.sessionQA.sessionQA,
     events: state.event.eventList,
     sessions: state.questionForm.sessions
   };
@@ -188,11 +187,9 @@ const mapStateToProps = state => {
 
 const mapDispatchToProps = dispatch => {
   return {
-    getAttendanceList: () => dispatch(actions.getAttendanceList()),
-    getAttendanceByEvent: eventId =>
-      dispatch(actions.getAttendanceByEvent(eventId)),
-    getAttendanceBySession: (eventId, sessionId) =>
-      dispatch(actions.getAttendanceBySession(eventId, sessionId)),
+    getSessionQA: () => dispatch(actions.getSessionQA()),
+    getSessionQAByEventSession: (eventId, sessionId) =>
+      dispatch(actions.getSessionQAByEventSession(eventId, sessionId)),
     getEvents: () => dispatch(actions.getEvents()),
     getSessions: id => dispatch(actions.getSessionsOfEvent(id))
   };

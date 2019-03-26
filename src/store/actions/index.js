@@ -101,3 +101,5 @@ export { getProfileList, getProfileArray } from "./profileList";
 export { getAppTheme, createAppTheme, updateAppTheme } from "./appTheme";
 
 export {bulkUploadAttendee, bulkValidateAttendee, bulkValidateSpeaker, bulkUploadSpeaker} from './attendeeBulkUpload';
+
+export {getSessionQA, getSessionQAByEventSession} from './sessionQA';

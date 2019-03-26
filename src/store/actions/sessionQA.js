@@ -2,16 +2,16 @@ import * as actionTypes from "../actions/actionTypes";
 import axios from "axios";
 import AppConfig from "../../constants/AppConfig";
 
-export const storeSessionQA = (SessionQAData) => {
+export const storeSessionQA = (sessionQAData) => {
   return {
-    type: actionTypes.GET_SPONSORS,
-    SessionQAs: SessionQAData
+    type: actionTypes.GET_SESSIONQA,
+    sessionQA: sessionQAData
   };
 };
 
 export const getSessionQAError = () => {
   return {
-    type: actionTypes.GET_SESSIONQA_ERROR
+    type: actionTypes.GET_SESSIONQA
   };
 };
 
@@ -26,7 +26,7 @@ export const getSessionQAByEventSession = (eventId, sessionId) => {
   let SessionQAData = [];
   return dispatch => {
     axios
-      .get(`${AppConfig.serverURL}/api/SessionQA/byVote/${eventId}/${sessionId}`)
+      .get(`${AppConfig.serverURL}/api/SessionQAnswer/byVote/${eventId}/${sessionId}`)
       .then(response => {
         SessionQAData = response.data;
         dispatch(storeSessionQA(SessionQAData));
