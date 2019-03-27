@@ -38,10 +38,9 @@ class SessionQA extends Component {
       this.props.getSessionQA();
       this.setState({ event: value });
       this.props.getSessions(value);
-     
     } else {
-      this.props.getSessionQA();
       this.setState({ event: "", session: "" });
+      this.props.getSessionQA();
     //  this.props.getSessionQA();
     }
   }
@@ -49,7 +48,7 @@ class SessionQA extends Component {
   handleSessionChange(value) {
     let eventId = this.state.event;
     if (value !== null) {
-      if(eventId!=null){
+      if(eventId!=null && eventId!==""){
        this.props.getSessionQAByEventSession(eventId, value);
       this.setState({ session: value });
       }
@@ -151,13 +150,13 @@ class SessionQA extends Component {
                      <TableHeaderColumn
                       dataField="voteCount"
                       headerAlign="left"
-                      width="100"
+                      width="30"
                       csvHeader="voteCount"
                       dataSort={true}
                     >
                       Vote Count
                     </TableHeaderColumn>
-                    <TableHeaderColumn
+                    {/* <TableHeaderColumn
                       dataField="sessionName"
                       headerAlign="left"
                       width="100"
@@ -165,7 +164,7 @@ class SessionQA extends Component {
                       csvHeader="Session Name"
                     >
                       Session Name
-                    </TableHeaderColumn>
+                    </TableHeaderColumn> */}
                   </BootstrapTable>
                 </CardBody>
               </Card>
