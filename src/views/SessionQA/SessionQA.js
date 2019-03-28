@@ -46,15 +46,20 @@ class SessionQA extends Component {
   }
 
   handleSessionChange(value) {
-    let eventId = this.state.event;
+    let eventId = this.state.event, compRef = this, sessionLabel;
     if (value !== null) {
       if(eventId!=null && eventId!==""){
        this.props.getSessionQAByEventSession(eventId, value);
-      this.setState({ session: value });
+       this.setState({ session: value });
+       let session = _.filter(compRef.props.sessions, function(session){
+         return session.value == value
+       })   
+       sessionLabel = session[0].label;
+       compRef.setState({sessionLabel})
       }
     else{
        this.setState({ session: "" });
-      this.props.getSessionQA();
+       this.props.getSessionQA();
     }
     } else {
       this.setState({ session: "" });
@@ -127,7 +132,7 @@ class SessionQA extends Component {
                     search={true}
                     options={options}
                     exportCSV={true}
-                    csvFileName="Session Questions"
+                    csvFileName={this.state.sessionLabel ? this.state.sessionLabel : "Session Questions"}
                     version="4"
                   >
                     <TableHeaderColumn
