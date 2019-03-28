@@ -25,6 +25,7 @@ import Layout from "../../components/Layout/";
 import Logout from "../Authentication/Logout";
 import Login from "../Authentication/Login";
 import AppTheme from "../../views/AppTheme/AppTheme";
+import SessionQA from "../../views/SessionQA/SessionQA";
 import { connect } from "react-redux";
 
 let routes;
@@ -65,6 +66,7 @@ class App extends Component {
             <Route path="/sponsors" component={Sponsors} />
             <Route path="/logout" component={Logout} />
             <Route path="/appTheme" component={AppTheme} />
+            <Route path="/SessionQA" component={SessionQA} />
             <Redirect from="/" to="/dashboard" />
             <Redirect to="/" />
           </Switch>
