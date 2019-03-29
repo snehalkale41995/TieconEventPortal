@@ -289,7 +289,7 @@ class RegistrationList extends Component {
                     selectRow={selectRowProp}
                     options={options}
                     exportCSV={true}
-                    csvFileName="Attendee List"
+                    csvFileName="Attendee List.csv"
                     version="4"
                   >
                     <TableHeaderColumn

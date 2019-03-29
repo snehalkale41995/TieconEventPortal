@@ -149,7 +149,7 @@ class EventList extends Component {
                     pagination={true}
                     options={sortingOptions}
                     exportCSV={true}
-                    csvFileName="Event List"
+                    csvFileName="Event List.csv"
                     version="4"
                   >
                     <TableHeaderColumn

@@ -180,8 +180,8 @@ class RoomsList extends Component {
                     search={true}
                     options={options}
                     exportCSV={true}
-                    csvFileName="Rooms List"
-                    version="4"
+                    csvFileName="RoomsList.csv"
+                   // version="4"
                   >
                     <TableHeaderColumn
                       dataField="_id"
