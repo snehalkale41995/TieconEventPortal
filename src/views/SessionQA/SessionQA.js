@@ -23,7 +23,8 @@ class SessionQA extends Component {
     super(props);
     this.state = {
       event: "",
-      session: ""
+      session: "",
+      sessionLabel : ""
     };
   }
   componentDidMount() {
@@ -35,11 +36,12 @@ class SessionQA extends Component {
   handleEventChange(value) {
     if (value !== null) {
      // this.props.getAttendanceByEvent(value);
+     this.setState({sessionLabel:""})
       this.props.getSessionQA();
       this.setState({ event: value });
       this.props.getSessions(value);
     } else {
-      this.setState({ event: "", session: "" });
+      this.setState({ event: "", session: "", sessionLabel : "" });
       this.props.getSessionQA();
     //  this.props.getSessionQA();
     }
@@ -55,14 +57,14 @@ class SessionQA extends Component {
          return session.value == value
        })   
        sessionLabel = session[0].label;
-       compRef.setState({sessionLabel})
+       compRef.setState({sessionLabel : sessionLabel})
       }
     else{
-       this.setState({ session: "" });
+       this.setState({ session: "", sessionLabel : "" });
        this.props.getSessionQA();
     }
     } else {
-      this.setState({ session: "" });
+      this.setState({ session: "", sessionLabel : "" });
       this.props.getSessionQA();
     }
   }
@@ -132,7 +134,7 @@ class SessionQA extends Component {
                     search={true}
                     options={options}
                     exportCSV={true}
-                    csvFileName={this.state.sessionLabel? this.state.sessionLabel+".csv" : "Session Questions.csv"}
+                    csvFileName={this.state.sessionLabel !=="" ? this.state.sessionLabel+".csv" : "Session Questions.csv"}
                     version="4"
                   >
                     <TableHeaderColumn
