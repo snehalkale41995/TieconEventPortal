@@ -120,7 +120,7 @@ class AttendanceList extends Component {
                     search={true}
                     options={options}
                     exportCSV={true}
-                    csvFileName="Attendance List"
+                    csvFileName="Attendance List.csv"
                     version="4"
                   >
                     <TableHeaderColumn

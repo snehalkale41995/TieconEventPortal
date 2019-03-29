@@ -132,7 +132,7 @@ class SessionQA extends Component {
                     search={true}
                     options={options}
                     exportCSV={true}
-                    csvFileName={this.state.sessionLabel ? this.state.sessionLabel : "Session Questions"}
+                    csvFileName={this.state.sessionLabel? this.state.sessionLabel+".csv" : "Session Questions.csv"}
                     version="4"
                   >
                     <TableHeaderColumn
